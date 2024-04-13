@@ -1,6 +1,4 @@
-﻿using Models.FullEntities;
-
-namespace Models;
+﻿namespace Models.SimpleEntities;
 
 /// <summary>
 /// Заказ.
@@ -10,7 +8,7 @@ public sealed class Order
     /// <summary>
     /// Идентификатор заказа.
     /// </summary>
-    public Id<Order> OrderId { get; set; }
+    public Id<FullEntities.Order> OrderId { get; set; }
 
     /// <summary>
     /// Покупатель.
@@ -20,7 +18,7 @@ public sealed class Order
     /// <summary>
     /// Магазин, в котором работает сотрудник.
     /// </summary>
-    public Shop Shop { get; set; }
+    public FullEntities.Shop Shop { get; set; }
 
     /// <summary>
     /// Дата и время оформления заказа.
@@ -64,11 +62,11 @@ public sealed class Order
     /// или <paramref name="productsInOrder"/> равен <see cref="null"/>.
     /// </exception>
     public Order(
-        Id<Order> orderId, 
-        Customer customer, 
-        Shop shop, 
-        DateTimeOffset dateTime, 
-        OrderStatus orderStatus, 
+        Id<FullEntities.Order> orderId,
+        Customer customer,
+        FullEntities.Shop shop,
+        DateTimeOffset dateTime,
+        OrderStatus orderStatus,
         List<ProductInfoInOrder> productsInOrder)
     {
         OrderId = orderId ?? throw new ArgumentNullException(nameof(orderId));
@@ -77,7 +75,7 @@ public sealed class Order
         DateTime = dateTime;
         OrderStatus = orderStatus;
 
-        ProductsInOrder = productsInOrder 
+        ProductsInOrder = productsInOrder
             ?? throw new ArgumentNullException(nameof(productsInOrder));
     }
 }
