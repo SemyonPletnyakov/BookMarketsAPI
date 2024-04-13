@@ -1,0 +1,127 @@
+﻿using Models;
+using Models.FullEntities;
+using Models.Pagination;
+using Models.Pagination.Sorting;
+
+using BookWithoutId = Models.ForCreate.Book;
+using SimpleBook = Models.ForCreate.Book;
+
+namespace Storage.Abstractions.Repositories;
+
+/// <summary>
+/// Интерфейс репозитория книг.
+/// </summary>
+public interface IBooksRepository
+{
+    /// <summary>
+    /// Получить часть книг в соотвествии с пагинацией.
+    /// </summary>
+    /// <param name="pagginationInfo">
+    /// Информация о пагинации.
+    /// </param>
+    /// <param name="token">
+    /// Токен отмены.
+    /// </param>
+    /// <returns>
+    /// Часть списка книг.
+    /// </returns>
+    public Task<IList<Book>> GetBooksAsync(
+        PaginationInfo<BookSorting> pagginationInfo,
+        CancellationToken token);
+
+    /// <summary>
+    /// Поиск книг по совпадению названия в соотвествии с пагинацией.
+    /// </summary>
+    /// <param name="lastName">
+    /// Фамилия.
+    /// </param>
+    /// <param name="pagginationInfo">
+    /// Информация о пагинации.
+    /// </param>
+    /// <param name="token">
+    /// Токен отмены.
+    /// </param>
+    /// <returns>
+    /// Часть списка книг.
+    /// </returns>
+    public Task<IList<Book>> GetBooksByNameAsync(
+        string lastName,
+        PaginationInfo<BookSorting> pagginationInfo,
+        CancellationToken token);
+
+    /// <summary>
+    /// Поиск книг по ключевыми словам в соотвествии с пагинацией.
+    /// </summary>
+    /// <param name="keyWords">
+    /// Ключевые слова.
+    /// </param>
+    /// <param name="pagginationInfo">
+    /// Информация о пагинации.
+    /// </param>
+    /// <param name="token">
+    /// Токен отмены.
+    /// </param>
+    /// <returns>
+    /// Часть списка книг.
+    /// </returns>
+    public Task<IList<Book>> GetBooksByKeyWordsOrderingByNameAsync(
+        IReadOnlyCollection<string> keyWords,
+        PaginationInfo<BookSorting> pagginationInfo,
+        CancellationToken token);
+
+    /// <summary>
+    /// Добавление книги.
+    /// </summary>
+    /// <param name="book">
+    /// Книга.
+    /// </param>
+    /// <param name="token">
+    /// Токен отмены.
+    /// </param>
+    /// <returns>
+    /// Задача для асинхронного ожидания.
+    /// </returns>
+    public Task AddBookAsync(BookWithoutId book, CancellationToken token);
+
+    /// <summary>
+    /// Изменение книги.
+    /// </summary>
+    /// <param name="book">
+    /// Книга.
+    /// </param>
+    /// <param name="token">
+    /// Токен отмены.
+    /// </param>
+    /// <returns>
+    /// Задача для асинхронного ожидания.
+    /// </returns>
+    public Task UpdateBookAsync(SimpleBook book, CancellationToken token);
+
+    /// <summary>
+    /// Перевод книги в категорию обычного товара.
+    /// </summary>
+    /// <param name="productId">
+    /// Книга.
+    /// </param>
+    /// <param name="token">
+    /// Токен отмены.
+    /// </param>
+    /// <returns>
+    /// Задача для асинхронного ожидания.
+    /// </returns>
+    public Task RemoveBookFromBooksAsync(Id<Product> productId, CancellationToken token);
+
+    /// <summary>
+    /// Перевод товара в категорию книги.
+    /// </summary>
+    /// <param name="productId">
+    /// Книга.
+    /// </param>
+    /// <param name="token">
+    /// Токен отмены.
+    /// </param>
+    /// <returns>
+    /// Задача для асинхронного ожидания.
+    /// </returns>
+    public Task AddBookInBooksAsync(Id<Product> productId, CancellationToken token);
+}
