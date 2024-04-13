@@ -6,6 +6,11 @@
 public enum OrderStatus
 {
     /// <summary>
+    /// Обрабатывается.
+    /// </summary>
+    InProcess,
+
+    /// <summary>
     /// В пути.
     /// </summary>
     OnTheWay,
