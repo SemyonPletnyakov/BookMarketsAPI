@@ -16,7 +16,7 @@ public interface IBooksRepository
     /// <summary>
     /// Получить часть книг в соотвествии с пагинацией.
     /// </summary>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -26,7 +26,7 @@ public interface IBooksRepository
     /// Часть списка книг.
     /// </returns>
     public Task<IList<Book>> GetBooksAsync(
-        PaginationInfo<BookSorting> pagginationInfo,
+        PaginationInfo<BookSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>
@@ -35,7 +35,7 @@ public interface IBooksRepository
     /// <param name="Name">
     /// Название.
     /// </param>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -46,7 +46,7 @@ public interface IBooksRepository
     /// </returns>
     public Task<IList<Book>> GetBooksByNameAsync(
         Name<Product> Name,
-        PaginationInfo<BookSorting> pagginationInfo,
+        PaginationInfo<BookSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>
@@ -55,7 +55,7 @@ public interface IBooksRepository
     /// <param name="keyWords">
     /// Ключевые слова.
     /// </param>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -66,7 +66,7 @@ public interface IBooksRepository
     /// </returns>
     public Task<IList<Book>> GetBooksByKeyWordsOrderingByNameAsync(
         IReadOnlyCollection<string> keyWords,
-        PaginationInfo<BookSorting> pagginationInfo,
+        PaginationInfo<BookSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>

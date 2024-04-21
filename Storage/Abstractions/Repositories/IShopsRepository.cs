@@ -15,7 +15,7 @@ public interface IShopsRepository
     /// <summary>
     /// Получить часть магазинов в соотвествии с пагинацией.
     /// </summary>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -25,7 +25,7 @@ public interface IShopsRepository
     /// Часть списка магазинов.
     /// </returns>
     public Task<IList<Shop>> GetShopsAsync(
-        PaginationInfo<ShopSorting> pagginationInfo,
+        PaginationInfo<ShopSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>
@@ -34,7 +34,7 @@ public interface IShopsRepository
     /// <param name="address">
     /// Адрес.
     /// </param>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -45,7 +45,7 @@ public interface IShopsRepository
     /// </returns>
     public Task<Shop> GetShopByAddressAsync(
         Address address,
-        PaginationInfo<ShopSorting> pagginationInfo,
+        PaginationInfo<ShopSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>
@@ -54,7 +54,7 @@ public interface IShopsRepository
     /// <param name="shopId">
     /// Идентификатор магазина.
     /// </param>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -65,7 +65,7 @@ public interface IShopsRepository
     /// </returns>
     public Task<IReadOnlyCollection<ProductCount>> GetProductsCountInShopByIdAsync(
         Id<Shop> shopId,
-        PaginationInfo<ProductCountSorting> pagginationInfo,
+        PaginationInfo<ProductCountSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>

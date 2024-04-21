@@ -1,9 +1,9 @@
 ﻿using Models;
 using Models.Pagination;
 using Models.FullEntities;
+using Models.Pagination.Sorting;
 
 using AuthorWithoutId = Models.ForCreate.Author;
-using Models.Pagination.Sorting;
 
 namespace Storage.Abstractions.Repositories;
 
@@ -15,7 +15,7 @@ public interface IAuthorsRepository
     /// <summary>
     /// Получить часть авторов в соотвествии с пагинацией.
     /// </summary>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -25,7 +25,7 @@ public interface IAuthorsRepository
     /// Часть списка авторов.
     /// </returns>
     public Task<IList<Author>> GetAuthorsAsync(
-        PaginationInfo<AuthorSorting> pagginationInfo,
+        PaginationInfo<AuthorSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>
@@ -34,7 +34,7 @@ public interface IAuthorsRepository
     /// <param name="lastName">
     /// Фамилия.
     /// </param>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -45,7 +45,7 @@ public interface IAuthorsRepository
     /// </returns>
     public Task<IList<Author>> GetAuthorsByLastNameAsync(
         LastName lastName,
-        PaginationInfo<AuthorSorting> pagginationInfo,
+        PaginationInfo<AuthorSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>

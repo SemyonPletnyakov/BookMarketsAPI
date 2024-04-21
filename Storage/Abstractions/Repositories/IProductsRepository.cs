@@ -15,7 +15,7 @@ public interface IProductsRepository
     /// <summary>
     /// Получить часть товаров в соотвествии с пагинацией.
     /// </summary>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -25,7 +25,7 @@ public interface IProductsRepository
     /// Часть списка товаров.
     /// </returns>
     public Task<IList<Product>> GetProductsAsync(
-        PaginationInfo<ProductSorting> pagginationInfo,
+        PaginationInfo<ProductSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>
@@ -34,7 +34,7 @@ public interface IProductsRepository
     /// <param name="name">
     /// Фамилия.
     /// </param>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -45,7 +45,7 @@ public interface IProductsRepository
     /// </returns>
     public Task<IList<Product>> GetProductsByNameAsync(
         Name<Product> name,
-        PaginationInfo<ProductSorting> pagginationInfo,
+        PaginationInfo<ProductSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>
@@ -54,7 +54,7 @@ public interface IProductsRepository
     /// <param name="keyWords">
     /// Ключевые слова.
     /// </param>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -65,7 +65,7 @@ public interface IProductsRepository
     /// </returns>
     public Task<IList<Product>> GetProductsByKeyWordsOrderingByNameAsync(
         IReadOnlyCollection<string> keyWords,
-        PaginationInfo<ProductSorting> pagginationInfo,
+        PaginationInfo<ProductSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>

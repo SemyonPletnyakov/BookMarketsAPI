@@ -16,7 +16,7 @@ public interface IOrdersRepository
     /// <summary>
     /// Получить часть заказов в соотвествии с пагинацией.
     /// </summary>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -26,7 +26,7 @@ public interface IOrdersRepository
     /// Часть списка заказов.
     /// </returns>
     public Task<IList<SimpleOrder>> GetOrdersAsync(
-        PaginationInfo<OrderSorting> pagginationInfo,
+        PaginationInfo<OrderSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>
@@ -38,7 +38,7 @@ public interface IOrdersRepository
     /// <param name="endDate">
     /// Конец временного интервала.
     /// </param>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -50,7 +50,7 @@ public interface IOrdersRepository
     public Task<IList<SimpleOrder>> GetOrdersByTimeIntervalAsync(
         DateOnly startDate,
         DateOnly endDate,
-        PaginationInfo<OrderSorting> pagginationInfo,
+        PaginationInfo<OrderSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>
@@ -59,7 +59,7 @@ public interface IOrdersRepository
     /// <param name="shopId">
     /// Идентификатор магазина.
     /// </param>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -70,7 +70,7 @@ public interface IOrdersRepository
     /// </returns>
     public Task<IList<SimpleOrder>> GetOrdersByShopIdAsync(
         Id<Shop> shopId,
-        PaginationInfo<OrderSorting> pagginationInfo,
+        PaginationInfo<OrderSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>
@@ -85,7 +85,7 @@ public interface IOrdersRepository
     /// <param name="endDate">
     /// Конец временного интервала.
     /// </param>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -98,7 +98,7 @@ public interface IOrdersRepository
         Id<Shop> shopId,
         DateOnly startDate,
         DateOnly endDate,
-        PaginationInfo<OrderSorting> pagginationInfo,
+        PaginationInfo<OrderSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>
@@ -107,7 +107,7 @@ public interface IOrdersRepository
     /// <param name="customerId">
     /// Идентификатор покупателя.
     /// </param>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -118,7 +118,7 @@ public interface IOrdersRepository
     /// </returns>
     public Task<IList<SimpleOrder>> GetOrdersByCustomerIdAsync(
         Id<Customer> customerId,
-        PaginationInfo<OrderSorting> pagginationInfo,
+        PaginationInfo<OrderSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>
@@ -133,7 +133,7 @@ public interface IOrdersRepository
     /// <param name="endDate">
     /// Конец временного интервала.
     /// </param>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -146,7 +146,7 @@ public interface IOrdersRepository
         Id<Customer> customerId,
         DateOnly startDate,
         DateOnly endDate,
-        PaginationInfo<OrderSorting> pagginationInfo,
+        PaginationInfo<OrderSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>

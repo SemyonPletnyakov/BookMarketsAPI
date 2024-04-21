@@ -16,7 +16,7 @@ public interface ICustomersRepository
     /// <summary>
     /// Получить часть покупателей в соотвествии с пагинацией.
     /// </summary>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -26,7 +26,7 @@ public interface ICustomersRepository
     /// Часть списка покупателей.
     /// </returns>
     public Task<IList<SimpleCustomer>> GetCustomersAsync(
-        PaginationInfo<CustomerSorting> pagginationInfo,
+        PaginationInfo<CustomerSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>
@@ -35,7 +35,7 @@ public interface ICustomersRepository
     /// <param name="lastName">
     /// Фамилия.
     /// </param>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -46,7 +46,7 @@ public interface ICustomersRepository
     /// </returns>
     public Task<IList<SimpleCustomer>> GetCustomersByLastNameAsync(
         LastName lastName,
-        PaginationInfo<CustomerSorting> pagginationInfo,
+        PaginationInfo<CustomerSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>
@@ -62,7 +62,7 @@ public interface ICustomersRepository
     /// <param name="endDate">
     /// Конец временного интервала.
     /// </param>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -75,7 +75,7 @@ public interface ICustomersRepository
         Id<Shop> shopId,
         DateOnly startDate,
         DateOnly endDate,
-        PaginationInfo<CustomerSorting> pagginationInfo,
+        PaginationInfo<CustomerSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>

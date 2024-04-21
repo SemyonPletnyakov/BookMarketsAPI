@@ -15,7 +15,7 @@ public interface IWarehousesRepository
     /// <summary>
     /// Получить часть складов в соотвествии с пагинацией.
     /// </summary>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -25,7 +25,7 @@ public interface IWarehousesRepository
     /// Часть списка складов.
     /// </returns>
     public Task<IList<Warehouse>> GetWarehousesAsync(
-        PaginationInfo<WarehouseSorting> pagginationInfo,
+        PaginationInfo<WarehouseSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>
@@ -34,7 +34,7 @@ public interface IWarehousesRepository
     /// <param name="address">
     /// Адрес.
     /// </param>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -45,7 +45,7 @@ public interface IWarehousesRepository
     /// </returns>
     public Task<Warehouse> GetWarehouseByAddressAsync(
         Address address,
-        PaginationInfo<WarehouseSorting> pagginationInfo,
+        PaginationInfo<WarehouseSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>
@@ -54,7 +54,7 @@ public interface IWarehousesRepository
     /// <param name="warehouseId">
     /// Идентификатор склада.
     /// </param>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -65,7 +65,7 @@ public interface IWarehousesRepository
     /// </returns>
     public Task<IReadOnlyCollection<ProductCount>> GetProductsCountInWarehouseByIdAsync(
         Id<Warehouse> warehouseId,
-        PaginationInfo<ProductCountSorting> pagginationInfo,
+        PaginationInfo<ProductCountSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>

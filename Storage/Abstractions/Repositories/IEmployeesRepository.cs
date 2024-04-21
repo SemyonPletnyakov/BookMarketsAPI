@@ -16,7 +16,7 @@ public interface IEmployeesRepository
     /// <summary>
     /// Получить часть сотрудников в соотвествии с пагинацией.
     /// </summary>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -26,7 +26,7 @@ public interface IEmployeesRepository
     /// Часть списка сотрудников.
     /// </returns>
     public Task<IList<SimpleEmployee>> GetEmployeesAsync(
-        PaginationInfo<EmployeeSorting> pagginationInfo,
+        PaginationInfo<EmployeeSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>
@@ -35,7 +35,7 @@ public interface IEmployeesRepository
     /// <param name="lastName">
     /// Фамилия.
     /// </param>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -46,7 +46,7 @@ public interface IEmployeesRepository
     /// </returns>
     public Task<IList<SimpleEmployee>> GetEmployeesByLastNameAsync(
         LastName lastName,
-        PaginationInfo<EmployeeSorting> pagginationInfo,
+        PaginationInfo<EmployeeSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>
@@ -87,7 +87,7 @@ public interface IEmployeesRepository
     /// <param name="shopId">
     /// Идентификатор магазина.
     /// </param>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -98,7 +98,7 @@ public interface IEmployeesRepository
     /// </returns>
     public Task<IList<SimpleEmployee>> GetEmployeesByShopAsync(
         Id<Shop> shopId,
-        PaginationInfo<EmployeeSorting> pagginationInfo,
+        PaginationInfo<EmployeeSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>
@@ -107,7 +107,7 @@ public interface IEmployeesRepository
     /// <param name="warehouseId">
     /// Идентификатор склада.
     /// </param>
-    /// <param name="pagginationInfo">
+    /// <param name="paginationInfo">
     /// Информация о пагинации.
     /// </param>
     /// <param name="token">
@@ -118,7 +118,7 @@ public interface IEmployeesRepository
     /// </returns>
     public Task<IList<SimpleEmployee>> GetEmployeesByWarehouseAsync(
         Id<Warehouse> warehouseId,
-        PaginationInfo<EmployeeSorting> pagginationInfo,
+        PaginationInfo<EmployeeSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>
