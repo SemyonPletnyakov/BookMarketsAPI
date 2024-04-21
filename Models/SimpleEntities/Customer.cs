@@ -59,7 +59,7 @@ public sealed class Customer
     /// <exception cref="ArgumentNullException">
     /// Если <paramref name="customerId"/>, <paramref name="fullName"/>,
     /// <paramref name="email"/> или <paramref name="password"/> 
-    /// равен <see cref="null"/>.
+    /// равен <see langword="null"/>.
     /// </exception>
     public Customer(
         Id<Employee> customerId,

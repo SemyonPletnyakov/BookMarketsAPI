@@ -28,7 +28,7 @@ public class ProductCount
     /// Количество товара.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Если один из парамтеров равен <see cref="null"/>.
+    /// Если один из парамтеров равен <see langword="null"/>.
     /// </exception>
     public ProductCount(Product product, Count count)
     {

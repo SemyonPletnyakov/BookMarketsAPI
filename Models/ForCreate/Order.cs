@@ -51,7 +51,7 @@ public sealed class Order
     /// <exception cref="ArgumentNullException">
     /// Если <paramref name="customerId"/>, <paramref name="shopId"/>, 
     /// <paramref name="shopId"/> или <paramref name="productsInOrder"/> 
-    /// равен <see cref="null"/>.
+    /// равен <see langword="null"/>.
     /// </exception>
     public Order(
         Id<FullEntities.Employee> customerId,

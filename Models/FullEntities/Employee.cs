@@ -75,7 +75,7 @@ public sealed class Employee
     /// <exception cref="ArgumentNullException">
     /// Если <paramref name="employeeId"/>, <paramref name="fullName"/>, 
     /// <paramref name="jobTitle"/>, <paramref name="login"/> 
-    /// или <paramref name="password"/> равен <see cref="null"/>.
+    /// или <paramref name="password"/> равен <see langword="null"/>.
     /// </exception>
     public Employee(
         Id<Employee> employeeId,

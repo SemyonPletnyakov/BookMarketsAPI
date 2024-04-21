@@ -42,7 +42,7 @@ public sealed class Warehouse
     /// </param>
     /// <exception cref="ArgumentNullException">
     /// Если <paramref name="addressId"/> 
-    /// равен <see cref="null"/>.
+    /// равен <see langword="null"/>.
     /// </exception>
     public Warehouse(
         Name<FullEntities.Warehouse>? name,

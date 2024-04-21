@@ -55,7 +55,7 @@ public sealed class Warehouse
     /// </param>
     /// <exception cref="ArgumentNullException">
     /// Если <paramref name="shopId"/> или <paramref name="address"/> 
-    /// равен <see cref="null"/>.
+    /// равен <see langword="null"/>.
     /// </exception>
     public Warehouse(
         Id<Warehouse> warehouseId,

@@ -17,7 +17,7 @@ public string Value { get; }
 /// Значение электронной почты.
 /// </param>
 /// <exception cref="ArgumentNullException">
-/// Если <paramref name="value"/> равен <see cref="null"/>.
+/// Если <paramref name="value"/> равен <see langword="null"/>.
 /// </exception>
 /// <exception cref="ArgumentNullException">
 /// Если <paramref name="value"/> пустой или состоит из пробелов.

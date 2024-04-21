@@ -37,7 +37,7 @@ public record PaginationInfo<T> where T : Enum
     /// </param>
     /// <exception cref="ArgumentException">
     /// Если <paramref name="pageSize"/> или <paramref name="pageNumber"/>
-    /// равен <see cref="null"/>.
+    /// равен <see langword="null"/>.
     /// </exception>
     public PaginationInfo(int pageSize, int pageNumber, T orderBy)
     {

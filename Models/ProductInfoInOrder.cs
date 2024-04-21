@@ -22,7 +22,7 @@ public sealed class ProductInfoInOrder : ProductCount
     /// Количество товара.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Если <paramref name="actualPrice"/> равен <see cref="null"/>.
+    /// Если <paramref name="actualPrice"/> равен <see langword="null"/>.
     /// </exception>
     public ProductInfoInOrder(
         Product product, 

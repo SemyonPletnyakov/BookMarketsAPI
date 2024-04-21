@@ -42,7 +42,7 @@ public sealed class Shop
     /// </param>
     /// <exception cref="ArgumentNullException">
     /// Если <paramref name="addressId"/> 
-    /// равен <see cref="null"/>.
+    /// равен <see langword="null"/>.
     /// </exception>
     public Shop(
         Name<FullEntities.Shop>? name, 

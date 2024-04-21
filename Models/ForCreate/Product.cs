@@ -42,7 +42,7 @@ public class Product
     /// </param>
     /// <exception cref="ArgumentNullException">
     /// Если <paramref name="name"/> или <paramref name="price"/> 
-    /// равен <see cref="null"/>.
+    /// равен <see langword="null"/>.
     /// </exception>
     public Product(
         Name<Product> name, 

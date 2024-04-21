@@ -17,7 +17,7 @@ public record Description
     /// Значение описания.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Если <paramref name="value"/> равен <see cref="null"/>.
+    /// Если <paramref name="value"/> равен <see langword="null"/>.
     /// </exception>
     /// <exception cref="ArgumentNullException">
     /// Если <paramref name="value"/> пустой или состоит из пробелов.

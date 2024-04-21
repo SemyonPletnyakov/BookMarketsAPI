@@ -31,7 +31,7 @@ public sealed class Author
     /// </param>
     /// <exception cref="ArgumentNullException">
     /// Если <paramref name="fullName"/> 
-    /// равен <see cref="null"/>.
+    /// равен <see langword="null"/>.
     /// </exception>
     public Author(
         FullName fullName, 

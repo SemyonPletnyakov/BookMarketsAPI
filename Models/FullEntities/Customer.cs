@@ -50,7 +50,7 @@ public sealed class Customer
     /// </param>
     /// <exception cref="ArgumentNullException">
     /// Если <paramref name="customerId"/>, <paramref name="fullName"/> или
-    /// <paramref name="email"/> равен <see cref="null"/>.
+    /// <paramref name="email"/> равен <see langword="null"/>.
     /// </exception>
     public Customer(
         Id<FullEntities.Customer> customerId,

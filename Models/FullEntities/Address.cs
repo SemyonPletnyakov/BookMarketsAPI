@@ -84,7 +84,7 @@ public sealed record Address
     /// Если <paramref name="addressId"/>, <paramref name="country"/>, 
     /// <paramref name="regionName"/>, <paramref name="city"/>, 
     /// <paramref name="street"/>, <paramref name="house"/>
-    /// или <paramref name="room"/> равен <see cref="null"/>.
+    /// или <paramref name="room"/> равен <see langword="null"/>.
     /// </exception>
     /// <exception cref="ArgumentException">
     /// Если <paramref name="country"/>,  <paramref name="regionName"/>, 
