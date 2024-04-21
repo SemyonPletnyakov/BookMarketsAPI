@@ -45,7 +45,7 @@ public interface IEmployeesRepository
     /// Часть списка сотрудников.
     /// </returns>
     public Task<IList<SimpleEmployee>> GetEmployeesByLastNameAsync(
-        string lastName,
+        LastName lastName,
         PaginationInfo<EmployeeSorting> pagginationInfo,
         CancellationToken token);
 

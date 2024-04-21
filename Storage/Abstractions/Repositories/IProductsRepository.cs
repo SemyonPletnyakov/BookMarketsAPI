@@ -31,7 +31,7 @@ public interface IProductsRepository
     /// <summary>
     /// Поиск товаров по совпадению названия в соотвествии с пагинацией.
     /// </summary>
-    /// <param name="lastName">
+    /// <param name="name">
     /// Фамилия.
     /// </param>
     /// <param name="pagginationInfo">
@@ -44,7 +44,7 @@ public interface IProductsRepository
     /// Часть списка товаров.
     /// </returns>
     public Task<IList<Product>> GetProductsByNameAsync(
-        string lastName,
+        Name<Product> name,
         PaginationInfo<ProductSorting> pagginationInfo,
         CancellationToken token);
 

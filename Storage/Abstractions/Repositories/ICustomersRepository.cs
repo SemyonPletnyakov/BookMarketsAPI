@@ -45,7 +45,7 @@ public interface ICustomersRepository
     /// Часть списка покупателей.
     /// </returns>
     public Task<IList<SimpleCustomer>> GetCustomersByLastNameAsync(
-        string lastName,
+        LastName lastName,
         PaginationInfo<CustomerSorting> pagginationInfo,
         CancellationToken token);
 
@@ -71,7 +71,7 @@ public interface ICustomersRepository
     /// <returns>
     /// Часть списка покупателей.
     /// </returns>
-    public Task<IList<SimpleCustomer>> GetCustomersByShopByTimeIntervalAsync(
+    public Task<IList<SimpleCustomer>> GetCustomersByShopIdByTimeIntervalAsync(
         Id<Shop> shopId,
         DateOnly startDate,
         DateOnly endDate,

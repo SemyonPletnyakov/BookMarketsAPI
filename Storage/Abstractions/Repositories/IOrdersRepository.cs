@@ -161,7 +161,7 @@ public interface IOrdersRepository
     /// <returns>
     /// Заказ.
     /// </returns>
-    public Task<IList<SimpleOrder>> GetOrderByOrderIdAsync(
+    public Task<SimpleOrder> GetOrderByOrderIdAsync(
         Id<Order> OrderId,
         CancellationToken token);
 
@@ -194,7 +194,7 @@ public interface IOrdersRepository
     /// <returns>
     /// Задача для асинхронного ожидания.
     /// </returns>
-    public Task ChangeStatusOrderAsync(
+    public Task UpdateOrderStatusAsync(
         Id<Order> order, 
         OrderStatus orderStatus, 
         CancellationToken token);

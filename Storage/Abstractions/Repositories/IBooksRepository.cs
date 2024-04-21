@@ -32,8 +32,8 @@ public interface IBooksRepository
     /// <summary>
     /// Поиск книг по совпадению названия в соотвествии с пагинацией.
     /// </summary>
-    /// <param name="lastName">
-    /// Фамилия.
+    /// <param name="Name">
+    /// Название.
     /// </param>
     /// <param name="pagginationInfo">
     /// Информация о пагинации.
@@ -45,7 +45,7 @@ public interface IBooksRepository
     /// Часть списка книг.
     /// </returns>
     public Task<IList<Book>> GetBooksByNameAsync(
-        string lastName,
+        Name<Product> Name,
         PaginationInfo<BookSorting> pagginationInfo,
         CancellationToken token);
 
@@ -109,7 +109,7 @@ public interface IBooksRepository
     /// <returns>
     /// Задача для асинхронного ожидания.
     /// </returns>
-    public Task RemoveBookFromBooksAsync(Id<Product> productId, CancellationToken token);
+    public Task RemoveProductFromBooksAsync(Id<Product> productId, CancellationToken token);
 
     /// <summary>
     /// Перевод товара в категорию книги.
@@ -123,5 +123,5 @@ public interface IBooksRepository
     /// <returns>
     /// Задача для асинхронного ожидания.
     /// </returns>
-    public Task AddBookInBooksAsync(Id<Product> productId, CancellationToken token);
+    public Task AddProductInBooksAsync(Id<Product> productId, CancellationToken token);
 }

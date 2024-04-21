@@ -44,7 +44,7 @@ public interface IAuthorsRepository
     /// Часть списка авторов.
     /// </returns>
     public Task<IList<Author>> GetAuthorsByLastNameAsync(
-        string lastName,
+        LastName lastName,
         PaginationInfo<AuthorSorting> pagginationInfo,
         CancellationToken token);
 
