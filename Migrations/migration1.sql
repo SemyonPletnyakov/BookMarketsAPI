@@ -9,7 +9,7 @@ CREATE TABLE addresses(
     district VARCHAR,
     street VARCHAR NOT NULL,
     house VARCHAR NOT NULL,
-    room VARCHAR NOT NULL
+    room VARCHAR NOT NULL --уникальность на комбинацию значений
 );
 
 CREATE TABLE shops(
@@ -46,7 +46,7 @@ CREATE TABLE authors(
 );
 
 CREATE TABLE books(
-    product_id INTEGER REFERENCES products (product_id) NOT NULL,
+    product_id INTEGER REFERENCES products (product_id) ON DELETE CASCADE NOT NULL,
 	author_id INTEGER REFERENCES authors (author_id),
 
     PRIMARY KEY(product_id)
@@ -98,7 +98,7 @@ CREATE TABLE customers(
     patronymic VARCHAR,
     birth_date DATE,
     phone VARCHAR,
-    email VARCHAR NOT NULL,
+    email VARCHAR UNIQUE NOT NULL,
     password VARCHAR
 );
 

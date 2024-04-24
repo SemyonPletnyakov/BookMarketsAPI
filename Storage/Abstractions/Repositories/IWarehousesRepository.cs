@@ -4,6 +4,8 @@ using Models.Pagination.Sorting;
 using Models.FullEntities;
 
 using WarehouseWithoutId = Models.ForCreate.Warehouse;
+using WarehouseForUpdate = Models.ForUpdate.Warehouse;
+using ProductCount = Models.SimpleEntities.ProductCount;
 
 namespace Storage.Abstractions.Repositories;
 
@@ -29,26 +31,6 @@ public interface IWarehousesRepository
         CancellationToken token);
 
     /// <summary>
-    /// Поиск склада по адресу в соотвествии с пагинацией.
-    /// </summary>
-    /// <param name="address">
-    /// Адрес.
-    /// </param>
-    /// <param name="paginationInfo">
-    /// Информация о пагинации.
-    /// </param>
-    /// <param name="token">
-    /// Токен отмены.
-    /// </param>
-    /// <returns>
-    /// Склад.
-    /// </returns>
-    public Task<Warehouse> GetWarehouseByAddressAsync(
-        Address address,
-        PaginationInfo<WarehouseSorting> paginationInfo,
-        CancellationToken token);
-
-    /// <summary>
     /// Получить количество товаров на складе.
     /// </summary>
     /// <param name="warehouseId">
@@ -63,7 +45,7 @@ public interface IWarehousesRepository
     /// <returns>
     /// Количество товаров на складе.
     /// </returns>
-    public Task<IReadOnlyCollection<ProductCount>> GetProductsCountInWarehouseByIdAsync(
+    public Task<IList<ProductCount>> GetProductsCountInWarehouseByIdAsync(
         Id<Warehouse> warehouseId,
         PaginationInfo<ProductCountSorting> paginationInfo,
         CancellationToken token);
@@ -74,13 +56,7 @@ public interface IWarehousesRepository
     /// <param name="warehouse">
     /// Склад.
     /// </param>
-    /// <param name="token">
-    /// Токен отмены.
-    /// </param>
-    /// <returns>
-    /// Задача для асинхронного ожидания.
-    /// </returns>
-    public Task AddWarehouseAsync(WarehouseWithoutId warehouse, CancellationToken token);
+    public void AddWarehouse(WarehouseWithoutId warehouse);
 
     /// <summary>
     /// Изменение склада.
@@ -94,7 +70,33 @@ public interface IWarehousesRepository
     /// <returns>
     /// Задача для асинхронного ожидания.
     /// </returns>
-    public Task UpdateWarehouseAsync(Warehouse warehouse, CancellationToken token);
+    public Task UpdateWarehouseAsync(
+        WarehouseForUpdate warehouse, 
+        CancellationToken token);
+
+    /// <summary>
+    /// Обновить количество товара на складе.
+    /// </summary>
+    /// <param name="warehouseId">
+    /// Идентификатор склада.
+    /// </param>
+    /// <param name="productId">
+    /// Идентификатор товара.
+    /// </param>
+    /// <param name="count">
+    /// Количество товара.
+    /// </param>
+    /// <param name="token">
+    /// Токен отмены.
+    /// </param>
+    /// <returns>
+    /// Количество товаров на складе.
+    /// </returns>
+    public Task UpdateProductCountInWarehouseAsync(
+        Id<Warehouse> warehouseId,
+        Id<Product> productId,
+        Count count,
+        CancellationToken token);
 
     /// <summary>
     /// Удаление склада.

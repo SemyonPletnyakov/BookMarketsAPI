@@ -28,7 +28,7 @@ public sealed class Order
     /// <summary>
     /// Перечень товаров в заказе.
     /// </summary>
-    public List<ProductInfoInOrder> ProductsInOrder { get; set; }
+    public List<ProductCount> ProductsInOrder { get; set; }
 
     /// <summary>
     /// Создаёт объект <see cref="Order"/>.
@@ -58,7 +58,7 @@ public sealed class Order
         Id<FullEntities.Shop> shopId, 
         DateTimeOffset dateTime, 
         OrderStatus orderStatus, 
-        List<ProductInfoInOrder> productsInOrder)
+        List<ProductCount> productsInOrder)
     {
         CustomerId = customerId ?? throw new ArgumentNullException(nameof(customerId));
         ShopId = shopId ?? throw new ArgumentNullException(nameof(shopId));

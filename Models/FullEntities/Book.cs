@@ -36,8 +36,8 @@ public sealed class Book : Product
         Name<Product> name,
         Description? description,
         Price price,
-        ICollection<string>? keyWords,
-        Author author)
+        ISet<string>? keyWords,
+        Author? author)
         : base(
             productId,
             name,

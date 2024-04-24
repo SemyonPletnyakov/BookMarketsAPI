@@ -1,4 +1,4 @@
-﻿namespace Models.SimpleEntities;
+﻿namespace Models.ForUpdate;
 
 /// <summary>
 /// Работник.

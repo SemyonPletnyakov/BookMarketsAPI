@@ -1,4 +1,4 @@
-﻿namespace Models.SimpleEntities;
+﻿namespace Models.ForUpdate;
 
 /// <summary>
 /// Покупатель.
@@ -8,12 +8,12 @@ public sealed class Customer
     /// <summary>
     /// Идентификатор покупателя.
     /// </summary>
-    public Id<Employee> CustomerId { get; set; }
+    public Id<FullEntities.Customer> CustomerId { get; set; }
 
     /// <summary>
     /// Полное имя.
     /// </summary>
-    public FullName FullName { get; set; }
+    public FullName? FullName { get; set; }
 
     /// <summary>
     /// Дата рождения.
@@ -29,11 +29,6 @@ public sealed class Customer
     /// Электронная почта.
     /// </summary>
     public Email Email { get; set; }
-
-    /// <summary>
-    /// Пароль от учётной записи.
-    /// </summary>
-    public Password Password { get; set; }
 
     /// <summary>
     /// Создаёт объект <see cref="Customer"/>
@@ -53,27 +48,21 @@ public sealed class Customer
     /// <param name="email">
     /// Электронная почта.
     /// </param>
-    /// <param name="password">
-    /// Пароль от учётной записи.
-    /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Если <paramref name="customerId"/>, <paramref name="fullName"/>,
-    /// <paramref name="email"/> или <paramref name="password"/> 
+    /// Если <paramref name="customerId"/> или <paramref name="email"/> 
     /// равен <see langword="null"/>.
     /// </exception>
     public Customer(
-        Id<Employee> customerId,
-        FullName fullName,
+        Id<FullEntities.Customer> customerId,
+        FullName? fullName,
         DateOnly? birthDate,
         Phone? phone,
-        Email email,
-        Password password)
+        Email email)
     {
         CustomerId = customerId ?? throw new ArgumentNullException(nameof(customerId));
-        FullName = fullName ?? throw new ArgumentNullException(nameof(fullName));
+        FullName = fullName;
         BirthDate = birthDate;
         Phone = phone;
         Email = email ?? throw new ArgumentNullException(nameof(email));
-        Password = password ?? throw new ArgumentNullException(nameof(password));
     }
 }

@@ -1,9 +1,9 @@
-﻿namespace Models.ForCreate;
+﻿namespace Models.ForUpdate;
 
 /// <summary>
 /// Книга.
 /// </summary>
-public sealed class Book : Product
+public sealed class Book : FullEntities.Product
 {
     /// <summary>
     /// Идентификатор автора.
@@ -13,6 +13,9 @@ public sealed class Book : Product
     /// <summary>
     /// Создаёт объект <see cref="Book"/>
     /// </summary>
+    /// <param name="productId">
+    /// Идентификатор товара.
+    /// </param>
     /// <param name="name">
     /// Название товара.
     /// </param>
@@ -29,12 +32,14 @@ public sealed class Book : Product
     /// Идентификатор автора.
     /// </param>
     public Book(
-        Name<Product> name,
+        Id<FullEntities.Product> productId,
+        Name<FullEntities.Product> name,
         Description? description,
         Price price,
-        ICollection<string>? keyWords,
+        ISet<string>? keyWords,
         Id<FullEntities.Author>? authorId)
         : base(
+            productId,
             name,
             description,
             price,
@@ -43,4 +48,3 @@ public sealed class Book : Product
         AuthorId = authorId;
     }
 }
-

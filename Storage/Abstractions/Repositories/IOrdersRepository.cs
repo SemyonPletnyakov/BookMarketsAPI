@@ -3,8 +3,8 @@ using Models.FullEntities;
 using Models.Pagination;
 using Models.Pagination.Sorting;
 
-using SimpleOrder = Models.SimpleEntities.Order;
 using OrderWithoutId = Models.ForCreate.Order;
+using OrderSimple = Models.ForUpdate.Order;
 
 namespace Storage.Abstractions.Repositories;
 
@@ -25,7 +25,7 @@ public interface IOrdersRepository
     /// <returns>
     /// Часть списка заказов.
     /// </returns>
-    public Task<IList<SimpleOrder>> GetOrdersAsync(
+    public Task<IList<OrderSimple>> GetOrdersAsync(
         PaginationInfo<OrderSorting> paginationInfo,
         CancellationToken token);
 
@@ -47,9 +47,9 @@ public interface IOrdersRepository
     /// <returns>
     /// Часть списка заказов.
     /// </returns>
-    public Task<IList<SimpleOrder>> GetOrdersByTimeIntervalAsync(
-        DateOnly startDate,
-        DateOnly endDate,
+    public Task<IList<OrderSimple>> GetOrdersByTimeIntervalAsync(
+        DateTimeOffset startDate,
+        DateTimeOffset endDate,
         PaginationInfo<OrderSorting> paginationInfo,
         CancellationToken token);
 
@@ -68,7 +68,7 @@ public interface IOrdersRepository
     /// <returns>
     /// Часть списка заказов.
     /// </returns>
-    public Task<IList<SimpleOrder>> GetOrdersByShopIdAsync(
+    public Task<IList<OrderSimple>> GetOrdersByShopIdAsync(
         Id<Shop> shopId,
         PaginationInfo<OrderSorting> paginationInfo,
         CancellationToken token);
@@ -94,10 +94,10 @@ public interface IOrdersRepository
     /// <returns>
     /// Часть списка заказов.
     /// </returns>
-    public Task<IList<SimpleOrder>> GetOrdersByShopIdByTimeIntervalAsync(
+    public Task<IList<OrderSimple>> GetOrdersByShopIdByTimeIntervalAsync(
         Id<Shop> shopId,
-        DateOnly startDate,
-        DateOnly endDate,
+        DateTimeOffset startDate,
+        DateTimeOffset endDate,
         PaginationInfo<OrderSorting> paginationInfo,
         CancellationToken token);
 
@@ -116,7 +116,7 @@ public interface IOrdersRepository
     /// <returns>
     /// Часть списка заказов.
     /// </returns>
-    public Task<IList<SimpleOrder>> GetOrdersByCustomerIdAsync(
+    public Task<IList<OrderSimple>> GetOrdersByCustomerIdAsync(
         Id<Customer> customerId,
         PaginationInfo<OrderSorting> paginationInfo,
         CancellationToken token);
@@ -142,10 +142,10 @@ public interface IOrdersRepository
     /// <returns>
     /// Часть списка заказов.
     /// </returns>
-    public Task<IList<SimpleOrder>> GetOrdersByCustomerIdByTimeIntervalAsync(
+    public Task<IList<OrderSimple>> GetOrdersByCustomerIdByTimeIntervalAsync(
         Id<Customer> customerId,
-        DateOnly startDate,
-        DateOnly endDate,
+        DateTimeOffset startDate,
+        DateTimeOffset endDate,
         PaginationInfo<OrderSorting> paginationInfo,
         CancellationToken token);
 
@@ -161,7 +161,7 @@ public interface IOrdersRepository
     /// <returns>
     /// Заказ.
     /// </returns>
-    public Task<SimpleOrder> GetOrderByOrderIdAsync(
+    public Task<OrderSimple> GetOrderByOrderIdAsync(
         Id<Order> OrderId,
         CancellationToken token);
 
@@ -182,7 +182,7 @@ public interface IOrdersRepository
     /// <summary>
     /// Изменение статуса заказа.
     /// </summary>
-    /// <param name="order">
+    /// <param name="orderId">
     /// Идентификатор заказа.
     /// </param>
     /// <param name="orderStatus">
@@ -195,7 +195,7 @@ public interface IOrdersRepository
     /// Задача для асинхронного ожидания.
     /// </returns>
     public Task UpdateOrderStatusAsync(
-        Id<Order> order, 
+        Id<Order> orderId, 
         OrderStatus orderStatus, 
         CancellationToken token);
 }

@@ -18,10 +18,10 @@ public sealed class Book
     /// <summary>
     /// Идентификатор автора.
     /// </summary>
-    public int AuthorId { get; set; }
+    public int? AuthorId { get; set; }
 
     /// <summary>
     /// Автор книги.
     /// </summary>
-    public Author Author { get; set; }
+    public Author? Author { get; set; }
 }

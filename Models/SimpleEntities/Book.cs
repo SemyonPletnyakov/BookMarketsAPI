@@ -3,12 +3,12 @@
 /// <summary>
 /// Книга.
 /// </summary>
-public sealed class Book : FullEntities.Product
+public sealed class Book : Product
 {
     /// <summary>
-    /// Идентификатор автора.
+    /// Автор.
     /// </summary>
-    public Id<FullEntities.Author>? AuthorId { get; set; }
+    public FullEntities.Author? Author { get; set; }
 
     /// <summary>
     /// Создаёт объект <see cref="Book"/>
@@ -28,23 +28,21 @@ public sealed class Book : FullEntities.Product
     /// <param name="keyWords">
     /// Ключевые слова, применимые к книге.
     /// </param>
-    /// <param name="authorId">
-    /// Идентификатор автора.
+    /// <param name="author">
+    /// Автор.
     /// </param>
     public Book(
         Id<FullEntities.Product> productId,
         Name<FullEntities.Product> name,
-        Description? description,
         Price price,
-        ICollection<string>? keyWords,
-        Id<FullEntities.Author>? authorId)
+        ISet<string>? keyWords,
+        FullEntities.Author? author)
         : base(
             productId,
             name,
-            description,
             price,
             keyWords)
     {
-        AuthorId = authorId;
+        Author = author;
     }
 }

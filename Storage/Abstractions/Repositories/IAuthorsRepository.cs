@@ -51,16 +51,10 @@ public interface IAuthorsRepository
     /// <summary>
     /// Добавление автора.
     /// </summary>
-    /// <param name="author">
+    /// <param name="authorId">
     /// Автор.
     /// </param>
-    /// <param name="token">
-    /// Токен отмены.
-    /// </param>
-    /// <returns>
-    /// Задача для асинхронного ожидания.
-    /// </returns>
-    public Task AddAuthorAsync(AuthorWithoutId author, CancellationToken token);
+    public void AddAuthor(AuthorWithoutId authorId);
 
     /// <summary>
     /// Изменение автора.

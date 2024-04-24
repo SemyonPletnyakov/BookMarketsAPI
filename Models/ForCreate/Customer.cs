@@ -8,7 +8,7 @@ public sealed class Customer
     /// <summary>
     /// Полное имя.
     /// </summary>
-    public FullName FullName { get; set; }
+    public FullName? FullName { get; set; }
 
     /// <summary>
     /// Дата рождения.
@@ -49,8 +49,8 @@ public sealed class Customer
     /// Пароль от учётной записи.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Если <paramref name="fullName"/>, <paramref name="email"/> 
-    /// или <paramref name="password"/> равен <see langword="null"/>.
+    /// Если <paramref name="email"/> или <paramref name="password"/> 
+    /// равен <see langword="null"/>.
     /// </exception>
     public Customer(
         FullName fullName, 
@@ -59,7 +59,7 @@ public sealed class Customer
         Email email, 
         Password password)
     {
-        FullName = fullName ?? throw new ArgumentNullException(nameof(fullName));
+        FullName = fullName;
         BirthDate = birthDate;
         Phone = phone;
         Email = email ?? throw new ArgumentNullException(nameof(email));

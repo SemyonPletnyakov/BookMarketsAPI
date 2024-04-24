@@ -1,4 +1,4 @@
-﻿namespace Models.FullEntities;
+﻿namespace Models.ForUpdate;
 
 /// <summary>
 /// Склад.
@@ -8,12 +8,12 @@ public sealed class Warehouse
     /// <summary>
     /// Идентификатор склада.
     /// </summary>
-    public Id<Warehouse> WarehouseId { get; set; }
+    public Id<FullEntities.Warehouse> WarehouseId { get; set; }
 
     /// <summary>
     /// Название склада.
     /// </summary>
-    public Name<Warehouse>? Name { get; set; }
+    public Name<FullEntities.Warehouse>? Name { get; set; }
 
     /// <summary>
     /// Время открытия.
@@ -26,9 +26,9 @@ public sealed class Warehouse
     public TimeOnly? ClosingTime { get; set; }
 
     /// <summary>
-    /// Адрес.
+    /// Идентификатор адреса.
     /// </summary>
-    public Address Address { get; set; }
+    public Id<FullEntities.Address> AddressId { get; set; }
 
     /// <summary>
     /// Создаёт объект <see cref="Warehouse"/>.
@@ -45,19 +45,19 @@ public sealed class Warehouse
     /// <param name="closingTime">
     /// Время закрытия.
     /// </param>
-    /// <param name="address">
-    /// Адрес.
+    /// <param name="addressId">
+    /// Идентификатор адреса.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Если <paramref name="shopId"/> или <paramref name="address"/> 
+    /// Если <paramref name="warehouseId"/> или <paramref name="addressId"/> 
     /// равен <see langword="null"/>.
     /// </exception>
     public Warehouse(
-        Id<Warehouse> warehouseId,
-        Name<Warehouse>? name,
+        Id<FullEntities.Warehouse> warehouseId,
+        Name<FullEntities.Warehouse>? name,
         TimeOnly? openingTime,
         TimeOnly? closingTime,
-        Address address)
+        Id<FullEntities.Address> addressId)
     {
         WarehouseId = warehouseId
             ?? throw new ArgumentNullException(nameof(warehouseId));
@@ -65,6 +65,6 @@ public sealed class Warehouse
         Name = name;
         OpeningTime = openingTime;
         ClosingTime = closingTime;
-        Address = address ?? throw new ArgumentNullException(nameof(address));
+        AddressId = addressId ?? throw new ArgumentNullException(nameof(addressId));
     }
 }

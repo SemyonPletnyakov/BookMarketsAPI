@@ -48,6 +48,11 @@ public interface IUnitOfWork : IDisposable
     public IWarehousesRepository Warehouses { get; }
 
     /// <summary>
+    /// Репозиторий адресов.
+    /// </summary>
+    public IAddressesRepository Addresses { get; }
+
+    /// <summary>
     /// Отправляет транзакцию изменения в репозиториях.
     /// </summary>
     /// <param name="token">

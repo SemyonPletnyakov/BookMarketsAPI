@@ -23,7 +23,7 @@ public class Product
     /// <summary>
     /// Ключевые слова, применимые к товару.
     /// </summary>
-    public ICollection<string>? KeyWords { get; set; }
+    public ISet<string>? KeyWords { get; set; }
 
     /// <summary>
     /// Создаёт объект <see cref="Product"/>
@@ -48,7 +48,7 @@ public class Product
         Name<Product> name, 
         Description? description, 
         Price price,
-        ICollection<string>? keyWords)
+        ISet<string>? keyWords)
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
         Description = description;

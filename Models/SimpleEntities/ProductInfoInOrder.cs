@@ -1,6 +1,6 @@
 ﻿using Models.FullEntities;
 
-namespace Models;
+namespace Models.SimpleEntities;
 
 /// <summary>
 /// Сущность, показывающая информацию о типе товара в заказе.
@@ -25,12 +25,12 @@ public sealed class ProductInfoInOrder : ProductCount
     /// Если <paramref name="actualPrice"/> равен <see langword="null"/>.
     /// </exception>
     public ProductInfoInOrder(
-        Product product, 
-        Count count, 
+        Product product,
+        Count count,
         Price actualPrice)
         : base(product, count)
     {
-        ActualPrice = actualPrice 
+        ActualPrice = actualPrice
             ?? throw new ArgumentNullException(nameof(actualPrice));
     }
 }

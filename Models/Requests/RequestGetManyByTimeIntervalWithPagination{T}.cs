@@ -19,12 +19,12 @@ public record RequestGetManyByTimeIntervalWithPagination<T> : RequestBase
     /// <summary>
     /// Начало временного интервала.
     /// </summary>
-    public DateOnly StartDate { get; }
+    public DateTimeOffset StartDate { get; }
 
     /// <summary>
     /// Конец временного интервала.
     /// </summary>
-    public DateOnly EndDate { get; }
+    public DateTimeOffset EndDate { get; }
 
     /// <summary>
     /// Создаёт объект 
@@ -44,8 +44,8 @@ public record RequestGetManyByTimeIntervalWithPagination<T> : RequestBase
     /// </exception>
     public RequestGetManyByTimeIntervalWithPagination(
         PaginationInfo<T> paginationInfo,
-        DateOnly startDate,
-        DateOnly endDate)
+        DateTime startDate,
+        DateTime endDate)
     {
         PaginationInfo = paginationInfo
             ?? throw new ArgumentNullException(nameof(paginationInfo));

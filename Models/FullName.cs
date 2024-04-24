@@ -33,7 +33,7 @@ public sealed record FullName
     /// Отчество.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Если <paramref name="lastName"/> или <paramref name="firstName"/> 
+    /// Если <paramref name="lastName"/> 
     /// равен <see langword="null"/>.
     /// </exception>
     /// <exception cref="ArgumentNullException">

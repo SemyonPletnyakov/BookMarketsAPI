@@ -3,8 +3,8 @@ using Models.Pagination;
 using Models.Pagination.Sorting;
 using Models.FullEntities;
 
-using SimpleCustomer = Models.SimpleEntities.Customer;
 using CustomerWothoutId = Models.ForCreate.Customer;
+using CustomerWithoutPassword = Models.ForUpdate.Customer;
 
 namespace Storage.Abstractions.Repositories;
 
@@ -25,7 +25,7 @@ public interface ICustomersRepository
     /// <returns>
     /// Часть списка покупателей.
     /// </returns>
-    public Task<IList<SimpleCustomer>> GetCustomersAsync(
+    public Task<IList<CustomerWithoutPassword>> GetCustomersAsync(
         PaginationInfo<CustomerSorting> paginationInfo,
         CancellationToken token);
 
@@ -44,7 +44,7 @@ public interface ICustomersRepository
     /// <returns>
     /// Часть списка покупателей.
     /// </returns>
-    public Task<IList<SimpleCustomer>> GetCustomersByLastNameAsync(
+    public Task<IList<CustomerWithoutPassword>> GetCustomersByLastNameAsync(
         LastName lastName,
         PaginationInfo<CustomerSorting> paginationInfo,
         CancellationToken token);
@@ -71,10 +71,10 @@ public interface ICustomersRepository
     /// <returns>
     /// Часть списка покупателей.
     /// </returns>
-    public Task<IList<SimpleCustomer>> GetCustomersByShopIdByTimeIntervalAsync(
+    public Task<IList<CustomerWithoutPassword>> GetCustomersByShopIdByTimeIntervalAsync(
         Id<Shop> shopId,
-        DateOnly startDate,
-        DateOnly endDate,
+        DateTimeOffset startDate,
+        DateTimeOffset endDate,
         PaginationInfo<CustomerSorting> paginationInfo,
         CancellationToken token);
 
@@ -106,7 +106,7 @@ public interface ICustomersRepository
     /// <returns>
     /// Информация о покупателе.
     /// </returns>
-    public Task<SimpleCustomer> GetCustomerByIdAsync(
+    public Task<CustomerWithoutPassword> GetCustomerByIdAsync(
         Id<Customer> customerId,
         CancellationToken token);
 

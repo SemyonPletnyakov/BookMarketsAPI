@@ -1,4 +1,4 @@
-﻿namespace Models.FullEntities;
+﻿namespace Models.SimpleEntities;
 
 /// <summary>
 /// Товар.
@@ -8,17 +8,12 @@ public class Product
     /// <summary>
     /// Идентификатор товара.
     /// </summary>
-    public Id<Product> ProductId { get; }
+    public Id<FullEntities.Product> ProductId { get; }
 
     /// <summary>
     /// Название товара.
     /// </summary>
-    public Name<Product> Name { get; set; }
-
-    /// <summary>
-    /// Описание.
-    /// </summary>
-    public Description? Description { get; set; }
+    public Name<FullEntities.Product> Name { get; set; }
 
     /// <summary>
     /// Цена.
@@ -53,15 +48,13 @@ public class Product
     /// или <paramref name="price"/> равен <see langword="null"/>.
     /// </exception>
     public Product(
-        Id<Product> productId,
-        Name<Product> name,
-        Description? description,
+        Id<FullEntities.Product> productId,
+        Name<FullEntities.Product> name,
         Price price,
         ISet<string>? keyWords)
     {
         ProductId = productId ?? throw new ArgumentNullException(nameof(productId));
         Name = name ?? throw new ArgumentNullException(nameof(name));
-        Description = description;
         Price = price ?? throw new ArgumentNullException(nameof(price));
         KeyWords = keyWords;
     }

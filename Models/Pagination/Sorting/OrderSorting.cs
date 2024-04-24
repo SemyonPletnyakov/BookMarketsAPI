@@ -23,7 +23,7 @@ public enum OrderSorting
     /// <summary>
     /// Сортировка по названию магазина по убыванию.
     /// </summary>
-    ShopFullNameDesc,
+    ShopNameDesc,
 
     /// <summary>
     /// Сортировка по дате заказа по возрастанию.

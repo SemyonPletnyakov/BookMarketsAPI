@@ -27,12 +27,12 @@ public record RequestGetManyByIdByTimeIntervalWithPagination<TId, TSorting> : Re
     /// <summary>
     /// Начало временного интервала.
     /// </summary>
-    public DateOnly StartDate { get; }
+    public DateTimeOffset StartDate { get; }
 
     /// <summary>
     /// Конец временного интервала.
     /// </summary>
-    public DateOnly EndDate { get; }
+    public DateTimeOffset EndDate { get; }
 
     /// <summary>
     /// Создаёт объект 
@@ -56,9 +56,9 @@ public record RequestGetManyByIdByTimeIntervalWithPagination<TId, TSorting> : Re
     /// </exception>
     public RequestGetManyByIdByTimeIntervalWithPagination(
         Id<TId> id, 
-        PaginationInfo<TSorting> paginationInfo, 
-        DateOnly startDate, 
-        DateOnly endDate)
+        PaginationInfo<TSorting> paginationInfo,
+        DateTime startDate,
+        DateTime endDate)
     {
         Id = id ?? throw new ArgumentNullException(nameof(id));
 

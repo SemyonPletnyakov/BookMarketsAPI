@@ -4,6 +4,8 @@ using Models.Pagination.Sorting;
 using Models.FullEntities;
 
 using ShopWithoutId = Models.ForCreate.Shop;
+using ShopForUpdate = Models.ForUpdate.Shop;
+using ProductCount = Models.SimpleEntities.ProductCount;
 
 namespace Storage.Abstractions.Repositories;
 
@@ -25,26 +27,6 @@ public interface IShopsRepository
     /// Часть списка магазинов.
     /// </returns>
     public Task<IList<Shop>> GetShopsAsync(
-        PaginationInfo<ShopSorting> paginationInfo,
-        CancellationToken token);
-
-    /// <summary>
-    /// Поиск магазина по адресу в соотвествии с пагинацией.
-    /// </summary>
-    /// <param name="address">
-    /// Адрес.
-    /// </param>
-    /// <param name="paginationInfo">
-    /// Информация о пагинации.
-    /// </param>
-    /// <param name="token">
-    /// Токен отмены.
-    /// </param>
-    /// <returns>
-    /// Магазин.
-    /// </returns>
-    public Task<Shop> GetShopByAddressAsync(
-        Address address,
         PaginationInfo<ShopSorting> paginationInfo,
         CancellationToken token);
 
@@ -74,13 +56,7 @@ public interface IShopsRepository
     /// <param name="shop">
     /// Магазин.
     /// </param>
-    /// <param name="token">
-    /// Токен отмены.
-    /// </param>
-    /// <returns>
-    /// Задача для асинхронного ожидания.
-    /// </returns>
-    public Task AddShopAsync(ShopWithoutId shop, CancellationToken token);
+    public void AddShop(ShopWithoutId shop);
 
     /// <summary>
     /// Изменение магазина.
@@ -94,7 +70,31 @@ public interface IShopsRepository
     /// <returns>
     /// Задача для асинхронного ожидания.
     /// </returns>
-    public Task UpdateShopAsync(Shop shop, CancellationToken token);
+    public Task UpdateShopAsync(ShopForUpdate shop, CancellationToken token);
+
+    /// <summary>
+    /// Обновить количество товара в магазине.
+    /// </summary>
+    /// <param name="shopId">
+    /// Идентификатор магазина.
+    /// </param>
+    /// <param name="productId">
+    /// Идентификатор товара.
+    /// </param>
+    /// <param name="count">
+    /// Количество товара.
+    /// </param>
+    /// <param name="token">
+    /// Токен отмены.
+    /// </param>
+    /// <returns>
+    /// Количество товаров на складе.
+    /// </returns>
+    public Task UpdateProductCountInShopAsync(
+        Id<Shop> shopId,
+        Id<Product> productId,
+        Count count,
+        CancellationToken token);
 
     /// <summary>
     /// Удаление магазина.

@@ -1,7 +1,4 @@
-﻿
-using Models.FullEntities;
-
-namespace Models;
+﻿namespace Models.ForCreate;
 
 /// <summary>
 /// Сущность, показывающая количество товаров.
@@ -9,9 +6,9 @@ namespace Models;
 public class ProductCount
 {
     /// <summary>
-    /// Товар.
+    /// Идентификатор товара.
     /// </summary>
-    public Product Product { get; }
+    public Id<FullEntities.Product> ProductId { get; }
 
     /// <summary>
     /// Количество товара.
@@ -21,8 +18,8 @@ public class ProductCount
     /// <summary>
     /// Создаёт объект <see cref="ProductCount"/>
     /// </summary>
-    /// <param name="product">
-    /// Товар.
+    /// <param name="productId">
+    /// Идентификатор товара.
     /// </param>
     /// <param name="count">
     /// Количество товара.
@@ -30,9 +27,9 @@ public class ProductCount
     /// <exception cref="ArgumentNullException">
     /// Если один из парамтеров равен <see langword="null"/>.
     /// </exception>
-    public ProductCount(Product product, Count count)
+    public ProductCount(Id<FullEntities.Product> productId, Count count)
     {
-        Product = product ?? throw new ArgumentNullException(nameof(product));
+        ProductId = productId ?? throw new ArgumentNullException(nameof(productId));
         Count = count ?? throw new ArgumentNullException(nameof(count));
     }
 }

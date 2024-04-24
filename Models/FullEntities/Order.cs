@@ -1,4 +1,6 @@
-﻿namespace Models.FullEntities;
+﻿using Models.SimpleEntities;
+
+namespace Models.FullEntities;
 
 /// <summary>
 /// Заказ.

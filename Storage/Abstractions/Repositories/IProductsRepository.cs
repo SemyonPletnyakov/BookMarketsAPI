@@ -4,6 +4,7 @@ using Models.Pagination;
 using Models.Pagination.Sorting;
 
 using ProductWithoutId = Models.ForCreate.Product;
+using SimpleProduct = Models.SimpleEntities.Product;
 
 namespace Storage.Abstractions.Repositories;
 
@@ -24,7 +25,7 @@ public interface IProductsRepository
     /// <returns>
     /// Часть списка товаров.
     /// </returns>
-    public Task<IList<Product>> GetProductsAsync(
+    public Task<IList<SimpleProduct>> GetProductsAsync(
         PaginationInfo<ProductSorting> paginationInfo,
         CancellationToken token);
 
@@ -43,7 +44,7 @@ public interface IProductsRepository
     /// <returns>
     /// Часть списка товаров.
     /// </returns>
-    public Task<IList<Product>> GetProductsByNameAsync(
+    public Task<IList<SimpleProduct>> GetProductsByNameAsync(
         Name<Product> name,
         PaginationInfo<ProductSorting> paginationInfo,
         CancellationToken token);
@@ -63,9 +64,25 @@ public interface IProductsRepository
     /// <returns>
     /// Часть списка товаров.
     /// </returns>
-    public Task<IList<Product>> GetProductsByKeyWordsOrderingByNameAsync(
+    public Task<IList<SimpleProduct>> GetProductsByKeyWordsOrderingByNameAsync(
         IReadOnlyCollection<string> keyWords,
         PaginationInfo<ProductSorting> paginationInfo,
+        CancellationToken token);
+
+    /// <summary>
+    /// Получить товар по идентификатору.
+    /// </summary>
+    /// <param name="productId">
+    /// Ключевые слова.
+    /// </param>
+    /// <param name="token">
+    /// Токен отмены.
+    /// </param>
+    /// <returns>
+    /// Товар.
+    /// </returns>
+    public Task<Product> GetProductByIdAsync(
+        Id<Product> productId,
         CancellationToken token);
 
     /// <summary>
@@ -78,9 +95,11 @@ public interface IProductsRepository
     /// Токен отмены.
     /// </param>
     /// <returns>
-    /// Задача для асинхронного ожидания.
+    /// Идентификатор товара.
     /// </returns>
-    public Task AddProductAsync(ProductWithoutId product, CancellationToken token);
+    public Task<Id<Product>> AddProduct(
+        ProductWithoutId product, 
+        CancellationToken token);
 
     /// <summary>
     /// Изменение товара.

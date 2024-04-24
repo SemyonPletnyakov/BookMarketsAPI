@@ -1,4 +1,6 @@
-﻿namespace Models.SimpleEntities;
+﻿using Models.SimpleEntities;
+
+namespace Models.ForUpdate;
 
 /// <summary>
 /// Заказ.
@@ -8,7 +10,7 @@ public sealed class Order
     /// <summary>
     /// Идентификатор заказа.
     /// </summary>
-    public Id<FullEntities.Order> OrderId { get; set; }
+    public Id<Order> OrderId { get; set; }
 
     /// <summary>
     /// Покупатель.
@@ -62,9 +64,9 @@ public sealed class Order
     /// или <paramref name="productsInOrder"/> равен <see langword="null"/>.
     /// </exception>
     public Order(
-        Id<FullEntities.Order> orderId,
+        Id<Order> orderId,
         Customer customer,
-        FullEntities.Shop shop,
+        FullEntities.hop shop,
         DateTimeOffset dateTime,
         OrderStatus orderStatus,
         List<ProductInfoInOrder> productsInOrder)

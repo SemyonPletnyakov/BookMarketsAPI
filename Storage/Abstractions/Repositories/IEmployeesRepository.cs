@@ -3,8 +3,8 @@ using Models.Pagination;
 using Models.Pagination.Sorting;
 using Models.FullEntities;
 
-using SimpleEmployee = Models.SimpleEntities.Employee;
 using EmployeeWothoutId = Models.ForCreate.Employee;
+using EmployeeWithoutPassword = Models.ForUpdate.Employee;
 
 namespace Storage.Abstractions.Repositories;
 
@@ -25,7 +25,7 @@ public interface IEmployeesRepository
     /// <returns>
     /// Часть списка сотрудников.
     /// </returns>
-    public Task<IList<SimpleEmployee>> GetEmployeesAsync(
+    public Task<IList<EmployeeWithoutPassword>> GetEmployeesAsync(
         PaginationInfo<EmployeeSorting> paginationInfo,
         CancellationToken token);
 
@@ -44,8 +44,48 @@ public interface IEmployeesRepository
     /// <returns>
     /// Часть списка сотрудников.
     /// </returns>
-    public Task<IList<SimpleEmployee>> GetEmployeesByLastNameAsync(
+    public Task<IList<EmployeeWithoutPassword>> GetEmployeesByLastNameAsync(
         LastName lastName,
+        PaginationInfo<EmployeeSorting> paginationInfo,
+        CancellationToken token);
+
+    /// <summary>
+    /// Получить часть сотрудников конкретного магазина в соотвествии с пагинацией.
+    /// </summary>
+    /// <param name="shopId">
+    /// Идентификатор магазина.
+    /// </param>
+    /// <param name="paginationInfo">
+    /// Информация о пагинации.
+    /// </param>
+    /// <param name="token">
+    /// Токен отмены.
+    /// </param>
+    /// <returns>
+    /// Часть списка сотрудников.
+    /// </returns>
+    public Task<IList<EmployeeWithoutPassword>> GetEmployeesByShopAsync(
+        Id<Shop> shopId,
+        PaginationInfo<EmployeeSorting> paginationInfo,
+        CancellationToken token);
+
+    /// <summary>
+    /// Получить часть сотрудников конкретного склада в соотвествии с пагинацией.
+    /// </summary>
+    /// <param name="warehouseId">
+    /// Идентификатор склада.
+    /// </param>
+    /// <param name="paginationInfo">
+    /// Информация о пагинации.
+    /// </param>
+    /// <param name="token">
+    /// Токен отмены.
+    /// </param>
+    /// <returns>
+    /// Часть списка сотрудников.
+    /// </returns>
+    public Task<IList<EmployeeWithoutPassword>> GetEmployeesByWarehouseAsync(
+        Id<Warehouse> warehouseId,
         PaginationInfo<EmployeeSorting> paginationInfo,
         CancellationToken token);
 
@@ -77,48 +117,8 @@ public interface IEmployeesRepository
     /// <returns>
     /// Информация о сотруднике.
     /// </returns>
-    public Task<SimpleEmployee> GetEmployeeByIdAsync(
+    public Task<EmployeeWithoutPassword> GetEmployeeByIdAsync(
         Id<Employee> employeeId,
-        CancellationToken token);
-
-    /// <summary>
-    /// Получить часть сотрудников конкретного магазина в соотвествии с пагинацией.
-    /// </summary>
-    /// <param name="shopId">
-    /// Идентификатор магазина.
-    /// </param>
-    /// <param name="paginationInfo">
-    /// Информация о пагинации.
-    /// </param>
-    /// <param name="token">
-    /// Токен отмены.
-    /// </param>
-    /// <returns>
-    /// Часть списка сотрудников.
-    /// </returns>
-    public Task<IList<SimpleEmployee>> GetEmployeesByShopAsync(
-        Id<Shop> shopId,
-        PaginationInfo<EmployeeSorting> paginationInfo,
-        CancellationToken token);
-
-    /// <summary>
-    /// Получить часть сотрудников конкретного склада в соотвествии с пагинацией.
-    /// </summary>
-    /// <param name="warehouseId">
-    /// Идентификатор склада.
-    /// </param>
-    /// <param name="paginationInfo">
-    /// Информация о пагинации.
-    /// </param>
-    /// <param name="token">
-    /// Токен отмены.
-    /// </param>
-    /// <returns>
-    /// Часть списка сотрудников.
-    /// </returns>
-    public Task<IList<SimpleEmployee>> GetEmployeesByWarehouseAsync(
-        Id<Warehouse> warehouseId,
-        PaginationInfo<EmployeeSorting> paginationInfo,
         CancellationToken token);
 
     /// <summary>
@@ -147,7 +147,9 @@ public interface IEmployeesRepository
     /// <returns>
     /// Задача для асинхронного ожидания.
     /// </returns>
-    public Task UpdateEmployeeAsync(SimpleEmployee employee, CancellationToken token);
+    public Task UpdateEmployeeAsync(
+        EmployeeWithoutPassword employee, 
+        CancellationToken token);
 
     /// <summary>
     /// Изменение пароля сотрудника.
