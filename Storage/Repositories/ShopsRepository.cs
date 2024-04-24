@@ -7,7 +7,7 @@ using Models.FullEntities;
 
 using Storage.Abstractions.Repositories;
 using Storage.Getters;
-using Storage.Exceptions;
+using Models.Exceptions;
 
 using ShopWithoutId = Models.ForCreate.Shop;
 using ShopForUpdate = Models.ForUpdate.Shop;

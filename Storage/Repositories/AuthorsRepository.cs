@@ -6,7 +6,7 @@ using Models.Pagination;
 using Models.Pagination.Sorting;
 
 using Storage.Abstractions.Repositories;
-using Storage.Exceptions;
+using Models.Exceptions;
 using Storage.Getters;
 
 using AuthorWithoutId = Models.ForCreate.Author;

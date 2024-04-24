@@ -7,7 +7,7 @@ using Models.FullEntities;
 
 using Storage.Abstractions.Repositories;
 using Storage.Getters;
-using Storage.Exceptions;
+using Models.Exceptions;
 
 using WarehouseWithoutId = Models.ForCreate.Warehouse;
 using WarehouseForUpdate = Models.ForUpdate.Warehouse;

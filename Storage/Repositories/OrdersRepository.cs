@@ -8,7 +8,7 @@ using Models.SimpleEntities;
 
 using Storage.Abstractions.Repositories;
 using Storage.Getters;
-using Storage.Exceptions;
+using Models.Exceptions;
 
 using System.ComponentModel;
 

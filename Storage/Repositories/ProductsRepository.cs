@@ -7,7 +7,7 @@ using Models.FullEntities;
 
 using Storage.Abstractions.Repositories;
 using Storage.Getters;
-using Storage.Exceptions;
+using Models.Exceptions;
 
 using ProductWithoutId = Models.ForCreate.Product;
 using SimpleProduct = Models.SimpleEntities.Product;
@@ -77,7 +77,7 @@ public sealed class ProductsRepository : IProductsRepository
     }
 
     /// <inheritdoc/>
-    public async Task<IList<SimpleProduct>> GetProductsByKeyWordsOrderingByNameAsync(
+    public async Task<IList<SimpleProduct>> GetProductsByKeyWordsAsync(
         IReadOnlyCollection<string> keyWords,
         PaginationInfo<ProductSorting> paginationInfo,
         CancellationToken token)
@@ -129,7 +129,7 @@ public sealed class ProductsRepository : IProductsRepository
     }
 
     /// <inheritdoc/>
-    public async Task<Id<Product>> AddProduct(
+    public async Task<Id<Product>> AddProductAsync(
         ProductWithoutId product,
         CancellationToken token)
     {

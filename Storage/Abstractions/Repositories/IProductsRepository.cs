@@ -64,7 +64,7 @@ public interface IProductsRepository
     /// <returns>
     /// Часть списка товаров.
     /// </returns>
-    public Task<IList<SimpleProduct>> GetProductsByKeyWordsOrderingByNameAsync(
+    public Task<IList<SimpleProduct>> GetProductsByKeyWordsAsync(
         IReadOnlyCollection<string> keyWords,
         PaginationInfo<ProductSorting> paginationInfo,
         CancellationToken token);
@@ -97,7 +97,7 @@ public interface IProductsRepository
     /// <returns>
     /// Идентификатор товара.
     /// </returns>
-    public Task<Id<Product>> AddProduct(
+    public Task<Id<Product>> AddProductAsync(
         ProductWithoutId product, 
         CancellationToken token);
 

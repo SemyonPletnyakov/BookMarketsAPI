@@ -5,7 +5,7 @@ using Models.FullEntities;
 
 using Storage.Abstractions.Repositories;
 using Storage.Getters;
-using Storage.Exceptions;
+using Models.Exceptions;
 
 using EmployeeWothoutId = Models.ForCreate.Employee;
 using EmployeeWithoutPassword = Models.ForUpdate.Employee;

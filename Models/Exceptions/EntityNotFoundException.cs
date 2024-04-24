@@ -1,4 +1,4 @@
-﻿namespace Storage.Exceptions;
+﻿namespace Models.Exceptions;
 
 /// <summary>
 /// Исключение, выбрасываемое при ненахождении сущности.

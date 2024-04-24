@@ -3,7 +3,6 @@ using Models.FullEntities;
 using Models.Pagination;
 using Models.Pagination.Sorting;
 
-using BookForUpdate = Models.ForUpdate.Book;
 using SimpleBook = Models.SimpleEntities.Book;
 
 namespace Storage.Abstractions.Repositories;
@@ -84,7 +83,7 @@ public interface IBooksRepository
     /// <returns>
     /// Часть списка книг.
     /// </returns>
-    public Task<IList<SimpleBook>> GetBooksByKeyWordsOrderingByNameAsync(
+    public Task<IList<SimpleBook>> GetBooksByKeyWordsAsync(
         IReadOnlyCollection<string> keyWords,
         PaginationInfo<BookSorting> paginationInfo,
         CancellationToken token);
@@ -141,7 +140,7 @@ public interface IBooksRepository
     /// Задача для асинхронного ожидания.
     /// </returns>
     public Task UpdateAuthorForBookAsync(
-        Id<Book> productId, 
+        Id<Product> productId, 
         Id<Author> authorId, 
         CancellationToken token);
 

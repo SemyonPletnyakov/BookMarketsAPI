@@ -5,7 +5,7 @@ using Models.Pagination.Sorting;
 
 using Storage.Abstractions.Repositories;
 using Storage.Getters;
-using Storage.Exceptions;
+using Models.Exceptions;
 
 using BookForUpdate = Models.ForUpdate.Book;
 using SimpleBook = Models.SimpleEntities.Book;
@@ -118,7 +118,7 @@ public sealed class BooksRepository : IBooksRepository
     }
 
     /// <inheritdoc/>
-    public async Task<IList<SimpleBook>> GetBooksByKeyWordsOrderingByNameAsync(
+    public async Task<IList<SimpleBook>> GetBooksByKeyWordsAsync(
         IReadOnlyCollection<string> keyWords,
         PaginationInfo<BookSorting> paginationInfo,
         CancellationToken token)
@@ -211,7 +211,7 @@ public sealed class BooksRepository : IBooksRepository
 
     /// <inheritdoc/>
     public async Task UpdateAuthorForBookAsync(
-        Id<Book> productId,
+        Id<Product> productId,
         Id<Author> authorId,
         CancellationToken token)
     {
