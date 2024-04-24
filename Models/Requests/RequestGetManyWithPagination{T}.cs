@@ -10,11 +10,12 @@ namespace Models.Requests;
 /// Тип, по которому происходит сортировка.
 /// </typeparam>
 public record RequestGetManyWithPagination<T> : RequestBase
+    where T : Enum
 {
     /// <summary>
     /// Информация о пагинации.
     /// </summary>
-    public PaginationInfo<AuthorSorting> PaginationInfo { get; }
+    public PaginationInfo<T> PaginationInfo { get; }
 
     /// <summary>
     /// Создаёт объект <see cref="RequestGetManyWithPagination{T}"/>.
@@ -25,7 +26,7 @@ public record RequestGetManyWithPagination<T> : RequestBase
     /// <exception cref="ArgumentNullException">
     /// Если <paramref name="paginationInfo"/> равено <see langword="null"/>.
     /// </exception>
-    public RequestGetManyWithPagination(PaginationInfo<AuthorSorting> paginationInfo)
+    public RequestGetManyWithPagination(PaginationInfo<T> paginationInfo)
     {
         PaginationInfo = paginationInfo 
             ?? throw new ArgumentNullException(nameof(paginationInfo));

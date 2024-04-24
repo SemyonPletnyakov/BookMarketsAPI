@@ -3,15 +3,18 @@
 /// <summary>
 /// Запрос на удаление сущности.
 /// </summary>
-/// <typeparam name="T">
+/// <typeparam name="TId">
 /// Тип удаляемой сущности.
 /// </typeparam>
-public record RequestDeleteEntityById<T> : RequestBase
+/// <typeparam name="TRemovedEntity">
+/// Тип удаляемой сущности.
+/// </typeparam>
+public record RequestDeleteEntityById<TId, TRemovedEntity> : RequestBase
 {
     /// <summary>
     /// Идентификатор сущности, которая должна быть удалена.
     /// </summary>
-    public Id<T> EntityId { get; }
+    public Id<TId> EntityId { get; }
 
     /// <summary>
     /// Создаёт объект <see cref="RequestDeleteEntityById{T}"/>.
@@ -22,7 +25,7 @@ public record RequestDeleteEntityById<T> : RequestBase
     /// <exception cref="ArgumentNullException">
     /// Если <paramref name="entityId"/> равен <see langword="null"/>.
     /// </exception>
-    public RequestDeleteEntityById(Id<T> entityId)
+    public RequestDeleteEntityById(Id<TId> entityId)
     {
         EntityId = entityId ?? throw new ArgumentNullException(nameof(entityId));
     }
