@@ -45,7 +45,7 @@ public interface IShopsRepository
     /// <returns>
     /// Количество товаров в магазине.
     /// </returns>
-    public Task<IReadOnlyCollection<ProductCount>> GetProductsCountInShopByIdAsync(
+    public Task<IList<ProductCount>> GetProductsCountInShopByIdAsync(
         Id<Shop> shopId,
         PaginationInfo<ProductCountSorting> paginationInfo,
         CancellationToken token);

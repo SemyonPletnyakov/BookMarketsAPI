@@ -5,15 +5,18 @@ namespace Models.Requests;
 /// <summary>
 /// Запрос на получение объекта по идентификатору.
 /// </summary>
-/// <typeparam name="T">
+/// <typeparam name="TId">
 /// Тип, по идентификатору которого будет происходить поиск.
 /// </typeparam>
-public record RequestGetOneById<T> : RequestBase
+/// <typeparam name="TGettedEntity">
+/// Получаемая сущность.
+/// </typeparam>
+public record RequestGetOneById<TId, TGettedEntity> : RequestBase
 {
     /// <summary>
     /// Идендификатор.
     /// </summary>
-    public Id<T> Id { get; }
+    public Id<TId> Id { get; }
 
     /// <summary>
     /// Создаёт объект типа <see cref="RequestGetOneById{T}"/>
@@ -24,7 +27,7 @@ public record RequestGetOneById<T> : RequestBase
     /// <exception cref="ArgumentNullException">
     /// Если <paramref name="id"/> равен <see langword="null"/>.
     /// </exception>
-    public RequestGetOneById(Id<T> id)
+    public RequestGetOneById(Id<TId> id)
     {
         Id = id ?? throw new ArgumentNullException(nameof(id));
     }

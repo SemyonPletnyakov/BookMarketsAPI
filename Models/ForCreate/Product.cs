@@ -8,7 +8,7 @@ public class Product
     /// <summary>
     /// Название товара.
     /// </summary>
-    public Name<Product> Name { get; set; }
+    public Name<FullEntities.Product> Name { get; set; }
 
     /// <summary>
     /// Описание.
@@ -45,7 +45,7 @@ public class Product
     /// равен <see langword="null"/>.
     /// </exception>
     public Product(
-        Name<Product> name, 
+        Name<FullEntities.Product> name, 
         Description? description, 
         Price price,
         ISet<string>? keyWords)

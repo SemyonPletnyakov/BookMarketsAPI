@@ -1,4 +1,6 @@
-﻿namespace Logic.Abstractions.Handlers;
+﻿using Models.Requests;
+
+namespace Logic.Abstractions.Handlers;
 
 /// <summary>
 /// Обработчик запросов.
@@ -10,6 +12,7 @@
 /// Выходные данные.
 /// </typeparam>
 public interface IRequestHandler<TInput, TOutput>
+    where TInput : RequestBase
 {
     /// <summary>
     /// Обрабатывает запрос.
@@ -23,7 +26,7 @@ public interface IRequestHandler<TInput, TOutput>
     /// <returns>
     /// <typeparamref name="TOutput"/>.
     /// </returns>
-    public Task<TOutput> HandleAsync(
+    public TOutput HandleAsync(
         TInput request,
         CancellationToken token);
 }

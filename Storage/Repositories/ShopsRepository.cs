@@ -67,7 +67,7 @@ public sealed class ShopsRepository : IShopsRepository
     }
 
     /// <inheritdoc/>
-    public async Task<IReadOnlyCollection<ProductCount>> GetProductsCountInShopByIdAsync(
+    public async Task<IList<ProductCount>> GetProductsCountInShopByIdAsync(
         Id<Shop> shopId,
         PaginationInfo<ProductCountSorting> paginationInfo,
         CancellationToken token)
