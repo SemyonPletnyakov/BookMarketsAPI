@@ -1,4 +1,4 @@
-﻿using Models.Requests;
+﻿using Models.Requests.BaseRequests;
 
 namespace Logic.Abstractions.Processors;
 

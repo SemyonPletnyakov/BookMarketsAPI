@@ -1,5 +1,5 @@
-﻿using Models;
-using Models.Requests;
+﻿using Models.Autorization;
+using Models.Requests.BaseRequests;
 
 namespace Logic.Abstractions.Processors;
 

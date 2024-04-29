@@ -1,8 +1,5 @@
 ﻿namespace Models;
 
-internal class Login
-{
-}
 /// <summary>
 /// Логин.
 /// </summary>
