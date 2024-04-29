@@ -1,4 +1,7 @@
 ﻿using System.Security.Cryptography;
+using Models.Requests.BaseRequests;
+using Models.Requests.Operations.Types;
+using Models.Requests.Operations;
 
 namespace Models.Requests;
 
@@ -28,6 +31,10 @@ public record RequestGetOneById<TId, TGettedEntity> : RequestBase
     /// Если <paramref name="id"/> равен <see langword="null"/>.
     /// </exception>
     public RequestGetOneById(Id<TId> id)
+        : base(
+            new OperationDescriprion(
+                OperationType.Get,
+                GetEntityTypeByEntity<TGettedEntity>()))
     {
         Id = id ?? throw new ArgumentNullException(nameof(id));
     }

@@ -1,4 +1,7 @@
 ﻿using Models.Pagination;
+using Models.Requests.BaseRequests;
+using Models.Requests.Operations.Types;
+using Models.Requests.Operations;
 
 namespace Models.Requests;
 
@@ -39,6 +42,10 @@ public record RequestGetManyByNameWithPagination<TName, TSorting> : RequestBase
     public RequestGetManyByNameWithPagination(
         Name<TName> name,
         PaginationInfo<TSorting> paginationInfo)
+        : base(
+            new OperationDescriprion(
+                OperationType.Get,
+                GetEntityTypeBySortingType<TSorting>()))
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
 

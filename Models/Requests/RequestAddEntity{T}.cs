@@ -1,4 +1,8 @@
-﻿namespace Models.Requests;
+﻿using Models.Requests.BaseRequests;
+using Models.Requests.Operations;
+using Models.Requests.Operations.Types;
+
+namespace Models.Requests;
 
 /// <summary>
 /// Запрос на добавление сущности.
@@ -24,6 +28,10 @@ public record RequestAddEntity<T> : RequestBase
     /// Если <paramref name="entity"/> равен <see langword="null"/>.
     /// </exception>
     public RequestAddEntity(T entity)
+        : base(
+            new OperationDescriprion(
+                OperationType.Add,
+                GetEntityTypeByEntity<T>()))
     {
         Entity = entity ?? throw new ArgumentNullException(nameof(entity));
     }

@@ -1,4 +1,7 @@
 ﻿using Models.Pagination;
+using Models.Requests.BaseRequests;
+using Models.Requests.Operations.Types;
+using Models.Requests.Operations;
 
 namespace Models.Requests;
 
@@ -59,6 +62,10 @@ public record RequestGetManyByIdByTimeIntervalWithPagination<TId, TSorting> : Re
         PaginationInfo<TSorting> paginationInfo,
         DateTime startDate,
         DateTime endDate)
+        : base(
+            new OperationDescriprion(
+                OperationType.Get,
+                GetEntityTypeBySortingType<TSorting>()))
     {
         Id = id ?? throw new ArgumentNullException(nameof(id));
 

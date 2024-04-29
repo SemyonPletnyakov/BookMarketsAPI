@@ -1,4 +1,7 @@
 ﻿using Models.Pagination;
+using Models.Requests.BaseRequests;
+using Models.Requests.Operations.Types;
+using Models.Requests.Operations;
 
 namespace Models.Requests;
 
@@ -40,6 +43,10 @@ public record RequestGetManyByIdWithPagination<TId, TSorting> : RequestBase
     public RequestGetManyByIdWithPagination(
         Id<TId> id,
         PaginationInfo<TSorting> paginationInfo)
+        : base(
+            new OperationDescriprion(
+                OperationType.Get,
+                GetEntityTypeBySortingType<TSorting>()))
     {
         Id = id ?? throw new ArgumentNullException(nameof(id));
 

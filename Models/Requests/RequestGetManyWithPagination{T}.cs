@@ -1,5 +1,8 @@
 ﻿using Models.Pagination;
 using Models.Pagination.Sorting;
+using Models.Requests.BaseRequests;
+using Models.Requests.Operations.Types;
+using Models.Requests.Operations;
 
 namespace Models.Requests;
 
@@ -27,6 +30,10 @@ public record RequestGetManyWithPagination<T> : RequestBase
     /// Если <paramref name="paginationInfo"/> равено <see langword="null"/>.
     /// </exception>
     public RequestGetManyWithPagination(PaginationInfo<T> paginationInfo)
+        : base(
+            new OperationDescriprion(
+                OperationType.Get,
+                GetEntityTypeBySortingType<T>()))
     {
         PaginationInfo = paginationInfo 
             ?? throw new ArgumentNullException(nameof(paginationInfo));

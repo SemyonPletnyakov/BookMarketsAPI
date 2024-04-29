@@ -1,4 +1,8 @@
-﻿namespace Models.Requests;
+﻿using Models.Requests.BaseRequests;
+using Models.Requests.Operations.Types;
+using Models.Requests.Operations;
+
+namespace Models.Requests;
 
 /// <summary>
 /// Запрос на обновление сущности.
@@ -24,6 +28,10 @@ public record RequestUpdateEntity<T> : RequestBase
     /// Если <paramref name="entity"/> равен <see langword="null"/>.
     /// </exception>
     public RequestUpdateEntity(T entity)
+        : base(
+            new OperationDescriprion(
+                OperationType.Update,
+                GetEntityTypeByEntity<T>()))
     {
         Entity = entity ?? throw new ArgumentNullException(nameof(entity));
     }

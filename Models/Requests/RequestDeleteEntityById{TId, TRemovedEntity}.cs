@@ -1,4 +1,8 @@
-﻿namespace Models.Requests;
+﻿using Models.Requests.BaseRequests;
+using Models.Requests.Operations.Types;
+using Models.Requests.Operations;
+
+namespace Models.Requests;
 
 /// <summary>
 /// Запрос на удаление сущности.
@@ -26,6 +30,10 @@ public record RequestDeleteEntityById<TId, TRemovedEntity> : RequestBase
     /// Если <paramref name="entityId"/> равен <see langword="null"/>.
     /// </exception>
     public RequestDeleteEntityById(Id<TId> entityId)
+        : base(
+            new OperationDescriprion(
+                OperationType.Delete,
+                GetEntityTypeByEntity<TRemovedEntity>()))
     {
         EntityId = entityId ?? throw new ArgumentNullException(nameof(entityId));
     }

@@ -1,4 +1,7 @@
 ﻿using Models.Pagination;
+using Models.Requests.BaseRequests;
+using Models.Requests.Operations.Types;
+using Models.Requests.Operations;
 
 namespace Models.Requests;
 
@@ -46,6 +49,10 @@ public record RequestGetManyByTimeIntervalWithPagination<T> : RequestBase
         PaginationInfo<T> paginationInfo,
         DateTime startDate,
         DateTime endDate)
+        : base(
+            new OperationDescriprion(
+                OperationType.Get,
+                GetEntityTypeBySortingType<T>()))
     {
         PaginationInfo = paginationInfo
             ?? throw new ArgumentNullException(nameof(paginationInfo));

@@ -1,4 +1,8 @@
-﻿namespace Models.Requests;
+﻿using Models.Requests.BaseRequests;
+using Models.Requests.Operations.Types;
+using Models.Requests.Operations;
+
+namespace Models.Requests;
 
 /// <summary>
 /// Запрос на получение объекта по логину.
@@ -23,6 +27,10 @@ public record RequestGetOneByLogin<T> : RequestBase
     /// Если <paramref name="login"/> равен <see langword="null"/>.
     /// </exception>
     public RequestGetOneByLogin(Login login)
+        : base(
+            new OperationDescriprion(
+                OperationType.Get,
+                GetEntityTypeByEntity<T>()))
     {
         Login = login ?? throw new ArgumentNullException(nameof(login));
     }

@@ -1,4 +1,8 @@
-﻿namespace Models.Requests;
+﻿using Models.Requests.BaseRequests;
+using Models.Requests.Operations.Types;
+using Models.Requests.Operations;
+
+namespace Models.Requests;
 
 /// <summary>
 /// Запрос на получение объекта по электронной почте.
@@ -23,6 +27,10 @@ public record RequestGetOneByEmail<T> : RequestBase
     /// Если <paramref name="email"/> равен <see langword="null"/>.
     /// </exception>
     public RequestGetOneByEmail(Email email)
+        : base(
+            new OperationDescriprion(
+                OperationType.Get,
+                GetEntityTypeByEntity<T>()))
     {
         Email = email ?? throw new ArgumentNullException(nameof(email));
     }

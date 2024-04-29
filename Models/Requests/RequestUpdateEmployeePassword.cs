@@ -1,4 +1,8 @@
 ﻿using Models.Pagination;
+using Models.Requests.BaseRequests;
+using Models.Requests.Operations.Types;
+using Models.Requests.Operations;
+using Models.FullEntities;
 
 namespace Models.Requests;
 
@@ -32,6 +36,10 @@ public record RequestUpdateEmployeePassword : RequestBase
     public RequestUpdateEmployeePassword(
         Login login,
         Password password)
+        : base(
+            new OperationDescriprion(
+                OperationType.Update,
+                GetEntityTypeByEntity<Employee>()))
     {
         Login = login ?? throw new ArgumentNullException(nameof(login));
 

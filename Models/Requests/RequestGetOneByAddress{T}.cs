@@ -1,4 +1,7 @@
 ﻿using Models.ForCreate;
+using Models.Requests.BaseRequests;
+using Models.Requests.Operations;
+using Models.Requests.Operations.Types;
 
 namespace Models.Requests;
 
@@ -25,6 +28,12 @@ public record RequestGetOneByAddress<T> : RequestBase
     /// Если <paramref name="login"/> равен <see langword="null"/>.
     /// </exception>
     public RequestGetOneByAddress(Address login)
+        : base(
+            new OperationDescriprion(
+                typeof(T) == typeof(Address)
+                    ? OperationType.GetOrAdd
+                    : OperationType.Get,
+                GetEntityTypeByEntity<T>()))
     {
         Address = login ?? throw new ArgumentNullException(nameof(login));
     }

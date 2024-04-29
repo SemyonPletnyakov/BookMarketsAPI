@@ -1,5 +1,8 @@
 ﻿using Models.Pagination.Sorting;
 using Models.Pagination;
+using Models.Requests.BaseRequests;
+using Models.Requests.Operations.Types;
+using Models.Requests.Operations;
 
 namespace Models.Requests;
 
@@ -37,6 +40,10 @@ public record RequestGetManyByLastNameWithPagination<T> : RequestBase
     public RequestGetManyByLastNameWithPagination(
         LastName lastName, 
         PaginationInfo<T> paginationInfo)
+        : base(
+            new OperationDescriprion(
+                OperationType.Get,
+                GetEntityTypeBySortingType<T>()))
     {
         LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
 

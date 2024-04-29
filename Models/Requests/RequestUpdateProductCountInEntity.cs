@@ -1,4 +1,7 @@
 ﻿using Models.FullEntities;
+using Models.Requests.BaseRequests;
+using Models.Requests.Operations.Types;
+using Models.Requests.Operations;
 
 namespace Models.Requests;
 
@@ -45,6 +48,10 @@ public sealed record class RequestUpdateProductCountInEntity<T> : RequestBase
         Id<T> entityId, 
         Id<Product> productId, 
         Count count)
+        : base(
+            new OperationDescriprion(
+                OperationType.Update,
+                GetEntityTypeByEntity<SimpleEntities.ProductCount>()))
     {
         EntityId = entityId ?? throw new ArgumentNullException(nameof(entityId));
         ProductId = productId ?? throw new ArgumentNullException(nameof(productId));

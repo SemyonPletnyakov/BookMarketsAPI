@@ -1,4 +1,7 @@
 ﻿using Models.Pagination;
+using Models.Requests.BaseRequests;
+using Models.Requests.Operations.Types;
+using Models.Requests.Operations;
 
 namespace Models.Requests;
 
@@ -39,6 +42,10 @@ public record RequestGetManyByKeyWordsWithPagination<T> : RequestBase
     public RequestGetManyByKeyWordsWithPagination(
         IReadOnlyCollection<string> keyWords,
         PaginationInfo<T> paginationInfo)
+        : base(
+            new OperationDescriprion(
+                OperationType.Get,
+                GetEntityTypeBySortingType<T>()))
     {
         ArgumentNullException.ThrowIfNull(keyWords);
 

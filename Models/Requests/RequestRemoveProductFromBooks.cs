@@ -1,4 +1,7 @@
 ﻿using Models.FullEntities;
+using Models.Requests.BaseRequests;
+using Models.Requests.Operations.Types;
+using Models.Requests.Operations;
 
 namespace Models.Requests;
 
@@ -22,6 +25,10 @@ public record RequestRemoveProductFromBooks : RequestBase
     /// Если <paramref name="productId"/> равен <see langword="null"/>.
     /// </exception>
     public RequestRemoveProductFromBooks(Id<Product> productId)
+        : base(
+            new OperationDescriprion(
+                OperationType.Update,
+                GetEntityTypeByEntity<Book>()))
     {
         ProductId = productId ?? throw new ArgumentNullException(nameof(productId));
     }
