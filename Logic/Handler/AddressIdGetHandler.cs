@@ -6,8 +6,6 @@ using Models.Requests;
 
 using Storage.Abstractions;
 
-using AddressWithoutId = Models.ForCreate.Address;
-
 namespace Logic.Handler;
 
 internal class AddressIdGetHandler :
