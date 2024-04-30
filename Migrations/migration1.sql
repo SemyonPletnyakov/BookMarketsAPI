@@ -82,13 +82,13 @@ CREATE TABLE employees(
 );
 
 CREATE TABLE links_employees_and_shops(
-    employee_id INTEGER REFERENCES employees (employee_id) NOT NULL,
-    shop_id INTEGER REFERENCES shops (shop_id) NOT NULL
+    employee_id INTEGER REFERENCES employees (employee_id) UNIQUE NOT NULL,
+    shop_id INTEGER REFERENCES shops (shop_id) UNIQUE NOT NULL
 );
 
 CREATE TABLE links_employees_and_warehouses(
-    employee_id INTEGER REFERENCES employees (employee_id) NOT NULL,
-    warehouse_id INTEGER REFERENCES warehouses (warehouse_id) NOT NULL
+    employee_id INTEGER REFERENCES employees (employee_id) UNIQUE NOT NULL,
+    warehouse_id INTEGER REFERENCES warehouses (warehouse_id) UNIQUE NOT NULL
 );
 
 CREATE TABLE customers(
