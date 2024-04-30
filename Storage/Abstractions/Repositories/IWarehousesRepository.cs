@@ -51,6 +51,23 @@ public interface IWarehousesRepository
         CancellationToken token);
 
     /// <summary>
+    /// Получить идентификатор склада, в котором работает работник.
+    /// </summary>
+    /// <param name="employeeId">
+    /// Идентификатор работника.
+    /// </param>
+    /// <param name="token">
+    /// Токен отмены.
+    /// </param>
+    /// <returns>
+    /// Идентификатор склада, если работник заркеплён за магазином, 
+    /// иначе <see langword="null"/>.
+    /// </returns>
+    public Task<Id<Warehouse>?> GetWarehouseIdWhereDoesEmployeeWorkAsync(
+        Id<Employee> employeeId,
+        CancellationToken token);
+
+    /// <summary>
     /// Добавление склада.
     /// </summary>
     /// <param name="warehouse">

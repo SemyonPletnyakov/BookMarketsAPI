@@ -92,6 +92,19 @@ public sealed class WarehousesRepository : IWarehousesRepository
     }
 
     /// <inheritdoc/>
+    public async Task<Id<Warehouse>?> GetWarehouseIdWhereDoesEmployeeWorkAsync(
+        Id<Employee> employeeId,
+        CancellationToken token)
+    {
+        var link = await _context.LinksEmployeeAndWarehouses
+            .FirstOrDefaultAsync(link => link.EmployeeId == employeeId.Value, token);
+
+        return link is null
+            ? null
+            : new(link.WarehouseId);
+    }
+
+    /// <inheritdoc/>
     public void AddWarehouse(WarehouseWithoutId warehouse)
     {
         ArgumentNullException.ThrowIfNull(warehouse);

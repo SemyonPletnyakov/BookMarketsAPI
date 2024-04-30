@@ -51,6 +51,23 @@ public interface IShopsRepository
         CancellationToken token);
 
     /// <summary>
+    /// Получить идентификатор магазина, в котором работает работник.
+    /// </summary>
+    /// <param name="employeeId">
+    /// Идентификатор работника.
+    /// </param>
+    /// <param name="token">
+    /// Токен отмены.
+    /// </param>
+    /// <returns>
+    /// Идентификатор магазина, если работник заркеплён за магазином, 
+    /// иначе <see langword="null"/>.
+    /// </returns>
+    public Task<Id<Shop>?> GetShopIdWhereDoesEmployeeWorkAsync(
+        Id<Employee> employeeId, 
+        CancellationToken token);
+
+    /// <summary>
     /// Добавление магазина.
     /// </summary>
     /// <param name="shop">

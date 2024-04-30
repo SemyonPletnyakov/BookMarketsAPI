@@ -92,6 +92,19 @@ public sealed class ShopsRepository : IShopsRepository
     }
 
     /// <inheritdoc/>
+    public async Task<Id<Shop>?> GetShopIdWhereDoesEmployeeWorkAsync(
+        Id<Employee> employeeId,
+        CancellationToken token)
+    {
+        var link = await _context.LinksEmployeeAndShops
+            .FirstOrDefaultAsync(link => link.EmployeeId == employeeId.Value, token);
+
+        return link is null
+            ? null
+            : new(link.ShopId);
+    }
+
+    /// <inheritdoc/>
     public void AddShop(ShopWithoutId shop)
     {
         ArgumentNullException.ThrowIfNull(shop);
