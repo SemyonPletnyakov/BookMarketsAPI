@@ -1,17 +1,22 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Models.Autorization;
+
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+
+using Logic.Abstractions.Autorization;
+
+using Models.Autorization;
 
 namespace Logic.Autorization;
 
 /// <summary>
 /// Класс, создающий JWT-токен для покупателя.
 /// </summary>
-public sealed class CustomerJwtTokenConstructor
+public sealed class CustomerJwtTokenConstructor : 
+    IJwtTokenConstructor<CustomerAutorizationData>
 {
     /// <summary>
     /// Создаёт объект <see cref="CustomerJwtTokenConstructor"/>.
@@ -31,6 +36,8 @@ public sealed class CustomerJwtTokenConstructor
     /// <inheritdoc/>
     public JwtToken Construct(CustomerAutorizationData userData)
     {
+        ArgumentNullException.ThrowIfNull(userData);
+
         var claims = new List<Claim>
         {
             new Claim(CLAIM_NAME_USER_ID,

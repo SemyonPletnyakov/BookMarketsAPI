@@ -36,6 +36,8 @@ public sealed class EmployeeJwtTokenConstructor :
     /// <inheritdoc/>
     public JwtToken Construct(EmployeeAutorizationData userData)
     {
+        ArgumentNullException.ThrowIfNull(userData);
+
         var claims = new List<Claim>
         {
             new Claim(CLAIM_NAME_USER_ID, 

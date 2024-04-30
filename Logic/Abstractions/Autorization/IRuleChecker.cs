@@ -4,12 +4,10 @@ using Models.Requests.Operations;
 namespace Logic.Abstractions.Autorization;
 
 /// <summary>
-/// Класс, проверяющий, достаточно ли прав у пользователя на совершение операции.
+/// Контракт сущности, проверяющей, 
+/// достаточно ли прав у пользователя на совершение операции.
 /// </summary>
-/// /// <typeparam name="TUser">
-/// Тип пользователя.
-/// </typeparam>
-public interface IRuleChecker<TUser>
+public interface IRuleChecker
 {
     /// <summary>
     /// Проверить, достаточно ли прав.
@@ -23,7 +21,9 @@ public interface IRuleChecker<TUser>
     /// <param name="token">
     /// Токен отмены.
     /// </param>
-    /// <returns></returns>
+    /// <returns>
+    /// Задача для асинхронного выполнения.
+    /// </returns>
     public Task CheckRuleAsync(
         JwtToken jwtToken,
         OperationDescriprion operationDescriprion,

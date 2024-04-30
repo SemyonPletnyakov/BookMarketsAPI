@@ -5,10 +5,7 @@ namespace Logic.Abstractions.Autorization;
 /// <summary>
 /// Контракт сущности, которая достаёт из JWT-токена данные пользователя.
 /// </summary>
-/// <typeparam name="TUserData">
-/// Тип данных пользователя.
-/// </typeparam>
-public interface IJwtTokenDeconstructor<TUserData>
+public interface IJwtTokenDeconstructor
 {
     /// <summary>
     /// Достаёт из JWT-токена данные пользователя.
@@ -19,5 +16,5 @@ public interface IJwtTokenDeconstructor<TUserData>
     /// <returns>
     /// Данные пользователя.
     /// </returns>
-    public TUserData Deconstruct(JwtToken jwtToken);
+    public AutorizationData Deconstruct(JwtToken jwtToken);
 }
