@@ -10,7 +10,7 @@ namespace Logic.Handler;
 public sealed class EmployeeGetByLoginHandler :
     IRequestHandler<
         RequestGetOneByLogin<Employee>,
-        Task<Employee>>
+        Employee>
 {
     /// <summary>
     /// Создаёт объект <see cref="EmployeeGetByLoginHandler"/>.

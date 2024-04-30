@@ -11,7 +11,7 @@ namespace Logic.Handler;
 public sealed class AuthorsGetHandler : 
     IRequestHandler<
         RequestGetManyWithPagination<AuthorSorting>, 
-        Task<IList<Author>>>
+        IList<Author>>
 {
     /// <summary>
     /// Создаёт объект <see cref="AuthorsGetHandler"/>.

@@ -10,7 +10,7 @@ namespace Logic.Handler;
 public sealed class CustomerGetByEmailHandler :
     IRequestHandler<
         RequestGetOneByEmail<Customer>,
-        Task<Customer>>
+        Customer>
 {
     /// <summary>
     /// Создаёт объект <see cref="CustomerGetByEmailHandler"/>.

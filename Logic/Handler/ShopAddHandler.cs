@@ -9,7 +9,7 @@ using ShopWithoutId = Models.ForCreate.Shop;
 namespace Logic.Handler;
 
 public sealed class ShopAddHandler :
-    IRequestHandler<RequestAddEntity<ShopWithoutId>, Task>
+    IRequestHandler<RequestAddEntity<ShopWithoutId>>
 {
     /// <summary>
     /// Создаёт объект <see cref="ShopAddHandler"/>.

@@ -11,7 +11,7 @@ namespace Logic.Handler;
 public sealed class ProductsGetByKeyWordsHandler :
     IRequestHandler<
         RequestGetManyByKeyWordsWithPagination<ProductSorting>,
-        Task<IList<Product>>>
+        IList<Product>>
 {
     /// <summary>
     /// Создаёт объект <see cref="ProductsGetByKeyWordsHandler"/>.

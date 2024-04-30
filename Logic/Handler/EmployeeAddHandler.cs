@@ -9,7 +9,7 @@ using EmployeeWithoutId = Models.ForCreate.Employee;
 namespace Logic.Handler;
 
 public sealed class EmployeeAddHandler :
-    IRequestHandler<RequestAddEntity<EmployeeWithoutId>, Task>
+    IRequestHandler<RequestAddEntity<EmployeeWithoutId>>
 {
     /// <summary>
     /// Создаёт объект <see cref="EmployeeAddHandler"/>.

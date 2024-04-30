@@ -11,7 +11,7 @@ namespace Logic.Handler;
 public sealed class OrdersGetHandler :
     IRequestHandler<
         RequestGetManyWithPagination<OrderSorting>,
-        Task<IList<Order>>>
+        IList<Order>>
 {
     /// <summary>
     /// Создаёт объект <see cref="OrdersGetHandler"/>.

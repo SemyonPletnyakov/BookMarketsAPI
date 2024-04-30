@@ -8,9 +8,7 @@ using Storage.Abstractions;
 namespace Logic.Handler;
 
 public sealed class ProductCountInShopUpdateHandler :
-    IRequestHandler<
-        RequestUpdateProductCountInEntity<Shop>,
-        Task>
+    IRequestHandler<RequestUpdateProductCountInEntity<Shop>>
 {
     /// <summary>
     /// Создаёт объект <see cref="ProductCountInShopUpdateHandler"/>.

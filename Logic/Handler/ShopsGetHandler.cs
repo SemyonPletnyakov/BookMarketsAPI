@@ -11,7 +11,7 @@ namespace Logic.Handler;
 public sealed class ShopsGetHandler :
     IRequestHandler<
         RequestGetManyWithPagination<ShopSorting>,
-        Task<IList<Shop>>>
+        IList<Shop>>
 {
     /// <summary>
     /// Создаёт объект <see cref="ShopsGetHandler"/>.

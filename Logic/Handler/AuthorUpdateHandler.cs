@@ -8,7 +8,7 @@ using Storage.Abstractions;
 namespace Logic.Handler;
 
 public sealed class AuthorUpdateHandler :
-    IRequestHandler<RequestUpdateEntity<Author>, Task>
+    IRequestHandler<RequestUpdateEntity<Author>>
 {
     /// <summary>
     /// Создаёт объект <see cref="AuthorUpdateHandler"/>.

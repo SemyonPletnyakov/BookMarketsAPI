@@ -8,7 +8,7 @@ using Storage.Abstractions;
 namespace Logic.Handler;
 
 public sealed class ProductUpdateHandler :
-    IRequestHandler<RequestUpdateEntity<Product>, Task>
+    IRequestHandler<RequestUpdateEntity<Product>>
 {
     /// <summary>
     /// Создаёт объект <see cref="ProductUpdateHandler"/>.

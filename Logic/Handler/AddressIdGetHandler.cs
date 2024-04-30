@@ -13,7 +13,7 @@ namespace Logic.Handler;
 internal class AddressIdGetHandler :
     IRequestHandler<
         RequestGetOneByAddress<Id<Address>>,
-        Task<Id<Address>>>
+        Id<Address>>
 {
     /// <summary>
     /// Создаёт объект <see cref="AddressIdGetHandler"/>.

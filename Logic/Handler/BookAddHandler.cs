@@ -9,7 +9,7 @@ using BookWithoutId = Models.ForCreate.Book;
 namespace Logic.Handler;
 
 public sealed class BookAddHandler :
-    IRequestHandler<RequestAddEntity<BookWithoutId>, Task>
+    IRequestHandler<RequestAddEntity<BookWithoutId>>
 {
     /// <summary>
     /// Создаёт объект <see cref="BookAddHandler"/>.

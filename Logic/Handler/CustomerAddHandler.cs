@@ -9,7 +9,7 @@ using CustomerWithoutId = Models.ForCreate.Customer;
 namespace Logic.Handler;
 
 public sealed class CustomerAddHandler :
-    IRequestHandler<RequestAddEntity<CustomerWithoutId>, Task>
+    IRequestHandler<RequestAddEntity<CustomerWithoutId>>
 {
     /// <summary>
     /// Создаёт объект <see cref="CustomerAddHandler"/>.

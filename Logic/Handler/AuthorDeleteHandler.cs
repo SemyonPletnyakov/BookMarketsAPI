@@ -8,7 +8,7 @@ using Storage.Abstractions;
 namespace Logic.Handler;
 
 public sealed class AuthorDeleteHandler :
-    IRequestHandler<RequestDeleteEntityById<Author, Author>, Task>
+    IRequestHandler<RequestDeleteEntityById<Author, Author>>
 {
     /// <summary>
     /// Создаёт объект <see cref="AuthorDeleteHandler"/>.

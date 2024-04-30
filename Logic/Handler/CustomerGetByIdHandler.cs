@@ -12,7 +12,7 @@ namespace Logic.Handler;
 public sealed class CustomerGetByIdHandler :
     IRequestHandler<
         RequestGetOneById<Customer, SimleCustomer>,
-        Task<SimleCustomer>>
+        SimleCustomer>
 {
     /// <summary>
     /// Создаёт объект <see cref="CustomerGetByIdHandler"/>.

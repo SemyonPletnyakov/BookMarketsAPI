@@ -8,7 +8,7 @@ using Storage.Abstractions;
 namespace Logic.Handler;
 
 public sealed class ProductDeleteHandler :
-    IRequestHandler<RequestDeleteEntityById<Product, Product>, Task>
+    IRequestHandler<RequestDeleteEntityById<Product, Product>>
 {
     /// <summary>
     /// Создаёт объект <see cref="ProductDeleteHandler"/>.

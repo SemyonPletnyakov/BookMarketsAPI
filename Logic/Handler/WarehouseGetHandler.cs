@@ -11,7 +11,7 @@ namespace Logic.Handler;
 public sealed class WarehouseGetHandler :
     IRequestHandler<
         RequestGetManyWithPagination<WarehouseSorting>,
-        Task<IList<Warehouse>>>
+        IList<Warehouse>>
 {
     /// <summary>
     /// Создаёт объект <see cref="WarehouseGetHandler"/>.

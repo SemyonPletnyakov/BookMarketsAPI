@@ -9,7 +9,7 @@ using OrderWithoutId = Models.ForCreate.Order;
 namespace Logic.Handler;
 
 public sealed class OrderAddHandler :
-    IRequestHandler<RequestAddEntity<OrderWithoutId>, Task>
+    IRequestHandler<RequestAddEntity<OrderWithoutId>>
 {
     /// <summary>
     /// Создаёт объект <see cref="OrderAddHandler"/>.

@@ -11,7 +11,7 @@ namespace Logic.Handler;
 public sealed class AuthorsGetByLastNameHandler :
     IRequestHandler<
         RequestGetManyByLastNameWithPagination<AuthorSorting>, 
-        Task<IList<Author>>>
+        IList<Author>>
 {
     /// <summary>
     /// Создаёт объект <see cref="AuthorsGetByLastNameHandler"/>.

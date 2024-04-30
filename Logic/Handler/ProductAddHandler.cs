@@ -9,7 +9,7 @@ using ProductWithoutId = Models.ForCreate.Product;
 namespace Logic.Handler;
 
 public sealed class ProductAddHandler :
-    IRequestHandler<RequestAddEntity<ProductWithoutId>, Task>
+    IRequestHandler<RequestAddEntity<ProductWithoutId>>
 {
     /// <summary>
     /// Создаёт объект <see cref="ProductAddHandler"/>.

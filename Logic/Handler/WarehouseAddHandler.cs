@@ -9,7 +9,7 @@ using WarehouseWithoutId = Models.ForCreate.Warehouse;
 namespace Logic.Handler;
 
 public sealed class WarehouseAddHandler :
-    IRequestHandler<RequestAddEntity<WarehouseWithoutId>, Task>
+    IRequestHandler<RequestAddEntity<WarehouseWithoutId>>
 {
     /// <summary>
     /// Создаёт объект <see cref="WarehouseAddHandler"/>.

@@ -13,7 +13,7 @@ namespace Logic.Handler;
 public sealed class OrdersGetByShopIdHandler :
     IRequestHandler<
         RequestGetManyByIdWithPagination<Shop, OrderSorting>,
-        Task<IList<SimleOrder>>>
+        IList<SimleOrder>>
 {
     /// <summary>
     /// Создаёт объект <see cref="OrdersGetByShopIdHandler"/>.

@@ -7,7 +7,7 @@ using Storage.Abstractions;
 namespace Logic.Handler;
 
 public sealed class OrderUpdateStatusHandler :
-    IRequestHandler<RequestUpdateOrderStatus, Task>
+    IRequestHandler<RequestUpdateOrderStatus>
 {
     /// <summary>
     /// Создаёт объект <see cref="OrderUpdateStatusHandler"/>.

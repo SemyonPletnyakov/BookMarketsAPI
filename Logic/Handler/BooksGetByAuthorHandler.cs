@@ -13,7 +13,7 @@ namespace Logic.Handler;
 public sealed class BooksGetByAuthorHandler :
     IRequestHandler<
         RequestGetManyByIdWithPagination<Author, BookSorting>,
-        Task<IList<SimpleBook>>>
+        IList<SimpleBook>>
 {
     /// <summary>
     /// Создаёт объект <see cref="BooksGetByAuthorHandler"/>.

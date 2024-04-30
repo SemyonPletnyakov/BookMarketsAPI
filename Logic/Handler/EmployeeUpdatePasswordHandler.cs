@@ -7,7 +7,7 @@ using Storage.Abstractions;
 namespace Logic.Handler;
 
 public sealed class EmployeeUpdatePasswordHandler :
-    IRequestHandler<RequestUpdateEmployeePassword, Task>
+    IRequestHandler<RequestUpdateEmployeePassword>
 {
     /// <summary>
     /// Создаёт объект <see cref="EmployeeUpdatePasswordHandler"/>.

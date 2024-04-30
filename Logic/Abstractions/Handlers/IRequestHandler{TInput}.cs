@@ -3,15 +3,12 @@
 namespace Logic.Abstractions.Handlers;
 
 /// <summary>
-/// Контракт обработчика запросов с выходными параметрами.
+/// Контракт обработчика запросов без выходных параметров.
 /// </summary>
 /// <typeparam name="TInput">
 /// Запрос.
 /// </typeparam>
-/// <typeparam name="TOutput">
-/// Выходные данные.
-/// </typeparam>
-public interface IRequestHandler<TInput, TOutput>
+public interface IRequestHandler<TInput>
     where TInput : RequestBase
 {
     /// <summary>
@@ -24,9 +21,9 @@ public interface IRequestHandler<TInput, TOutput>
     /// Токен отмены.
     /// </param>
     /// <returns>
-    /// <typeparamref name="TOutput"/>.
+    /// Задача для ожидания.
     /// </returns>
-    public Task<TOutput> HandleAsync(
+    public Task HandleAsync(
         TInput request,
         CancellationToken token);
 }

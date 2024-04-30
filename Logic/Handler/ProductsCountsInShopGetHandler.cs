@@ -13,7 +13,7 @@ namespace Logic.Handler;
 public sealed class ProductsCountsInShopGetHandler :
     IRequestHandler<
         RequestGetManyByIdWithPagination<Shop, ProductCountSorting>,
-        Task<IList<ProductCount>>>
+        IList<ProductCount>>
 {
     /// <summary>
     /// Создаёт объект <see cref="ProductsCountsInShopGetHandler"/>.

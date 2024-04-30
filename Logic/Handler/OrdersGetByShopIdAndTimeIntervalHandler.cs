@@ -13,7 +13,7 @@ namespace Logic.Handler;
 public sealed class OrdersGetByShopIdAndTimeIntervalHandler :
     IRequestHandler<
         RequestGetManyByIdByTimeIntervalWithPagination<Shop, OrderSorting>,
-        Task<IList<SimleOrder>>>
+        IList<SimleOrder>>
 {
     /// <summary>
     /// Создаёт объект <see cref="OrdersGetByShopIdAndTimeIntervalHandler"/>.

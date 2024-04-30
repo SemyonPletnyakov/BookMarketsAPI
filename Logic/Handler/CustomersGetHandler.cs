@@ -11,7 +11,7 @@ namespace Logic.Handler;
 public sealed class CustomersGetHandler :
     IRequestHandler<
         RequestGetManyWithPagination<CustomerSorting>,
-        Task<IList<Customer>>>
+        IList<Customer>>
 {
     /// <summary>
     /// Создаёт объект <see cref="CustomersGetHandler"/>.

@@ -11,7 +11,7 @@ namespace Logic.Handler;
 public sealed class EmployeesGetByLastNameHandler :
     IRequestHandler<
         RequestGetManyByLastNameWithPagination<EmployeeSorting>,
-        Task<IList<Employee>>>
+        IList<Employee>>
 {
     /// <summary>
     /// Создаёт объект <see cref="EmployeesGetByLastNameHandler"/>.

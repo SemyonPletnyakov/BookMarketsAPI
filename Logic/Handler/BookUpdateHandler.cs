@@ -10,7 +10,7 @@ using BookForUpdate = Models.ForUpdate.Book;
 namespace Logic.Handler;
 
 public sealed class BookUpdateHandler :
-    IRequestHandler<RequestUpdateEntity<BookForUpdate>, Task>
+    IRequestHandler<RequestUpdateEntity<BookForUpdate>>
 {
     /// <summary>
     /// Создаёт объект <see cref="BookUpdateHandler"/>.

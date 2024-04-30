@@ -10,7 +10,7 @@ namespace Logic.Handler;
 public sealed class ProductGetByIdHandler :
     IRequestHandler<
         RequestGetOneById<Product, Product>,
-        Task<Product>>
+        Product>
 {
     /// <summary>
     /// Создаёт объект <see cref="ProductGetByIdHandler"/>.

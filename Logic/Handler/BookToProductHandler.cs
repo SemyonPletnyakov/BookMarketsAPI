@@ -7,7 +7,7 @@ using Storage.Abstractions;
 namespace Logic.Handler;
 
 public sealed class BookToProductHandler :
-    IRequestHandler<RequestRemoveProductFromBooks, Task>
+    IRequestHandler<RequestRemoveProductFromBooks>
 {
     /// <summary>
     /// Создаёт объект <see cref="BookToProductHandler"/>.

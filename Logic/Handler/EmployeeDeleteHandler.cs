@@ -8,7 +8,7 @@ using Storage.Abstractions;
 namespace Logic.Handler;
 
 public sealed class EmployeeDeleteHandler :
-    IRequestHandler<RequestDeleteEntityById<Employee, Employee>, Task>
+    IRequestHandler<RequestDeleteEntityById<Employee, Employee>>
 {
     /// <summary>
     /// Создаёт объект <see cref="EmployeeDeleteHandler"/>.

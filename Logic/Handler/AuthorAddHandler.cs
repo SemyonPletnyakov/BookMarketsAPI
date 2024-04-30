@@ -9,7 +9,7 @@ using AuthorWithoutId = Models.ForCreate.Author;
 namespace Logic.Handler;
 
 public sealed class AuthorAddHandler :
-    IRequestHandler<RequestAddEntity<AuthorWithoutId>, Task>
+    IRequestHandler<RequestAddEntity<AuthorWithoutId>>
 {
     /// <summary>
     /// Создаёт объект <see cref="AuthorAddHandler"/>.

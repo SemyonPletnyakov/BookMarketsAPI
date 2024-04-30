@@ -11,7 +11,7 @@ namespace Logic.Handler;
 public sealed class OrdersGetByTimeIntervalHandler :
     IRequestHandler<
         RequestGetManyByTimeIntervalWithPagination<OrderSorting>,
-        Task<IList<Order>>>
+        IList<Order>>
 {
     /// <summary>
     /// Создаёт объект <see cref="OrdersGetByTimeIntervalHandler"/>.

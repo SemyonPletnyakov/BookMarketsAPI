@@ -13,7 +13,7 @@ namespace Logic.Handler;
 public sealed class ProductsGetByNameHandler :
     IRequestHandler<
         RequestGetManyByNameWithPagination<Product, ProductSorting>,
-        Task<IList<SimpleProduct>>>
+        IList<SimpleProduct>>
 {
     /// <summary>
     /// Создаёт объект <see cref="ProductsGetByNameHandler"/>.
