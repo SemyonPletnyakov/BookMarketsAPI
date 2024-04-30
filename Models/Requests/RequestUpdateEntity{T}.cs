@@ -29,9 +29,10 @@ public record RequestUpdateEntity<T> : RequestBase
     /// </exception>
     public RequestUpdateEntity(T entity)
         : base(
-            new OperationDescriprion(
+            new OperationDescriptionWithTargetEntity<T>(
                 OperationType.Update,
-                GetEntityTypeByEntity<T>()))
+                GetEntityTypeByEntity<T>(),
+                entity))
     {
         Entity = entity ?? throw new ArgumentNullException(nameof(entity));
     }

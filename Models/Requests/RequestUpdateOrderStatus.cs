@@ -34,9 +34,10 @@ public record RequestUpdateOrderStatus : RequestBase
     /// </exception>
     public RequestUpdateOrderStatus(Id<Order> id, OrderStatus status)
         : base(
-            new OperationDescriprion(
+            new OperationDescriptionWithTargetEntity<Id<Order>>(
                 OperationType.Update,
-                EntityType.Order))
+                EntityType.Order,
+                id))
     {
         Id = id ?? throw new ArgumentNullException(nameof(id));
         Status = status;

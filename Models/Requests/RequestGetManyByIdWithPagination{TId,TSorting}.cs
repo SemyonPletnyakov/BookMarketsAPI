@@ -44,9 +44,10 @@ public record RequestGetManyByIdWithPagination<TId, TSorting> : RequestBase
         Id<TId> id,
         PaginationInfo<TSorting> paginationInfo)
         : base(
-            new OperationDescriprion(
+            new OperationDescriptionWithTargetEntity<Id<TId>>(
                 OperationType.Get,
-                GetEntityTypeBySortingType<TSorting>()))
+                GetEntityTypeBySortingType<TSorting>(),
+                id))
     {
         Id = id ?? throw new ArgumentNullException(nameof(id));
 

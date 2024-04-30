@@ -5,7 +5,7 @@ namespace Models.Autorization;
 /// <summary>
 /// Данные покупателя для JWT-токена.
 /// </summary>
-public sealed record CustomerAutorizationData
+public sealed record CustomerAutorizationData : AutorizationData
 {
     /// <summary>
     /// Идентификатор покупателя.

@@ -18,7 +18,7 @@ public sealed class Order
     public Customer Customer { get; set; }
 
     /// <summary>
-    /// Магазин, в котором работает сотрудник.
+    /// Магазин.
     /// </summary>
     public Shop Shop { get; set; }
 

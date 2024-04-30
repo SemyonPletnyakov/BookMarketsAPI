@@ -8,7 +8,7 @@ public sealed class Customer
     /// <summary>
     /// Идентификатор покупателя.
     /// </summary>
-    public Id<Employee> CustomerId { get; set; }
+    public Id<Customer> CustomerId { get; set; }
 
     /// <summary>
     /// Полное имя.
@@ -61,7 +61,7 @@ public sealed class Customer
     /// или <paramref name="password"/> равен <see langword="null"/>.
     /// </exception>
     public Customer(
-        Id<Employee> customerId,
+        Id<Customer> customerId,
         FullName? fullName,
         DateOnly? birthDate,
         Phone? phone,

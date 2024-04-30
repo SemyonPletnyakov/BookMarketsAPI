@@ -7,7 +7,7 @@ namespace Models.Requests.BaseRequests;
 /// <summary>
 /// Базовый класс всех запросов.
 /// </summary>
-public record RequestBase
+public abstract record RequestBase
 {
     /// <summary>
     /// Описание операции.
@@ -98,7 +98,6 @@ public record RequestBase
             { typeof(FullEntities.Order), EntityType.Order },
             { typeof(ForCreate.ProductCount), EntityType.ProductCount },
             { typeof(SimpleEntities.ProductCount), EntityType.ProductCount },
-            { typeof(), EntityType.Product },
             { typeof(ForCreate.Product), EntityType.Product },
             { typeof(FullEntities.Product), EntityType.Product },
             { typeof(SimpleEntities.Product), EntityType.Product },

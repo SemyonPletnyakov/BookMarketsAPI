@@ -8,7 +8,7 @@ public sealed class Order
     /// <summary>
     /// Идентификатор покупателя.
     /// </summary>
-    public Id<FullEntities.Employee> CustomerId { get; set; }
+    public Id<FullEntities.Customer> CustomerId { get; set; }
 
     /// <summary>
     /// Идентификатор магазина.
@@ -54,7 +54,7 @@ public sealed class Order
     /// равен <see langword="null"/>.
     /// </exception>
     public Order(
-        Id<FullEntities.Employee> customerId,
+        Id<FullEntities.Customer> customerId,
         Id<FullEntities.Shop> shopId, 
         DateTimeOffset dateTime, 
         OrderStatus orderStatus, 

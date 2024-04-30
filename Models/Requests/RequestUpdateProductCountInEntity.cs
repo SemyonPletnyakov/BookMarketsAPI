@@ -49,9 +49,10 @@ public sealed record class RequestUpdateProductCountInEntity<T> : RequestBase
         Id<Product> productId, 
         Count count)
         : base(
-            new OperationDescriprion(
+            new OperationDescriptionWithTargetEntity<Id<T>>(
                 OperationType.Update,
-                GetEntityTypeByEntity<SimpleEntities.ProductCount>()))
+                GetEntityTypeByEntity<SimpleEntities.ProductCount>(),
+                entityId))
     {
         EntityId = entityId ?? throw new ArgumentNullException(nameof(entityId));
         ProductId = productId ?? throw new ArgumentNullException(nameof(productId));

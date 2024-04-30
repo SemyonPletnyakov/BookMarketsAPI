@@ -26,9 +26,10 @@ public record RequestAddProductInBooks : RequestBase
     /// </exception>
     public RequestAddProductInBooks(Id<Product> productId)
         : base(
-            new OperationDescriprion(
+            new OperationDescriptionWithTargetEntity<Id<Product>>(
                 OperationType.Update,
-                EntityType.Product))
+                EntityType.Product,
+                productId))
     {
         ProductId = productId ?? throw new ArgumentNullException(nameof(productId));
     }

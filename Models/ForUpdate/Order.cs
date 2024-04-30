@@ -10,7 +10,7 @@ public sealed class Order
     /// <summary>
     /// Идентификатор заказа.
     /// </summary>
-    public Id<Order> OrderId { get; set; }
+    public Id<FullEntities.Order> OrderId { get; set; }
 
     /// <summary>
     /// Покупатель.
@@ -18,7 +18,7 @@ public sealed class Order
     public Customer Customer { get; set; }
 
     /// <summary>
-    /// Магазин, в котором работает сотрудник.
+    /// Магазин.
     /// </summary>
     public FullEntities.Shop Shop { get; set; }
 
@@ -64,9 +64,9 @@ public sealed class Order
     /// или <paramref name="productsInOrder"/> равен <see langword="null"/>.
     /// </exception>
     public Order(
-        Id<Order> orderId,
+        Id<FullEntities.Order> orderId,
         Customer customer,
-        FullEntities.hop shop,
+        FullEntities.Shop shop,
         DateTimeOffset dateTime,
         OrderStatus orderStatus,
         List<ProductInfoInOrder> productsInOrder)

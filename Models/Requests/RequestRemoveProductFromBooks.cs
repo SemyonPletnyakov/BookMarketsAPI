@@ -26,9 +26,10 @@ public record RequestRemoveProductFromBooks : RequestBase
     /// </exception>
     public RequestRemoveProductFromBooks(Id<Product> productId)
         : base(
-            new OperationDescriprion(
+            new OperationDescriptionWithTargetEntity<Id<Product>>(
                 OperationType.Update,
-                GetEntityTypeByEntity<Book>()))
+                GetEntityTypeByEntity<Book>(),
+                productId))
     {
         ProductId = productId ?? throw new ArgumentNullException(nameof(productId));
     }

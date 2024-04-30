@@ -6,7 +6,7 @@ namespace Models.Autorization;
 /// <summary>
 /// Данные сотрудника для JWT-токена.
 /// </summary>
-public sealed record EmployeeAutorizationData
+public sealed record EmployeeAutorizationData : AutorizationData
 {
     /// <summary>
     /// Идентификатор сотрудника.

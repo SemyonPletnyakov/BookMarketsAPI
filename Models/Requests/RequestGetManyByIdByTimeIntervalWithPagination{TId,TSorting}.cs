@@ -63,9 +63,10 @@ public record RequestGetManyByIdByTimeIntervalWithPagination<TId, TSorting> : Re
         DateTime startDate,
         DateTime endDate)
         : base(
-            new OperationDescriprion(
+            new OperationDescriptionWithTargetEntity<Id<TId>>(
                 OperationType.Get,
-                GetEntityTypeBySortingType<TSorting>()))
+                GetEntityTypeBySortingType<TSorting>(),
+                id))
     {
         Id = id ?? throw new ArgumentNullException(nameof(id));
 

@@ -32,9 +32,10 @@ public record RequestGetOneById<TId, TGettedEntity> : RequestBase
     /// </exception>
     public RequestGetOneById(Id<TId> id)
         : base(
-            new OperationDescriprion(
+            new OperationDescriptionWithTargetEntity<Id<TId>>(
                 OperationType.Get,
-                GetEntityTypeByEntity<TGettedEntity>()))
+                GetEntityTypeByEntity<TGettedEntity>(),
+                id))
     {
         Id = id ?? throw new ArgumentNullException(nameof(id));
     }

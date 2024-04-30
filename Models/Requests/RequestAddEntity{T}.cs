@@ -29,9 +29,10 @@ public record RequestAddEntity<T> : RequestBase
     /// </exception>
     public RequestAddEntity(T entity)
         : base(
-            new OperationDescriprion(
+            new OperationDescriptionWithTargetEntity<T>(
                 OperationType.Add,
-                GetEntityTypeByEntity<T>()))
+                GetEntityTypeByEntity<T>(),
+                entity))
     {
         Entity = entity ?? throw new ArgumentNullException(nameof(entity));
     }

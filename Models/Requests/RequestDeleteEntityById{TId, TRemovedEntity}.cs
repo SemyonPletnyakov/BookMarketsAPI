@@ -31,9 +31,10 @@ public record RequestDeleteEntityById<TId, TRemovedEntity> : RequestBase
     /// </exception>
     public RequestDeleteEntityById(Id<TId> entityId)
         : base(
-            new OperationDescriprion(
+            new OperationDescriptionWithTargetEntity<Id<TId>>(
                 OperationType.Delete,
-                GetEntityTypeByEntity<TRemovedEntity>()))
+                GetEntityTypeByEntity<TRemovedEntity>(),
+                entityId))
     {
         EntityId = entityId ?? throw new ArgumentNullException(nameof(entityId));
     }
