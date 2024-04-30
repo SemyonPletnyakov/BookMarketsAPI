@@ -4,15 +4,12 @@ using Models.Requests.BaseRequests;
 namespace Logic.Abstractions.Processors;
 
 /// <summary>
-/// Контракт процессора запросов с авторизацией с возвращаемыми данными.
+/// Контракт процессора запросов с авторизацией без возвращаемых данных.
 /// </summary>
 /// <typeparam name="TInput">
 /// Запрос.
 /// </typeparam>
-/// <typeparam name="TOutput">
-/// Выходные данные.
-/// </typeparam>
-public interface IRequestProcessorWithAuthorize<TInput, TOutput> 
+public interface IRequestProcessorWithAuthorize<TInput> 
     where TInput : RequestBase
 {
     /// <summary>
@@ -28,9 +25,9 @@ public interface IRequestProcessorWithAuthorize<TInput, TOutput>
     /// Токен отмены.
     /// </param>
     /// <returns>
-    /// <typeparamref name="TOutput"/>.
+    /// Задача для ожидания.
     /// </returns>
-    public Task<TOutput> ProcessAsync(
+    public Task ProcessAsync(
         TInput request, 
         JwtToken jwtToken, 
         CancellationToken token);

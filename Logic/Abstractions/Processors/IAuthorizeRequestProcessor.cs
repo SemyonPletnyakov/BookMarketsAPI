@@ -4,7 +4,7 @@ using Models.Autorization;
 namespace Logic.Abstractions.Processors;
 
 /// <summary>
-/// Процессор запросов авторизации.
+/// Контракт процессора запросов авторизации.
 /// </summary>
 public interface IAuthorizeRequestProcessor
 {
