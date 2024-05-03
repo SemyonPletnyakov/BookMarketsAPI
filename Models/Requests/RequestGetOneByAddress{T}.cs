@@ -21,13 +21,13 @@ public record RequestGetOneByAddress<T> : RequestBase
     /// <summary>
     /// Создаёт объект типа <see cref="RequestGetOneByAddress{T}"/>
     /// </summary>
-    /// <param name="login">
+    /// <param name="address">
     /// Адрес.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    /// Если <paramref name="login"/> равен <see langword="null"/>.
+    /// Если <paramref name="address"/> равен <see langword="null"/>.
     /// </exception>
-    public RequestGetOneByAddress(Address login)
+    public RequestGetOneByAddress(Address address)
         : base(
             new OperationDescriprion(
                 typeof(T) == typeof(Address)
@@ -35,6 +35,6 @@ public record RequestGetOneByAddress<T> : RequestBase
                     : OperationType.Get,
                 GetEntityTypeByEntity<T>()))
     {
-        Address = login ?? throw new ArgumentNullException(nameof(login));
+        Address = address ?? throw new ArgumentNullException(nameof(address));
     }
 }

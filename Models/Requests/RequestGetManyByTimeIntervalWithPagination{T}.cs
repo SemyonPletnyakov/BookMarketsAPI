@@ -47,8 +47,8 @@ public record RequestGetManyByTimeIntervalWithPagination<T> : RequestBase
     /// </exception>
     public RequestGetManyByTimeIntervalWithPagination(
         PaginationInfo<T> paginationInfo,
-        DateTime startDate,
-        DateTime endDate)
+        DateTimeOffset startDate,
+        DateTimeOffset endDate)
         : base(
             new OperationDescriprion(
                 OperationType.Get,

@@ -60,8 +60,8 @@ public record RequestGetManyByIdByTimeIntervalWithPagination<TId, TSorting> : Re
     public RequestGetManyByIdByTimeIntervalWithPagination(
         Id<TId> id, 
         PaginationInfo<TSorting> paginationInfo,
-        DateTime startDate,
-        DateTime endDate)
+        DateTimeOffset startDate,
+        DateTimeOffset endDate)
         : base(
             new OperationDescriptionWithTargetEntity<Id<TId>>(
                 OperationType.Get,
