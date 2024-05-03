@@ -18,7 +18,7 @@ public sealed class Book
     /// <summary>
     /// Описание.
     /// </summary>
-    public required string Description { get; set; }
+    public required string? Description { get; set; }
 
     /// <summary>
     /// Цена.

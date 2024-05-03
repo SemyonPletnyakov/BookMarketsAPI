@@ -8,7 +8,7 @@ public sealed class Order
     /// <summary>
     /// Идентификатор покупателя.
     /// </summary>
-    public int Customer { get; set; }
+    public int CustomerId { get; set; }
 
     /// <summary>
     /// Идентификатор магазина.

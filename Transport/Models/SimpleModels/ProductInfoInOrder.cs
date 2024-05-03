@@ -18,5 +18,5 @@ public class ProductInfoInOrder
     /// <summary>
     /// Цена товара на момент заказа.
     /// </summary>
-    public decimal ActualPrice { get; }
+    public decimal ActualPrice { get; set; }
 }

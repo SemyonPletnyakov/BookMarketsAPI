@@ -13,7 +13,7 @@ public sealed class Product
     /// <summary>
     /// Описание.
     /// </summary>
-    public required string Description { get; set; }
+    public required string? Description { get; set; }
 
     /// <summary>
     /// Цена.

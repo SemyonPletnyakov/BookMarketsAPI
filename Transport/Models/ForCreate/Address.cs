@@ -28,7 +28,7 @@ public sealed class Address
     /// <summary>
     /// Район.
     /// </summary>
-    public required? District { get; set; }
+    public string? District { get; set; }
 
     /// <summary>
     /// Улица.

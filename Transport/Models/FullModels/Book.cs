@@ -8,7 +8,7 @@ public sealed class Book
     /// <summary>
     /// Идентификатор.
     /// </summary>
-    public int ProductId { get; }
+    public int ProductId { get; set; }
 
     /// <summary>
     /// Название.
@@ -18,7 +18,7 @@ public sealed class Book
     /// <summary>
     /// Описание.
     /// </summary>
-    public required string Description { get; set; }
+    public required string? Description { get; set; }
 
     /// <summary>
     /// Цена.

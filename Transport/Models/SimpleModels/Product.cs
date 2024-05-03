@@ -8,7 +8,7 @@ public sealed class Product
     /// <summary>
     /// Идентификатор.
     /// </summary>
-    public int ProductId { get; }
+    public int ProductId { get; set; }
 
     /// <summary>
     /// Название.
