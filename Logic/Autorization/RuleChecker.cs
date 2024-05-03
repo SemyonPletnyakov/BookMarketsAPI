@@ -109,7 +109,7 @@ public sealed class RuleChecker : IRuleChecker
                     && ((operationDescriprion is OperationDescriptionWithTargetEntity<Id<Shop>> descShop 
                             && await CheckEmployeeIdInShopAsync(employee.EmployeeId, descShop.Entity, token))
                         || (operationDescriprion is OperationDescriptionWithTargetEntity<Id<Warehouse>> descWarehouse
-                            && await CheckEmployeeIdInWarehouseAsync(employee.EmployeeId, descWarehouse.Entity, token))
+                            && await CheckEmployeeIdInWarehouseAsync(employee.EmployeeId, descWarehouse.Entity, token)))
                 => true,
 
             (OperationType.Get, EntityType.Customer)
