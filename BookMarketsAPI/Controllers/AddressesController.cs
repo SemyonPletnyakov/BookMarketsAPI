@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
+using BookMarketsAPI.Helpers;
+
 using Logic.Abstractions.Processors;
 
-using Models.Requests;
 using Models;
+using Models.FullEntities;
+using Models.Exceptions;
+using Models.Requests;
 
-using Transport.Models.ForCreate;
+using AddressWithoutId = Models.ForCreate.Address;
 
 namespace BookMarketsAPI.Controllers;
 
@@ -47,9 +51,44 @@ public class AddressesController : ControllerBase
     /// </returns>
     [HttpPost]
     //авторизация
-    public async Task<IActionResult> GetIdOrAddAddressAsync(Address address, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetIdOrAddAddressAsync(Transport.Models.ForCreate.Address address, CancellationToken cancellationToken)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            var id = await _getOrAddAddressProcessor.ProcessAsync(
+                new(new(
+                    address.Country,
+                    address.RegionNumber,
+                    address.RegionName,
+                    address.City,
+                    address.District,
+                    address.Street,
+                    address.House,
+                    address.Room)),
+                jwtToken,
+                cancellationToken);
+
+            var response = new Transport.Models.Ids.Address 
+            { 
+                AddressId = id.Value 
+            };
+
+            return Ok(response);
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     private readonly IRequestProcessorWithAuthorize<RequestGetOneByAddress<Id<Address>>, Id<Address>> _getOrAddAddressProcessor;

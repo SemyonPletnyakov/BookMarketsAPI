@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+using BookMarketsAPI.Helpers;
+
 using Logic.Abstractions.Processors;
 
+using Models.Exceptions;
 using Models.FullEntities;
 using Models.Pagination.Sorting;
 using Models.Requests;
@@ -94,7 +97,26 @@ public class ProductsController : ControllerBase
         int productId,
         CancellationToken token)
     {
+        try
+        {
+            var product = 
+                await _getProductByIdProcessor.ProcessAsync(new(new(productId)), token);
 
+            var transportProduct = new Transport.Models.FullModels.Product
+            {
+                ProductId = product.ProductId.Value,
+                Description = product.Description?.Value,
+                Price = product.Price.Value,
+                Name = product.Name.Value,
+                KeyWords = product.KeyWords
+            };
+
+            return Ok(transportProduct);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
     }
 
     /// <summary>
@@ -122,7 +144,18 @@ public class ProductsController : ControllerBase
         ProductSorting order,
         CancellationToken token)
     {
+        var books =
+            (await _getProductsProcessor.ProcessAsync(new(new(size, number, order)), token))
+                .Select(a =>
+                    new Transport.Models.SimpleModels.Product
+                    {
+                        ProductId = a.ProductId.Value,
+                        Price = a.Price.Value,
+                        Name = a.Name.Value,
+                        KeyWords = a.KeyWords
+                    }).ToArray();
 
+        return Ok(books);
     }
 
     /// <summary>
@@ -154,7 +187,22 @@ public class ProductsController : ControllerBase
         ProductSorting order,
         CancellationToken token)
     {
+        var products =
+            (await _getProductsByNameProcessor
+                .ProcessAsync(
+                    new(new(name),
+                    new(size, number, order)),
+                    token))
+                .Select(a =>
+                    new Transport.Models.SimpleModels.Product
+                    {
+                        ProductId = a.ProductId.Value,
+                        Price = a.Price.Value,
+                        Name = a.Name.Value,
+                        KeyWords = a.KeyWords
+                    }).ToArray();
 
+        return Ok(products);
     }
 
     /// <summary>
@@ -186,7 +234,22 @@ public class ProductsController : ControllerBase
         ProductSorting order,
         CancellationToken token)
     {
+        var products =
+            (await _getProductsByKeywordsProcessor
+                .ProcessAsync(
+                    new(keyWords,
+                    new(size, number, order)),
+                    token))
+                .Select(a =>
+                    new Transport.Models.SimpleModels.Product
+                    {
+                        ProductId = a.ProductId.Value,
+                        Price = a.Price.Value,
+                        Name = a.Name.Value,
+                        KeyWords = a.KeyWords
+                    }).ToArray();
 
+        return Ok(products);
     }
 
     /// <summary>
@@ -207,7 +270,34 @@ public class ProductsController : ControllerBase
         Transport.Models.ForCreate.Product product,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            await _addProductProcessor.ProcessAsync(
+                new(new(new(product.Name),
+                        product.Description is null
+                            ? null
+                            : new(product.Description),
+                        new(product.Price),
+                        product.KeyWords?.ToHashSet())),
+                jwtToken,
+                token);
+
+            return Created();
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -228,7 +318,39 @@ public class ProductsController : ControllerBase
         Transport.Models.FullModels.Product product,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            await _updateProductProcessor.ProcessAsync(
+                new(new(new(product.ProductId),
+                        new(product.Name),
+                        product.Description is null
+                            ? null
+                            : new(product.Description),
+                        new(product.Price),
+                        product.KeyWords?.ToHashSet())),
+                jwtToken,
+                token);
+
+            return Accepted();
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -249,7 +371,33 @@ public class ProductsController : ControllerBase
         Transport.Models.Ids.Product productId,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            await _productToBookProcessor.ProcessAsync(
+                new(new(productId.ProductId)),
+                jwtToken,
+                token);
+
+            return Accepted();
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -270,7 +418,33 @@ public class ProductsController : ControllerBase
         Transport.Models.Ids.Product productId,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            await _deleteProductProcessor.ProcessAsync(
+                new(new(productId.ProductId)),
+                jwtToken,
+                token);
+
+            return Accepted();
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     private readonly IRequestProcessorWithoutAuthorize<RequestGetOneById<Product, Product>, Product> _getProductByIdProcessor;

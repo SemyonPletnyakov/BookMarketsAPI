@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+using BookMarketsAPI.Helpers;
+
 using Logic.Abstractions.Processors;
 
+using Models;
+using Models.Exceptions;
 using Models.FullEntities;
 using Models.Pagination.Sorting;
 using Models.Requests;
@@ -52,8 +56,8 @@ public class OrdersController : ControllerBase
         IRequestProcessorWithAuthorize<RequestGetManyByTimeIntervalWithPagination<OrderSorting>, IList<SimleOrder>> getOrdersByTimeIntervalProcessor, 
         IRequestProcessorWithAuthorize<RequestGetManyByIdWithPagination<Shop, OrderSorting>, IList<SimleOrder>> getOrdersByShopIdProcessor, 
         IRequestProcessorWithAuthorize<RequestGetManyByIdByTimeIntervalWithPagination<Shop, OrderSorting>, IList<SimleOrder>> getOrdersByShopIdAndTimeIntervalProcessor, 
-        IRequestProcessorWithAuthorize<RequestGetManyByIdByTimeIntervalWithPagination<Customer, OrderSorting>, IList<SimleOrder>> getOrdersByCustomerIdProcessor, 
-        IRequestProcessorWithAuthorize<RequestGetManyByIdWithPagination<Customer, OrderSorting>, IList<SimleOrder>> getOrdersByCustomerIdAndTimeIntervalProcessor, 
+        IRequestProcessorWithAuthorize<RequestGetManyByIdWithPagination<Customer, OrderSorting>, IList<SimleOrder>> getOrdersByCustomerIdProcessor,
+        IRequestProcessorWithAuthorize<RequestGetManyByIdByTimeIntervalWithPagination<Customer, OrderSorting>, IList<SimleOrder>> getOrdersByCustomerIdAndTimeIntervalProcessor, 
         IRequestProcessorWithAuthorize<RequestAddEntity<OrderWithoutId>> addOrderProcessor, IRequestProcessorWithAuthorize<RequestUpdateOrderStatus> updateOrderStatusProcessor)
     {
         _getOrdersProcessor = getOrdersProcessor 
@@ -100,7 +104,75 @@ public class OrdersController : ControllerBase
         OrderSorting order,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            var orders =
+                (await _getOrdersProcessor.ProcessAsync(
+                        new(new(size, number, order)),
+                        jwtToken,
+                        token))
+                    .Select(order =>
+                        new Transport.Models.ForUpdate.Order
+                        {
+                            OrderId = order.OrderId.Value,
+                            DateTime = order.DateTime,
+                            OrderStatus = order.OrderStatus,
+                            Shop = new()
+                            {
+                                ShopId = order.Shop.ShopId.Value,
+                                Name = order.Shop.Name?.Value,
+                                OpeningTime = order.Shop.OpeningTime,
+                                ClosingTime = order.Shop.ClosingTime,
+                                Address = new() 
+                                { 
+                                    AddressId = order.Shop.Address.AddressId.Value,
+                                    Country = order.Shop.Address.Country,
+                                    RegionNumber = order.Shop.Address.RegionNumber,
+                                    RegionName = order.Shop.Address.RegionName,
+                                    City = order.Shop.Address.City,
+                                    District = order.Shop.Address.District,
+                                    Street = order.Shop.Address.Street,
+                                    House = order.Shop.Address.House,
+                                    Room = order.Shop.Address.Room
+                                }
+                            },
+                            Customer = new()
+                            {
+                                CustomerId = order.Customer.CustomerId.Value,
+                                BirthDate = order.Customer.BirthDate,
+                                Email = order.Customer.Email.Value,
+                                Phone = order.Customer.Phone?.Value,
+                                LastName = order.Customer.FullName?.LastName,
+                                FirstName = order.Customer.FullName?.FirstName,
+                                Patronymic = order.Customer.FullName?.Patronymic
+                            },
+                            ProductsInOrder = order.ProductsInOrder
+                                .Select(product => 
+                                    new Transport.Models.SimpleModels.ProductInfoInOrder
+                                    {
+                                        ProductId = product.ProductId.Value,
+                                        Count = product.ProductId.Value,
+                                        ActualPrice = product.ActualPrice.Value
+                                    })
+                                .ToList(),
+                        }).ToArray();
+
+            return Ok(orders);
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -134,10 +206,78 @@ public class OrdersController : ControllerBase
         DateTimeOffset endDate,
         int size,
         int number,
-        CustomerSorting order,
+        OrderSorting order,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            var orders =
+                (await _getOrdersByTimeIntervalProcessor.ProcessAsync(
+                        new(new(size, number, order), startDate, endDate),
+                        jwtToken,
+                        token))
+                    .Select(order =>
+                        new Transport.Models.ForUpdate.Order
+                        {
+                            OrderId = order.OrderId.Value,
+                            DateTime = order.DateTime,
+                            OrderStatus = order.OrderStatus,
+                            Shop = new()
+                            {
+                                ShopId = order.Shop.ShopId.Value,
+                                Name = order.Shop.Name?.Value,
+                                OpeningTime = order.Shop.OpeningTime,
+                                ClosingTime = order.Shop.ClosingTime,
+                                Address = new()
+                                {
+                                    AddressId = order.Shop.Address.AddressId.Value,
+                                    Country = order.Shop.Address.Country,
+                                    RegionNumber = order.Shop.Address.RegionNumber,
+                                    RegionName = order.Shop.Address.RegionName,
+                                    City = order.Shop.Address.City,
+                                    District = order.Shop.Address.District,
+                                    Street = order.Shop.Address.Street,
+                                    House = order.Shop.Address.House,
+                                    Room = order.Shop.Address.Room
+                                }
+                            },
+                            Customer = new()
+                            {
+                                CustomerId = order.Customer.CustomerId.Value,
+                                BirthDate = order.Customer.BirthDate,
+                                Email = order.Customer.Email.Value,
+                                Phone = order.Customer.Phone?.Value,
+                                LastName = order.Customer.FullName?.LastName,
+                                FirstName = order.Customer.FullName?.FirstName,
+                                Patronymic = order.Customer.FullName?.Patronymic
+                            },
+                            ProductsInOrder = order.ProductsInOrder
+                                .Select(product =>
+                                    new Transport.Models.SimpleModels.ProductInfoInOrder
+                                    {
+                                        ProductId = product.ProductId.Value,
+                                        Count = product.ProductId.Value,
+                                        ActualPrice = product.ActualPrice.Value
+                                    })
+                                .ToList(),
+                        }).ToArray();
+
+            return Ok(orders);
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -167,10 +307,82 @@ public class OrdersController : ControllerBase
         int shopId,
         int size,
         int number,
-        CustomerSorting order,
+        OrderSorting order,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            var orders =
+                (await _getOrdersByShopIdProcessor.ProcessAsync(
+                        new(new(shopId), new(size, number, order)),
+                        jwtToken,
+                        token))
+                    .Select(order =>
+                        new Transport.Models.ForUpdate.Order
+                        {
+                            OrderId = order.OrderId.Value,
+                            DateTime = order.DateTime,
+                            OrderStatus = order.OrderStatus,
+                            Shop = new()
+                            {
+                                ShopId = order.Shop.ShopId.Value,
+                                Name = order.Shop.Name?.Value,
+                                OpeningTime = order.Shop.OpeningTime,
+                                ClosingTime = order.Shop.ClosingTime,
+                                Address = new()
+                                {
+                                    AddressId = order.Shop.Address.AddressId.Value,
+                                    Country = order.Shop.Address.Country,
+                                    RegionNumber = order.Shop.Address.RegionNumber,
+                                    RegionName = order.Shop.Address.RegionName,
+                                    City = order.Shop.Address.City,
+                                    District = order.Shop.Address.District,
+                                    Street = order.Shop.Address.Street,
+                                    House = order.Shop.Address.House,
+                                    Room = order.Shop.Address.Room
+                                }
+                            },
+                            Customer = new()
+                            {
+                                CustomerId = order.Customer.CustomerId.Value,
+                                BirthDate = order.Customer.BirthDate,
+                                Email = order.Customer.Email.Value,
+                                Phone = order.Customer.Phone?.Value,
+                                LastName = order.Customer.FullName?.LastName,
+                                FirstName = order.Customer.FullName?.FirstName,
+                                Patronymic = order.Customer.FullName?.Patronymic
+                            },
+                            ProductsInOrder = order.ProductsInOrder
+                                .Select(product =>
+                                    new Transport.Models.SimpleModels.ProductInfoInOrder
+                                    {
+                                        ProductId = product.ProductId.Value,
+                                        Count = product.ProductId.Value,
+                                        ActualPrice = product.ActualPrice.Value
+                                    })
+                                .ToList(),
+                        }).ToArray();
+
+            return Ok(orders);
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -208,10 +420,82 @@ public class OrdersController : ControllerBase
         DateTimeOffset endDate,
         int size,
         int number,
-        CustomerSorting order,
+        OrderSorting order,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            var orders =
+                (await _getOrdersByShopIdAndTimeIntervalProcessor.ProcessAsync(
+                        new(new(shopId), new(size, number, order), startDate, endDate),
+                        jwtToken,
+                        token))
+                    .Select(order =>
+                        new Transport.Models.ForUpdate.Order
+                        {
+                            OrderId = order.OrderId.Value,
+                            DateTime = order.DateTime,
+                            OrderStatus = order.OrderStatus,
+                            Shop = new()
+                            {
+                                ShopId = order.Shop.ShopId.Value,
+                                Name = order.Shop.Name?.Value,
+                                OpeningTime = order.Shop.OpeningTime,
+                                ClosingTime = order.Shop.ClosingTime,
+                                Address = new()
+                                {
+                                    AddressId = order.Shop.Address.AddressId.Value,
+                                    Country = order.Shop.Address.Country,
+                                    RegionNumber = order.Shop.Address.RegionNumber,
+                                    RegionName = order.Shop.Address.RegionName,
+                                    City = order.Shop.Address.City,
+                                    District = order.Shop.Address.District,
+                                    Street = order.Shop.Address.Street,
+                                    House = order.Shop.Address.House,
+                                    Room = order.Shop.Address.Room
+                                }
+                            },
+                            Customer = new()
+                            {
+                                CustomerId = order.Customer.CustomerId.Value,
+                                BirthDate = order.Customer.BirthDate,
+                                Email = order.Customer.Email.Value,
+                                Phone = order.Customer.Phone?.Value,
+                                LastName = order.Customer.FullName?.LastName,
+                                FirstName = order.Customer.FullName?.FirstName,
+                                Patronymic = order.Customer.FullName?.Patronymic
+                            },
+                            ProductsInOrder = order.ProductsInOrder
+                                .Select(product =>
+                                    new Transport.Models.SimpleModels.ProductInfoInOrder
+                                    {
+                                        ProductId = product.ProductId.Value,
+                                        Count = product.ProductId.Value,
+                                        ActualPrice = product.ActualPrice.Value
+                                    })
+                                .ToList(),
+                        }).ToArray();
+
+            return Ok(orders);
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -241,10 +525,78 @@ public class OrdersController : ControllerBase
         int customerId,
         int size,
         int number,
-        CustomerSorting order,
+        OrderSorting order,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            var orders =
+                (await _getOrdersByCustomerIdProcessor.ProcessAsync(
+                        new(new(customerId), new(size, number, order)),
+                        jwtToken,
+                        token))
+                    .Select(order =>
+                        new Transport.Models.ForUpdate.Order
+                        {
+                            OrderId = order.OrderId.Value,
+                            DateTime = order.DateTime,
+                            OrderStatus = order.OrderStatus,
+                            Shop = new()
+                            {
+                                ShopId = order.Shop.ShopId.Value,
+                                Name = order.Shop.Name?.Value,
+                                OpeningTime = order.Shop.OpeningTime,
+                                ClosingTime = order.Shop.ClosingTime,
+                                Address = new()
+                                {
+                                    AddressId = order.Shop.Address.AddressId.Value,
+                                    Country = order.Shop.Address.Country,
+                                    RegionNumber = order.Shop.Address.RegionNumber,
+                                    RegionName = order.Shop.Address.RegionName,
+                                    City = order.Shop.Address.City,
+                                    District = order.Shop.Address.District,
+                                    Street = order.Shop.Address.Street,
+                                    House = order.Shop.Address.House,
+                                    Room = order.Shop.Address.Room
+                                }
+                            },
+                            Customer = new()
+                            {
+                                CustomerId = order.Customer.CustomerId.Value,
+                                BirthDate = order.Customer.BirthDate,
+                                Email = order.Customer.Email.Value,
+                                Phone = order.Customer.Phone?.Value,
+                                LastName = order.Customer.FullName?.LastName,
+                                FirstName = order.Customer.FullName?.FirstName,
+                                Patronymic = order.Customer.FullName?.Patronymic
+                            },
+                            ProductsInOrder = order.ProductsInOrder
+                                .Select(product =>
+                                    new Transport.Models.SimpleModels.ProductInfoInOrder
+                                    {
+                                        ProductId = product.ProductId.Value,
+                                        Count = product.ProductId.Value,
+                                        ActualPrice = product.ActualPrice.Value
+                                    })
+                                .ToList(),
+                        }).ToArray();
+
+            return Ok(orders);
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
     }
 
     /// <summary>
@@ -282,10 +634,82 @@ public class OrdersController : ControllerBase
         DateTimeOffset endDate,
         int size,
         int number,
-        CustomerSorting order,
+        OrderSorting order,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            var orders =
+                (await _getOrdersByCustomerIdAndTimeIntervalProcessor.ProcessAsync(
+                        new(new(customerId), new(size, number, order), startDate, endDate),
+                        jwtToken,
+                        token))
+                    .Select(order =>
+                        new Transport.Models.ForUpdate.Order
+                        {
+                            OrderId = order.OrderId.Value,
+                            DateTime = order.DateTime,
+                            OrderStatus = order.OrderStatus,
+                            Shop = new()
+                            {
+                                ShopId = order.Shop.ShopId.Value,
+                                Name = order.Shop.Name?.Value,
+                                OpeningTime = order.Shop.OpeningTime,
+                                ClosingTime = order.Shop.ClosingTime,
+                                Address = new()
+                                {
+                                    AddressId = order.Shop.Address.AddressId.Value,
+                                    Country = order.Shop.Address.Country,
+                                    RegionNumber = order.Shop.Address.RegionNumber,
+                                    RegionName = order.Shop.Address.RegionName,
+                                    City = order.Shop.Address.City,
+                                    District = order.Shop.Address.District,
+                                    Street = order.Shop.Address.Street,
+                                    House = order.Shop.Address.House,
+                                    Room = order.Shop.Address.Room
+                                }
+                            },
+                            Customer = new()
+                            {
+                                CustomerId = order.Customer.CustomerId.Value,
+                                BirthDate = order.Customer.BirthDate,
+                                Email = order.Customer.Email.Value,
+                                Phone = order.Customer.Phone?.Value,
+                                LastName = order.Customer.FullName?.LastName,
+                                FirstName = order.Customer.FullName?.FirstName,
+                                Patronymic = order.Customer.FullName?.Patronymic
+                            },
+                            ProductsInOrder = order.ProductsInOrder
+                                .Select(product =>
+                                    new Transport.Models.SimpleModels.ProductInfoInOrder
+                                    {
+                                        ProductId = product.ProductId.Value,
+                                        Count = product.ProductId.Value,
+                                        ActualPrice = product.ActualPrice.Value
+                                    })
+                                .ToList(),
+                        }).ToArray();
+
+            return Ok(orders);
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -306,7 +730,38 @@ public class OrdersController : ControllerBase
         Transport.Models.ForCreate.Order order,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            await _addOrderProcessor.ProcessAsync(
+                new(new(new(order.CustomerId),
+                        new(order.ShopId),
+                        DateTimeOffset.UtcNow,
+                        OrderStatus.InProcess,
+                        order.ProductsInOrder
+                            .Select(product => 
+                                new Models.ForCreate.ProductCount(
+                                    new(product.ProductId), 
+                                    new(product.Count)))
+                            .ToList())),
+                jwtToken,
+                token);
+
+            return Created();
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -327,15 +782,37 @@ public class OrdersController : ControllerBase
         Transport.Models.ForUpdate.OrderIdAndStatus orderAndStatus,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            await _updateOrderStatusProcessor.ProcessAsync(
+                new(new(orderAndStatus.OrderId), orderAndStatus.OrderStatus),
+                jwtToken,
+                token);
+
+            return Accepted();
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
-    private readonly IRequestProcessorWithAuthorize<RequestGetManyWithPagination<OrderSorting>, IList<SimleOrder>> _getOrdersProcessor;//
-    private readonly IRequestProcessorWithAuthorize<RequestGetManyByTimeIntervalWithPagination<OrderSorting>, IList<SimleOrder>> _getOrdersByTimeIntervalProcessor;//
-    private readonly IRequestProcessorWithAuthorize<RequestGetManyByIdWithPagination<Shop, OrderSorting>, IList<SimleOrder>> _getOrdersByShopIdProcessor;//
-    private readonly IRequestProcessorWithAuthorize<RequestGetManyByIdByTimeIntervalWithPagination<Shop, OrderSorting>, IList<SimleOrder>> _getOrdersByShopIdAndTimeIntervalProcessor;//
-    private readonly IRequestProcessorWithAuthorize<RequestGetManyByIdByTimeIntervalWithPagination<Customer, OrderSorting>, IList<SimleOrder>> _getOrdersByCustomerIdProcessor;//
-    private readonly IRequestProcessorWithAuthorize<RequestGetManyByIdWithPagination<Customer, OrderSorting>, IList<SimleOrder>> _getOrdersByCustomerIdAndTimeIntervalProcessor;//
+    private readonly IRequestProcessorWithAuthorize<RequestGetManyWithPagination<OrderSorting>, IList<SimleOrder>> _getOrdersProcessor;
+    private readonly IRequestProcessorWithAuthorize<RequestGetManyByTimeIntervalWithPagination<OrderSorting>, IList<SimleOrder>> _getOrdersByTimeIntervalProcessor;
+    private readonly IRequestProcessorWithAuthorize<RequestGetManyByIdWithPagination<Shop, OrderSorting>, IList<SimleOrder>> _getOrdersByShopIdProcessor;
+    private readonly IRequestProcessorWithAuthorize<RequestGetManyByIdByTimeIntervalWithPagination<Shop, OrderSorting>, IList<SimleOrder>> _getOrdersByShopIdAndTimeIntervalProcessor;
+    private readonly IRequestProcessorWithAuthorize<RequestGetManyByIdWithPagination<Customer, OrderSorting>, IList<SimleOrder>> _getOrdersByCustomerIdProcessor;
+    private readonly IRequestProcessorWithAuthorize<RequestGetManyByIdByTimeIntervalWithPagination<Customer, OrderSorting>, IList<SimleOrder>> _getOrdersByCustomerIdAndTimeIntervalProcessor;
     private readonly IRequestProcessorWithAuthorize<RequestAddEntity<OrderWithoutId>> _addOrderProcessor;
     private readonly IRequestProcessorWithAuthorize<RequestUpdateOrderStatus> _updateOrderStatusProcessor;
 }

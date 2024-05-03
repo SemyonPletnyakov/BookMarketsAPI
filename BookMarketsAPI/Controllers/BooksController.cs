@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+using BookMarketsAPI.Helpers;
+
 using Logic.Abstractions.Processors;
 
+using Models.Exceptions;
 using Models.FullEntities;
 using Models.Pagination.Sorting;
 using Models.Requests;
@@ -55,7 +58,7 @@ public class BooksController : ControllerBase
     /// </exception>
     public BooksController(
         IRequestProcessorWithoutAuthorize<RequestGetOneById<Product, Book>, Book> getBookByIdProcessor,
-        IRequestProcessorWithoutAuthorize<RequestGetManyWithPagination<BookSorting>, IList<Book>> getBooksProcessor,
+        IRequestProcessorWithoutAuthorize<RequestGetManyWithPagination<BookSorting>, IList<SimpleBook>> getBooksProcessor,
         IRequestProcessorWithoutAuthorize<RequestGetManyByIdWithPagination<Author, BookSorting>, IList<SimpleBook>> getBooksByAuthorIdProcessor,
         IRequestProcessorWithoutAuthorize<RequestGetManyByNameWithPagination<Product, BookSorting>, IList<SimpleBook>> getBooksByNameProcessor,
         IRequestProcessorWithoutAuthorize<RequestGetManyByKeyWordsWithPagination<BookSorting>, IList<SimpleBook>> getBooksByKeywordsProcessor,
@@ -101,7 +104,36 @@ public class BooksController : ControllerBase
         int bookId,
         CancellationToken token)
     {
+        try
+        {
+            var book = await _getBookByIdProcessor.ProcessAsync(new(new(bookId)), token);
 
+            var transportBook = new Transport.Models.FullModels.Book
+            {
+                ProductId = book.ProductId.Value,
+                Description = book.Description?.Value,
+                Price = book.Price.Value,
+                Name = book.Name.Value,
+                KeyWords = book.KeyWords,
+                Author = book.Author is null
+                    ? null
+                    : new Transport.Models.FullModels.Author
+                    {
+                        AuthorId = book.Author.AuthorId.Value,
+                        FirstName = book.Author.FullName.FirstName,
+                        LastName = book.Author.FullName.LastName,
+                        BirthDate = book.Author.BirthDate,
+                        Patronymic = book.Author.FullName.Patronymic,
+                        Countries = book.Author.Countries
+                    }
+            };
+
+            return Ok(transportBook);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
     }
 
     /// <summary>
@@ -129,7 +161,29 @@ public class BooksController : ControllerBase
         BookSorting order,
         CancellationToken token)
     {
+        var books =
+            (await _getBooksProcessor.ProcessAsync(new(new(size, number, order)), token))
+                .Select(a =>
+                    new Transport.Models.SimpleModels.Book 
+                    { 
+                        ProductId = a.ProductId.Value,
+                        Price = a.Price.Value,
+                        Name = a.Name.Value,
+                        KeyWords = a.KeyWords,
+                        Author = a.Author is null
+                            ? null
+                            : new Transport.Models.FullModels.Author
+                            {
+                                AuthorId = a.Author.AuthorId.Value,
+                                FirstName = a.Author.FullName.FirstName,
+                                LastName = a.Author.FullName.LastName,
+                                BirthDate = a.Author.BirthDate,
+                                Patronymic = a.Author.FullName.Patronymic,
+                                Countries = a.Author.Countries
+                            }
+                    }).ToArray();
 
+        return Ok(books);
     }
 
     /// <summary>
@@ -161,7 +215,33 @@ public class BooksController : ControllerBase
         BookSorting order,
         CancellationToken token)
     {
+        var books =
+            (await _getBooksByAuthorIdProcessor
+                .ProcessAsync(
+                    new(new(authorId), 
+                    new(size, number, order)), 
+                    token))
+                .Select(a =>
+                    new Transport.Models.SimpleModels.Book
+                    {
+                        ProductId = a.ProductId.Value,
+                        Price = a.Price.Value,
+                        Name = a.Name.Value,
+                        KeyWords = a.KeyWords,
+                        Author = a.Author is null
+                            ? null
+                            : new Transport.Models.FullModels.Author
+                            {
+                                AuthorId = a.Author.AuthorId.Value,
+                                FirstName = a.Author.FullName.FirstName,
+                                LastName = a.Author.FullName.LastName,
+                                BirthDate = a.Author.BirthDate,
+                                Patronymic = a.Author.FullName.Patronymic,
+                                Countries = a.Author.Countries
+                            }
+                    }).ToArray();
 
+        return Ok(books);
     }
 
     /// <summary>
@@ -193,7 +273,33 @@ public class BooksController : ControllerBase
         BookSorting order,
         CancellationToken token)
     {
+        var books =
+            (await _getBooksByNameProcessor
+                .ProcessAsync(
+                    new(new(name),
+                    new(size, number, order)),
+                    token))
+                .Select(a =>
+                    new Transport.Models.SimpleModels.Book
+                    {
+                        ProductId = a.ProductId.Value,
+                        Price = a.Price.Value,
+                        Name = a.Name.Value,
+                        KeyWords = a.KeyWords,
+                        Author = a.Author is null
+                            ? null
+                            : new Transport.Models.FullModels.Author
+                            {
+                                AuthorId = a.Author.AuthorId.Value,
+                                FirstName = a.Author.FullName.FirstName,
+                                LastName = a.Author.FullName.LastName,
+                                BirthDate = a.Author.BirthDate,
+                                Patronymic = a.Author.FullName.Patronymic,
+                                Countries = a.Author.Countries
+                            }
+                    }).ToArray();
 
+        return Ok(books);
     }
 
     /// <summary>
@@ -225,7 +331,33 @@ public class BooksController : ControllerBase
         BookSorting order,
         CancellationToken token)
     {
+        var books =
+            (await _getBooksByKeywordsProcessor
+                .ProcessAsync(
+                    new(keyWords,
+                    new(size, number, order)),
+                    token))
+                .Select(a =>
+                    new Transport.Models.SimpleModels.Book
+                    {
+                        ProductId = a.ProductId.Value,
+                        Price = a.Price.Value,
+                        Name = a.Name.Value,
+                        KeyWords = a.KeyWords,
+                        Author = a.Author is null
+                            ? null
+                            : new Transport.Models.FullModels.Author
+                            {
+                                AuthorId = a.Author.AuthorId.Value,
+                                FirstName = a.Author.FullName.FirstName,
+                                LastName = a.Author.FullName.LastName,
+                                BirthDate = a.Author.BirthDate,
+                                Patronymic = a.Author.FullName.Patronymic,
+                                Countries = a.Author.Countries
+                            }
+                    }).ToArray();
 
+        return Ok(books);
     }
 
     /// <summary>
@@ -246,7 +378,37 @@ public class BooksController : ControllerBase
         Transport.Models.ForCreate.Book book,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            await _addBookProcessor.ProcessAsync(
+                new(new(new(book.Name),
+                        book.Description is null
+                            ? null
+                            : new(book.Description),
+                        new(book.Price),
+                        book.KeyWords?.ToHashSet(),
+                        book.AuthorId is null
+                            ? null
+                            : new(book.AuthorId.Value))),
+                jwtToken,
+                token);
+
+            return Created();
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -267,7 +429,42 @@ public class BooksController : ControllerBase
         Transport.Models.ForUpdate.Book book,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            await _updateBookProcessor.ProcessAsync(
+                new(new(new(book.ProductId),
+                        new(book.Name),
+                        book.Description is null
+                            ? null
+                            : new(book.Description),
+                        new(book.Price),
+                        book.KeyWords?.ToHashSet(),
+                        book.AuthorId is null
+                            ? null
+                            : new(book.AuthorId.Value))),
+                jwtToken,
+                token);
+
+            return Accepted();
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -288,7 +485,33 @@ public class BooksController : ControllerBase
         Transport.Models.Ids.Product productId,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            await _bookToProdoctProcessor.ProcessAsync(
+                new(new(productId.ProductId)),
+                jwtToken,
+                token);
+
+            return Accepted();
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -309,11 +532,37 @@ public class BooksController : ControllerBase
         Transport.Models.Ids.Product productId,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            await _deleteBookProcessor.ProcessAsync(
+                new(new(productId.ProductId)),
+                jwtToken,
+                token);
+
+            return Accepted();
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     private readonly IRequestProcessorWithoutAuthorize<RequestGetOneById<Product, Book>, Book> _getBookByIdProcessor;
-    private readonly IRequestProcessorWithoutAuthorize<RequestGetManyWithPagination<BookSorting>, IList<Book>> _getBooksProcessor;
+    private readonly IRequestProcessorWithoutAuthorize<RequestGetManyWithPagination<BookSorting>, IList<SimpleBook>> _getBooksProcessor;
     private readonly IRequestProcessorWithoutAuthorize<RequestGetManyByIdWithPagination<Author, BookSorting>, IList<SimpleBook>> _getBooksByAuthorIdProcessor;
     private readonly IRequestProcessorWithoutAuthorize<RequestGetManyByNameWithPagination<Product, BookSorting>, IList<SimpleBook>> _getBooksByNameProcessor;
     private readonly IRequestProcessorWithoutAuthorize<RequestGetManyByKeyWordsWithPagination<BookSorting>, IList<SimpleBook>> _getBooksByKeywordsProcessor;

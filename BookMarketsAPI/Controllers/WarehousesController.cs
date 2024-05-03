@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+using BookMarketsAPI.Helpers;
+
 using Logic.Abstractions.Processors;
 
+using Models.Exceptions;
 using Models.FullEntities;
 using Models.Pagination.Sorting;
 using Models.Requests;
@@ -44,7 +47,7 @@ public class WarehousesController : ControllerBase
     /// <exception cref="ArgumentNullException"></exception>
     public WarehousesController(
         IRequestProcessorWithoutAuthorize<RequestGetManyWithPagination<WarehouseSorting>, IList<Warehouse>> getWarehousesProcessor,
-        IRequestProcessorWithoutAuthorize<RequestGetManyByIdWithPagination<Warehouse, ProductCountSorting>, IList<ProductCount>> getProductCountsInWarehouseProcessor,
+        IRequestProcessorWithAuthorize<RequestGetManyByIdWithPagination<Warehouse, ProductCountSorting>, IList<ProductCount>> getProductCountsInWarehouseProcessor,
         IRequestProcessorWithAuthorize<RequestAddEntity<WarehouseWithoutId>> addWarehouseProcessor,
         IRequestProcessorWithAuthorize<RequestUpdateEntity<WarehouseForUpdate>> updateWarehouseProcessor,
         IRequestProcessorWithAuthorize<RequestUpdateProductCountInEntity<Warehouse>> updateProductCountInWarehouseProcessor,
@@ -89,7 +92,30 @@ public class WarehousesController : ControllerBase
         WarehouseSorting order,
         CancellationToken token)
     {
+        var warehouses =
+            (await _getWarehousesProcessor.ProcessAsync(new(new(size, number, order)), token))
+                .Select(warehouse =>
+                    new Transport.Models.FullModels.Warehouse
+                    {
+                        WarehouseId = warehouse.WarehouseId.Value,
+                        Name = warehouse.Name?.Value,
+                        OpeningTime = warehouse.OpeningTime,
+                        ClosingTime = warehouse.ClosingTime,
+                        Address = new()
+                        {
+                            AddressId = warehouse.Address.AddressId.Value,
+                            Country = warehouse.Address.Country,
+                            RegionNumber = warehouse.Address.RegionNumber,
+                            RegionName = warehouse.Address.RegionName,
+                            City = warehouse.Address.City,
+                            District = warehouse.Address.District,
+                            Street = warehouse.Address.Street,
+                            House = warehouse.Address.House,
+                            Room = warehouse.Address.Room
+                        }
+                    }).ToArray();
 
+        return Ok(warehouses);
     }
 
     /// <summary>
@@ -122,7 +148,40 @@ public class WarehousesController : ControllerBase
         ProductCountSorting order,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            var warehouses =
+                (await _getProductCountsInWarehouseProcessor.ProcessAsync(
+                        new(new(warehouseId), new(size, number, order)),
+                        jwtToken,
+                        token))
+                    .Select(product =>
+                        new Transport.Models.SimpleModels.ProductCount
+                        {
+                            ProductId = product.ProductId.Value,
+                            Count = product.Count.Value
+                        }).ToArray();
+
+            return Ok(warehouses);
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -143,7 +202,35 @@ public class WarehousesController : ControllerBase
         Transport.Models.ForCreate.Warehouse warehouse,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            await _addWarehouseProcessor.ProcessAsync(
+                new(new(
+                        warehouse.Name is null
+                            ? null
+                            : new(warehouse.Name),
+                        warehouse.OpeningTime,
+                        warehouse.ClosingTime,
+                        new(warehouse.AddressId))),
+                jwtToken,
+                token);
+
+            return Created();
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -161,10 +248,42 @@ public class WarehousesController : ControllerBase
     [HttpPut]
     //авторизация
     public async Task<IActionResult> UpdateWarehouseAsync(
-        Transport.Models.FullModels.Warehouse warehouse,
+        Transport.Models.ForUpdate.Warehouse warehouse,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            await _updateWarehouseProcessor.ProcessAsync(
+                new(new(new(warehouse.WarehouseId),
+                        warehouse.Name is null
+                            ? null
+                            : new(warehouse.Name),
+                        warehouse.OpeningTime,
+                        warehouse.ClosingTime,
+                        new(warehouse.AddressId))),
+                jwtToken,
+                token);
+
+            return Accepted();
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -185,7 +304,35 @@ public class WarehousesController : ControllerBase
         Transport.Models.ForUpdate.ProductCountInWarehouse productCountInWarehouse,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            await _updateProductCountInWarehouseProcessor.ProcessAsync(
+                new(new(productCountInWarehouse.WarehouseId),
+                    new(productCountInWarehouse.ProductId),
+                    new(productCountInWarehouse.Count)),
+                jwtToken,
+                token);
+
+            return Accepted();
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -206,11 +353,37 @@ public class WarehousesController : ControllerBase
         Transport.Models.Ids.Warehouse warehouseId,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            await _deleteWarehouseProcessor.ProcessAsync(
+                new(new(warehouseId.WarehouseId)),
+                jwtToken,
+                token);
+
+            return Accepted();
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     private readonly IRequestProcessorWithoutAuthorize<RequestGetManyWithPagination<WarehouseSorting>, IList<Warehouse>> _getWarehousesProcessor;
-    private readonly IRequestProcessorWithoutAuthorize<RequestGetManyByIdWithPagination<Warehouse, ProductCountSorting>, IList<ProductCount>> _getProductCountsInWarehouseProcessor;
+    private readonly IRequestProcessorWithAuthorize<RequestGetManyByIdWithPagination<Warehouse, ProductCountSorting>, IList<ProductCount>> _getProductCountsInWarehouseProcessor;
     private readonly IRequestProcessorWithAuthorize<RequestAddEntity<WarehouseWithoutId>> _addWarehouseProcessor;
     private readonly IRequestProcessorWithAuthorize<RequestUpdateEntity<WarehouseForUpdate>> _updateWarehouseProcessor;
     private readonly IRequestProcessorWithAuthorize<RequestUpdateProductCountInEntity<Warehouse>> _updateProductCountInWarehouseProcessor;

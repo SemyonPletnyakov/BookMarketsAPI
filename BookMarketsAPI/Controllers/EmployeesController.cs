@@ -1,6 +1,11 @@
-﻿using Logic.Abstractions.Processors;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
+using BookMarketsAPI.Helpers;
+
+using Logic.Abstractions.Processors;
+
+using Models.Exceptions;
 using Models.FullEntities;
 using Models.Pagination.Sorting;
 using Models.Requests;
@@ -60,7 +65,7 @@ public class EmployeesController : ControllerBase
         IRequestProcessorWithAuthorize<RequestGetManyByLastNameWithPagination<EmployeeSorting>, IList<SimleEmployee>> getEmployeesByLastNameProcessor, 
         IRequestProcessorWithAuthorize<RequestGetManyByIdWithPagination<Shop, EmployeeSorting>, IList<SimleEmployee>> getEmployeesByShopIdProcessor, 
         IRequestProcessorWithAuthorize<RequestGetManyByIdWithPagination<Warehouse, EmployeeSorting>, IList<SimleEmployee>> getEmployeesByWarehouseIdProcessor, 
-        IRequestProcessorWithAuthorize<RequestAddEntity<RequestAddEntity<EmployeeWithoutId>>> addEmployeeProcessor, 
+        IRequestProcessorWithAuthorize<RequestAddEntity<EmployeeWithoutId>> addEmployeeProcessor, 
         IRequestProcessorWithAuthorize<RequestUpdateEntity<SimleEmployee>> updateEmployeeProcessor, 
         IRequestProcessorWithAuthorize<RequestUpdateEmployeePassword> updateEmployeePasswordProcessor, 
         IRequestProcessorWithAuthorize<RequestDeleteEntityById<Employee, Employee>> deleteEmployeeProcessor)
@@ -104,7 +109,25 @@ public class EmployeesController : ControllerBase
         Transport.Models.EmployeeLoginAndPassword employeeLoginAndPassword,
         CancellationToken token)
     {
+        try
+        {
+            var data = await _authorizeProcessor.ProcessAutorizeEmployeeAsync(
+                new(employeeLoginAndPassword.Login),
+                new(employeeLoginAndPassword.Password),
+                token);
 
+            var transportData = new Transport.Models.JwtTokenAndUserId
+            {
+                JwtToken = data.JwtToken.Value,
+                UserId = data.Id.Value
+            };
+
+            return Ok();
+        }
+        catch (AuthorizationException)
+        {
+            return Unauthorized();
+        }
     }
 
     /// <summary>
@@ -125,7 +148,46 @@ public class EmployeesController : ControllerBase
         int employeeId,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            var employee = await _getEmployeeByIdProcessor.ProcessAsync(
+                new(new(employeeId)),
+                jwtToken,
+                token);
+
+            var transportCustomer = new Transport.Models.ForUpdate.Employee
+            {
+                EmployeeId = employee.EmployeeId.Value,
+                BirthDate = employee.BirthDate,
+                Email = employee.Email?.Value,
+                Phone = employee.Phone?.Value,
+                LastName = employee.FullName.LastName,
+                FirstName = employee.FullName.FirstName,
+                Patronymic = employee.FullName.Patronymic,
+                JobTitle = employee.JobTitle.Value,
+                Login = employee.Login.Value
+            };
+
+            return Ok(transportCustomer);
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -154,7 +216,43 @@ public class EmployeesController : ControllerBase
         EmployeeSorting order,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            var employees =
+                (await _getEmployeesProcessor.ProcessAsync(
+                        new(new(size, number, order)),
+                        jwtToken,
+                        token))
+                    .Select(employee =>
+                        new Transport.Models.ForUpdate.Employee
+                        {
+                            EmployeeId = employee.EmployeeId.Value,
+                            BirthDate = employee.BirthDate,
+                            Email = employee.Email?.Value,
+                            Phone = employee.Phone?.Value,
+                            LastName = employee.FullName.LastName,
+                            FirstName = employee.FullName.FirstName,
+                            Patronymic = employee.FullName.Patronymic,
+                            JobTitle = employee.JobTitle.Value,
+                            Login = employee.Login.Value
+                        }).ToArray();
+
+            return Ok(employees);
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -187,7 +285,43 @@ public class EmployeesController : ControllerBase
         EmployeeSorting order,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            var employees =
+                (await _getEmployeesByLastNameProcessor.ProcessAsync(
+                        new(new(lname), new(size, number, order)),
+                        jwtToken,
+                        token))
+                    .Select(employee =>
+                        new Transport.Models.ForUpdate.Employee
+                        {
+                            EmployeeId = employee.EmployeeId.Value,
+                            BirthDate = employee.BirthDate,
+                            Email = employee.Email?.Value,
+                            Phone = employee.Phone?.Value,
+                            LastName = employee.FullName.LastName,
+                            FirstName = employee.FullName.FirstName,
+                            Patronymic = employee.FullName.Patronymic,
+                            JobTitle = employee.JobTitle.Value,
+                            Login = employee.Login.Value
+                        }).ToArray();
+
+            return Ok(employees);
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -220,7 +354,47 @@ public class EmployeesController : ControllerBase
         EmployeeSorting order,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            var employees =
+                (await _getEmployeesByShopIdProcessor.ProcessAsync(
+                        new(new(shopId), new(size, number, order)),
+                        jwtToken,
+                        token))
+                    .Select(employee =>
+                        new Transport.Models.ForUpdate.Employee
+                        {
+                            EmployeeId = employee.EmployeeId.Value,
+                            BirthDate = employee.BirthDate,
+                            Email = employee.Email?.Value,
+                            Phone = employee.Phone?.Value,
+                            LastName = employee.FullName.LastName,
+                            FirstName = employee.FullName.FirstName,
+                            Patronymic = employee.FullName.Patronymic,
+                            JobTitle = employee.JobTitle.Value,
+                            Login = employee.Login.Value
+                        }).ToArray();
+
+            return Ok(employees);
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -253,7 +427,47 @@ public class EmployeesController : ControllerBase
         EmployeeSorting order,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            var employees =
+                (await _getEmployeesByWarehouseIdProcessor.ProcessAsync(
+                        new(new(warehouseId), new(size, number, order)),
+                        jwtToken,
+                        token))
+                    .Select(employee =>
+                        new Transport.Models.ForUpdate.Employee
+                        {
+                            EmployeeId = employee.EmployeeId.Value,
+                            BirthDate = employee.BirthDate,
+                            Email = employee.Email?.Value,
+                            Phone = employee.Phone?.Value,
+                            LastName = employee.FullName.LastName,
+                            FirstName = employee.FullName.FirstName,
+                            Patronymic = employee.FullName.Patronymic,
+                            JobTitle = employee.JobTitle.Value,
+                            Login = employee.Login.Value
+                        }).ToArray();
+
+            return Ok(employees);
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -274,7 +488,39 @@ public class EmployeesController : ControllerBase
         Transport.Models.ForCreate.Employee employee,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            await _addEmployeeProcessor.ProcessAsync(
+                new(new(new(employee.LastName, employee.FirstName, employee.Patronymic),
+                        employee.BirthDate,
+                        employee.Phone == null
+                            ? null
+                            : new(employee.Phone),
+                        employee.Email == null
+                            ? null
+                            : new(employee.Email),
+                        new(employee.JobTitle),
+                        new(employee.Login),
+                        new(employee.Password))),
+                jwtToken,
+                token);
+
+            return Created();
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -295,7 +541,43 @@ public class EmployeesController : ControllerBase
         Transport.Models.ForUpdate.Employee employee,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            await _updateEmployeeProcessor.ProcessAsync(
+                new(new(new(employee.EmployeeId),
+                        new(employee.LastName, employee.FirstName, employee.Patronymic),
+                        employee.BirthDate,
+                        employee.Phone == null
+                            ? null
+                            : new(employee.Phone),
+                        employee.Email == null
+                            ? null
+                            : new(employee.Email),
+                        new(employee.JobTitle),
+                        new(employee.Login))),
+                jwtToken,
+                token);
+
+            return Accepted();
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -316,7 +598,34 @@ public class EmployeesController : ControllerBase
         Transport.Models.EmployeeLoginAndPassword employeeLoginAndPassword,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            await _updateEmployeePasswordProcessor.ProcessAsync(
+                new(new(employeeLoginAndPassword.Login), 
+                    new(employeeLoginAndPassword.Password)),
+                jwtToken,
+                token);
+
+            return Accepted();
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -337,7 +646,33 @@ public class EmployeesController : ControllerBase
         Transport.Models.Ids.Employee employeeId,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            await _deleteEmployeeProcessor.ProcessAsync(
+                new(new(employeeId.EmployeeId)),
+                jwtToken,
+                token);
+
+            return Accepted();
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     private readonly IAuthorizeRequestProcessor _authorizeProcessor;
@@ -346,7 +681,7 @@ public class EmployeesController : ControllerBase
     private readonly IRequestProcessorWithAuthorize<RequestGetManyByLastNameWithPagination<EmployeeSorting>, IList<SimleEmployee>> _getEmployeesByLastNameProcessor;
     private readonly IRequestProcessorWithAuthorize<RequestGetManyByIdWithPagination<Shop, EmployeeSorting>, IList<SimleEmployee>> _getEmployeesByShopIdProcessor;
     private readonly IRequestProcessorWithAuthorize<RequestGetManyByIdWithPagination<Warehouse, EmployeeSorting>, IList<SimleEmployee>> _getEmployeesByWarehouseIdProcessor;
-    private readonly IRequestProcessorWithAuthorize<RequestAddEntity<RequestAddEntity<EmployeeWithoutId>>> _addEmployeeProcessor;
+    private readonly IRequestProcessorWithAuthorize<RequestAddEntity<EmployeeWithoutId>> _addEmployeeProcessor;
     private readonly IRequestProcessorWithAuthorize<RequestUpdateEntity<SimleEmployee>> _updateEmployeeProcessor;
     private readonly IRequestProcessorWithAuthorize<RequestUpdateEmployeePassword> _updateEmployeePasswordProcessor;
     private readonly IRequestProcessorWithAuthorize<RequestDeleteEntityById<Employee, Employee>> _deleteEmployeeProcessor;

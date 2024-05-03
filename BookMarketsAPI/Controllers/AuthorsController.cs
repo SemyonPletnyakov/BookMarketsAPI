@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
+using BookMarketsAPI.Helpers;
+
 using Logic.Abstractions.Processors;
 
+using Models.Exceptions;
 using Models.FullEntities;
 using Models.Pagination.Sorting;
 using Models.Requests;
@@ -82,7 +85,20 @@ public class AuthorsController : ControllerBase
         AuthorSorting order, 
         CancellationToken token)
     {
+        var authors =
+            (await _getAuthorsProcessor.ProcessAsync(new(new(size, number, order)), token))
+                .Select(a =>
+                    new Transport.Models.FullModels.Author
+                    {
+                        AuthorId = a.AuthorId.Value,
+                        FirstName = a.FullName.FirstName,
+                        LastName = a.FullName.LastName,
+                        BirthDate = a.BirthDate,
+                        Patronymic = a.FullName.Patronymic,
+                        Countries = a.Countries
+                    }).ToArray();
 
+        return Ok(authors);
     }
 
     /// <summary>
@@ -114,7 +130,21 @@ public class AuthorsController : ControllerBase
         AuthorSorting order, 
         CancellationToken token)
     {
+        var authors =
+            (await _getAuthorsByLastNameProcessor
+                .ProcessAsync(new(new(lname), new(size, number, order)), token))
+                    .Select(a =>
+                        new Transport.Models.FullModels.Author
+                        {
+                            AuthorId = a.AuthorId.Value,
+                            FirstName = a.FullName.FirstName,
+                            LastName = a.FullName.LastName,
+                            BirthDate = a.BirthDate,
+                            Patronymic = a.FullName.Patronymic,
+                            Countries = a.Countries
+                        }).ToArray();
 
+        return Ok(authors);
     }
 
     /// <summary>
@@ -135,7 +165,31 @@ public class AuthorsController : ControllerBase
         Transport.Models.ForCreate.Author author, 
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            await _addAuthorProcessor.ProcessAsync(
+                new(new(new(author.LastName, author.FirstName, author.Patronymic), 
+                        author.BirthDate, 
+                        author.Countries)),
+                jwtToken,
+                token);
+
+            return Created();
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -156,7 +210,36 @@ public class AuthorsController : ControllerBase
         Transport.Models.FullModels.Author author,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            await _updateAuthorProcessor.ProcessAsync(
+                new(new(new(author.AuthorId),
+                        new(author.LastName, author.FirstName, author.Patronymic),
+                        author.BirthDate,
+                        author.Countries)),
+                jwtToken,
+                token);
+
+            return Accepted();
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -177,7 +260,33 @@ public class AuthorsController : ControllerBase
         Transport.Models.Ids.Author authorId,
         CancellationToken token)
     {
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
+            await _deleteAuthorProcessor.ProcessAsync(
+                new(new(authorId.AuthorId)),
+                jwtToken,
+                token);
+
+            return Accepted();
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     private readonly IRequestProcessorWithoutAuthorize<RequestGetManyWithPagination<AuthorSorting>, IList<Author>> _getAuthorsProcessor;
