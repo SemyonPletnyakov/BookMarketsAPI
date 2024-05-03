@@ -53,7 +53,7 @@ public sealed class Customer
     /// равен <see langword="null"/>.
     /// </exception>
     public Customer(
-        FullName fullName, 
+        FullName? fullName, 
         DateOnly? birthDate, 
         Phone? phone, 
         Email email, 
