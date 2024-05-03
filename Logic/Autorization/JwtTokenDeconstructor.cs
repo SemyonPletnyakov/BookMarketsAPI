@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
-
+using System.Security.Authentication;
 using Logic.Abstractions.Autorization;
 
 using Models.Autorization;
@@ -22,17 +22,17 @@ public sealed class JwtTokenDeconstructor : IJwtTokenDeconstructor
 
         var id = jwtSecurityToken.Claims
             .FirstOrDefault(c => c.Type == CLAIM_NAME_USER_ID)
-            ?? throw new InvalidOperationException("Ошибка авторизации.");
+            ?? throw new AuthenticationException("Ошибка авторизации.");
         
         var type = jwtSecurityToken.Claims
             .FirstOrDefault(c => c.Type == CLAIM_NAME_TYPE)
-            ?? throw new InvalidOperationException("Ошибка авторизации.");
+            ?? throw new AuthenticationException("Ошибка авторизации.");
 
         if (type.Value is CLAIM_NAME_TYPE_CUSTOMER)
         {
             var email = jwtSecurityToken.Claims
                 .FirstOrDefault(c => c.Type == CLAIM_NAME_EMAIL)
-                ?? throw new InvalidOperationException("Ошибка авторизации.");
+                ?? throw new AuthenticationException("Ошибка авторизации.");
 
             return new CustomerAutorizationData(
                 new(Convert.ToInt32(id.Value, CultureInfo.InvariantCulture)),
@@ -41,12 +41,12 @@ public sealed class JwtTokenDeconstructor : IJwtTokenDeconstructor
 
         if (type.Value is not CLAIM_NAME_TYPE_EMPLOYEE)
         {
-            throw new InvalidOperationException("Ошибка авторизации.");
+            throw new AuthenticationException("Ошибка авторизации.");
         }
 
         var login = jwtSecurityToken.Claims
                 .FirstOrDefault(c => c.Type == CLAIM_NAME_LOGIN)
-                ?? throw new InvalidOperationException("Ошибка авторизации.");
+                ?? throw new AuthenticationException("Ошибка авторизации.");
 
         return new EmployeeAutorizationData(
             new(Convert.ToInt32(id.Value, CultureInfo.InvariantCulture)),
