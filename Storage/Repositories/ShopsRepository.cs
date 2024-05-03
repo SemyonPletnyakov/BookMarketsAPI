@@ -82,11 +82,7 @@ public sealed class ShopsRepository : IShopsRepository
             .ToArrayAsync(token))
             .Select(piw =>
                 new ProductCount(
-                    new(
-                        new(piw.ProductId),
-                        new(piw.Product.Name),
-                        new(piw.Product.Price),
-                        piw.Product.KeyWords?.ToHashSet()),
+                    new(piw.ProductId),
                     new(piw.Count)))
             .ToList();
     }

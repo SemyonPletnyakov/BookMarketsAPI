@@ -28,7 +28,7 @@ public sealed class AddressesRepository : IAddressesRepository
     }
 
     /// <inheritdoc/>
-    public async Task<Id<Address>> GetAddressIdOrAddAddressAsync(
+    public async Task<Id<Address>> GetIdOrAddAddressAsync(
         AddressWithoutId address,
         CancellationToken token)
     {

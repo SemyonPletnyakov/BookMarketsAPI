@@ -15,8 +15,8 @@ public sealed class ProductInfoInOrder : ProductCount
     /// <summary>
     /// Создаёт объект <see cref="ProductCount"/>
     /// </summary>
-    /// <param name="product">
-    /// Товар.
+    /// <param name="productId">
+    /// Идентификатор товара.
     /// </param>
     /// <param name="count">
     /// Количество товара.
@@ -25,10 +25,10 @@ public sealed class ProductInfoInOrder : ProductCount
     /// Если <paramref name="actualPrice"/> равен <see langword="null"/>.
     /// </exception>
     public ProductInfoInOrder(
-        Product product,
+        Id<Product> productId,
         Count count,
         Price actualPrice)
-        : base(product, count)
+        : base(productId, count)
     {
         ActualPrice = actualPrice
             ?? throw new ArgumentNullException(nameof(actualPrice));

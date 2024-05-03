@@ -6,9 +6,9 @@
 public class ProductCount
 {
     /// <summary>
-    /// Товар.
+    /// Идентивикатор товара.
     /// </summary>
-    public Product ProductId { get; }
+    public Id<Product> ProductId { get; }
 
     /// <summary>
     /// Количество товара.
@@ -27,7 +27,7 @@ public class ProductCount
     /// <exception cref="ArgumentNullException">
     /// Если один из парамтеров равен <see langword="null"/>.
     /// </exception>
-    public ProductCount(Product productId, Count count)
+    public ProductCount(Id<Product> productId, Count count)
     {
         ProductId = productId ?? throw new ArgumentNullException(nameof(productId));
         Count = count ?? throw new ArgumentNullException(nameof(count));

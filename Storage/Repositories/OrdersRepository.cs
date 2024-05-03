@@ -84,11 +84,7 @@ public sealed class OrdersRepository : IOrdersRepository
                     o.OrderStatus,
                     o.ProductsInOrder.Select(piw =>
                         new ProductInfoInOrder(
-                            new(
-                                new(piw.ProductId),
-                                new(piw.Product.Name),
-                                new(piw.Product.Price),
-                                piw.Product.KeyWords?.ToHashSet()),
+                            new(piw.ProductId),
                             new(piw.Count),
                             new(piw.ActualPrice))).ToList()))
             .ToList();
@@ -147,11 +143,7 @@ public sealed class OrdersRepository : IOrdersRepository
                     o.OrderStatus,
                     o.ProductsInOrder.Select(piw =>
                         new ProductInfoInOrder(
-                            new(
-                                new(piw.ProductId),
-                                new(piw.Product.Name),
-                                new(piw.Product.Price),
-                                piw.Product.KeyWords?.ToHashSet()),
+                            new(piw.ProductId),
                             new(piw.Count),
                             new(piw.ActualPrice))).ToList()))
             .ToList();
@@ -210,11 +202,7 @@ public sealed class OrdersRepository : IOrdersRepository
                     o.OrderStatus,
                     o.ProductsInOrder.Select(piw =>
                         new ProductInfoInOrder(
-                            new(
-                                new(piw.ProductId),
-                                new(piw.Product.Name),
-                                new(piw.Product.Price),
-                                piw.Product.KeyWords?.ToHashSet()),
+                            new(piw.ProductId),
                             new(piw.Count),
                             new(piw.ActualPrice))).ToList()))
             .ToList();
@@ -278,11 +266,7 @@ public sealed class OrdersRepository : IOrdersRepository
                     o.OrderStatus,
                     o.ProductsInOrder.Select(piw =>
                         new ProductInfoInOrder(
-                            new(
-                                new(piw.ProductId),
-                                new(piw.Product.Name),
-                                new(piw.Product.Price),
-                                piw.Product.KeyWords?.ToHashSet()),
+                            new(piw.ProductId),
                             new(piw.Count),
                             new(piw.ActualPrice))).ToList()))
             .ToList();
@@ -341,11 +325,7 @@ public sealed class OrdersRepository : IOrdersRepository
                     o.OrderStatus,
                     o.ProductsInOrder.Select(piw =>
                         new ProductInfoInOrder(
-                            new(
-                                new(piw.ProductId),
-                                new(piw.Product.Name),
-                                new(piw.Product.Price),
-                                piw.Product.KeyWords?.ToHashSet()),
+                            new(piw.ProductId),
                             new(piw.Count),
                             new(piw.ActualPrice))).ToList()))
             .ToList();
@@ -409,11 +389,7 @@ public sealed class OrdersRepository : IOrdersRepository
                     o.OrderStatus,
                     o.ProductsInOrder.Select(piw =>
                         new ProductInfoInOrder(
-                            new(
-                                new(piw.ProductId),
-                                new(piw.Product.Name),
-                                new(piw.Product.Price),
-                                piw.Product.KeyWords?.ToHashSet()),
+                            new(piw.ProductId),
                             new(piw.Count),
                             new(piw.ActualPrice))).ToList()))
             .ToList();
@@ -471,14 +447,10 @@ public sealed class OrdersRepository : IOrdersRepository
             order.DateTime,
             order.OrderStatus,
             order.ProductsInOrder.Select(piw =>
-                new ProductInfoInOrder(
-                    new(
-                        new(piw.ProductId),
-                        new(piw.Product.Name),
-                        new(piw.Product.Price),
-                        piw.Product.KeyWords?.ToHashSet()),
-                    new(piw.Count),
-                    new(piw.ActualPrice))).ToList());
+                        new ProductInfoInOrder(
+                            new(piw.ProductId),
+                            new(piw.Count),
+                            new(piw.ActualPrice))).ToList());
     }
 
     /// <inheritdoc/>
