@@ -1,5 +1,6 @@
 ﻿using Models;
 using Models.Autorization;
+using Models.FullEntities;
 
 namespace Logic.Abstractions.Processors;
 
@@ -23,7 +24,7 @@ public interface IAuthorizeRequestProcessor
     /// <returns>
     /// JWT токен.
     /// </returns>
-    public Task<JwtToken> ProcessAutorizeEmployeeAsync(
+    public Task<JwtTokenAndId<Employee>> ProcessAutorizeEmployeeAsync(
         Login login,
         Password password,
         CancellationToken token);
@@ -43,7 +44,7 @@ public interface IAuthorizeRequestProcessor
     /// <returns>
     /// JWT токен.
     /// </returns>
-    public Task<JwtToken> ProcessAutorizeCustomerAsync(
+    public Task<JwtTokenAndId<Customer>> ProcessAutorizeCustomerAsync(
         Email email,
         Password password,
         CancellationToken token);

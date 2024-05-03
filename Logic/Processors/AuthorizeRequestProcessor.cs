@@ -4,6 +4,7 @@ using Logic.Abstractions.Processors;
 
 using Models;
 using Models.Autorization;
+using Models.Exceptions;
 using Models.FullEntities;
 using Models.Requests;
 using System.Security.Authentication;
@@ -53,7 +54,7 @@ public sealed class AuthorizeRequestProcessor : IAuthorizeRequestProcessor
     }
 
     /// <inheritdoc/>
-    public async Task<JwtToken> ProcessAutorizeEmployeeAsync(
+    public async Task<JwtTokenAndId<Employee>> ProcessAutorizeEmployeeAsync(
         Login login,
         Password password,
         CancellationToken token)
@@ -62,19 +63,30 @@ public sealed class AuthorizeRequestProcessor : IAuthorizeRequestProcessor
         ArgumentNullException.ThrowIfNull(password);
         token.ThrowIfCancellationRequested();
 
-        var employee = await _employeeHandler.HandleAsync(new(login), token);
+        Employee employee;
+
+        try
+        {
+            employee = await _employeeHandler.HandleAsync(new(login), token);
+        }
+        catch (EntityNotFoundException)
+        {
+            throw new AuthenticationException("Неверный логин или пароль.");
+        }
 
         if (employee.Password != password)
         {
             throw new AuthenticationException("Неверный логин или пароль.");
         }
 
-        return _jwtTokenConstructorForEmployee.Construct(
+        var jwtToken = _jwtTokenConstructorForEmployee.Construct(
             new(employee.EmployeeId, employee.Login));
+
+        return new(jwtToken, employee.EmployeeId);
     }
 
     /// <inheritdoc/>
-    public async Task<JwtToken> ProcessAutorizeCustomerAsync(
+    public async Task<JwtTokenAndId<Customer>> ProcessAutorizeCustomerAsync(
         Email email,
         Password password,
         CancellationToken token)
@@ -83,15 +95,26 @@ public sealed class AuthorizeRequestProcessor : IAuthorizeRequestProcessor
         ArgumentNullException.ThrowIfNull(password);
         token.ThrowIfCancellationRequested();
 
-        var customer = await _customerHandler.HandleAsync(new(email), token);
+        Customer customer;
+
+        try 
+        { 
+            customer = await _customerHandler.HandleAsync(new(email), token);
+        }
+        catch (EntityNotFoundException)
+        {
+            throw new AuthenticationException("Неверный логин или пароль.");
+        }
 
         if (customer.Password != password)
         {
             throw new AuthenticationException("Неверный логин или пароль.");
         }
 
-        return _jwtTokenConstructorForCustomer.Construct(
+        var jwtToken = _jwtTokenConstructorForCustomer.Construct(
             new(customer.CustomerId, customer.Email));
+
+        return new(jwtToken, customer.CustomerId);
     }
 
     private readonly IJwtTokenConstructor<EmployeeAutorizationData> _jwtTokenConstructorForEmployee;
