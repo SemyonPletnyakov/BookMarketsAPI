@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 using BookMarketsAPI.Helpers;
 
@@ -122,7 +123,7 @@ public class AuthorsController : ControllerBase
     /// <returns>
     /// Авторы.
     /// </returns>
-    [HttpGet]
+    [HttpGet("last_name")]
     public async Task<IActionResult> GetAuthorsByLastNameAsync(
         string lname, 
         int size, 
@@ -160,7 +161,7 @@ public class AuthorsController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpPost]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> AddAuthorAsync(
         Transport.Models.ForCreate.Author author, 
         CancellationToken token)
@@ -205,7 +206,7 @@ public class AuthorsController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpPut]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> UpdateAuthorAsync(
         Transport.Models.FullModels.Author author,
         CancellationToken token)
@@ -255,7 +256,7 @@ public class AuthorsController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpDelete]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> DeleteAuthorAsync(
         Transport.Models.Ids.Author authorId,
         CancellationToken token)

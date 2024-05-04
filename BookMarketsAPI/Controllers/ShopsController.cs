@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 using BookMarketsAPI.Helpers;
 
@@ -139,8 +139,8 @@ public class ShopsController : ControllerBase
     /// <returns>
     /// Покупатели.
     /// </returns>
-    [HttpGet]
-    //авторизация
+    [HttpGet("product_count")]
+    [Authorize]
     public async Task<IActionResult> GetProductCountsInShopAsync(
         int shopId,
         int size,
@@ -197,7 +197,7 @@ public class ShopsController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpPost]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> AddShopAsync(
         Transport.Models.ForCreate.Shop shop,
         CancellationToken token)
@@ -246,7 +246,7 @@ public class ShopsController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpPut]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> UpdateShopAsync(
         Transport.Models.ForUpdate.Shop shop,
         CancellationToken token)
@@ -298,8 +298,8 @@ public class ShopsController : ControllerBase
     /// <returns>
     /// Статус выполнения операции.
     /// </returns>
-    [HttpPut]
-    //авторизация
+    [HttpPut("product_count")]
+    [Authorize]
     public async Task<IActionResult> UpdateProductCountInShopAsync(
         Transport.Models.ForUpdate.ProductCountInShop productCountInShop,
         CancellationToken token)
@@ -348,7 +348,7 @@ public class ShopsController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpDelete]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> DeleteShopAsync(
         Transport.Models.Ids.Shop shopId,
         CancellationToken token)

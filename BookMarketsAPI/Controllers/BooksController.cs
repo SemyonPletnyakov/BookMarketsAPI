@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using BookMarketsAPI.Helpers;
@@ -99,7 +99,7 @@ public class BooksController : ControllerBase
     /// <returns>
     /// Книга.
     /// </returns>
-    [HttpGet]
+    [HttpGet("id")]
     public async Task<IActionResult> GetBookByIdAsync(
         int bookId,
         CancellationToken token)
@@ -207,7 +207,7 @@ public class BooksController : ControllerBase
     /// <returns>
     /// Книги.
     /// </returns>
-    [HttpGet]
+    [HttpGet("author")]
     public async Task<IActionResult> GetBooksByAuthorIdAsync(
         int authorId,
         int size,
@@ -265,7 +265,7 @@ public class BooksController : ControllerBase
     /// <returns>
     /// Книги.
     /// </returns>
-    [HttpGet]
+    [HttpGet("name")]
     public async Task<IActionResult> GetBooksByNameAsync(
         string name,
         int size,
@@ -323,7 +323,7 @@ public class BooksController : ControllerBase
     /// <returns>
     /// Книги.
     /// </returns>
-    [HttpGet]
+    [HttpGet("key_words")]
     public async Task<IActionResult> GetBooksByKeyWordsAsync(
         string[] keyWords,
         int size,
@@ -373,7 +373,7 @@ public class BooksController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpPost]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> AddBookAsync(
         Transport.Models.ForCreate.Book book,
         CancellationToken token)
@@ -424,7 +424,7 @@ public class BooksController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpPut]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> UpdateBookAsync(
         Transport.Models.ForUpdate.Book book,
         CancellationToken token)
@@ -480,7 +480,7 @@ public class BooksController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpPut("book_to_product")]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> BookToProductAsync(
         Transport.Models.Ids.Product productId,
         CancellationToken token)
@@ -527,7 +527,7 @@ public class BooksController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpDelete]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> DeleteBookAsync(
         Transport.Models.Ids.Product productId,
         CancellationToken token)

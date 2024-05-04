@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 using BookMarketsAPI.Helpers;
 
@@ -139,8 +139,8 @@ public class WarehousesController : ControllerBase
     /// <returns>
     /// Покупатели.
     /// </returns>
-    [HttpGet]
-    //авторизация
+    [HttpGet("product_count")]
+    [Authorize]
     public async Task<IActionResult> GetProductCountsInWarehouseAsync(
         int warehouseId,
         int size,
@@ -197,7 +197,7 @@ public class WarehousesController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpPost]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> AddWarehouseAsync(
         Transport.Models.ForCreate.Warehouse warehouse,
         CancellationToken token)
@@ -246,7 +246,7 @@ public class WarehousesController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpPut]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> UpdateWarehouseAsync(
         Transport.Models.ForUpdate.Warehouse warehouse,
         CancellationToken token)
@@ -298,8 +298,8 @@ public class WarehousesController : ControllerBase
     /// <returns>
     /// Статус выполнения операции.
     /// </returns>
-    [HttpPut]
-    //авторизация
+    [HttpPut("product_count")]
+    [Authorize]
     public async Task<IActionResult> UpdateProductCountInWarehouseAsync(
         Transport.Models.ForUpdate.ProductCountInWarehouse productCountInWarehouse,
         CancellationToken token)
@@ -348,7 +348,7 @@ public class WarehousesController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpDelete]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> DeleteWarehouseAsync(
         Transport.Models.Ids.Warehouse warehouseId,
         CancellationToken token)

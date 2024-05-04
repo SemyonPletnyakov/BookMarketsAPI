@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 using BookMarketsAPI.Helpers;
 
@@ -125,8 +125,8 @@ public class CustomersController : ControllerBase
     /// <returns>
     /// Покупатель.
     /// </returns>
-    [HttpGet]
-    //авторизация
+    [HttpGet("id")]
+    [Authorize]
     public async Task<IActionResult> GetCustomerByIdAsync(
         int customerId,
         CancellationToken token)
@@ -190,7 +190,7 @@ public class CustomersController : ControllerBase
     /// Покупатели.
     /// </returns>
     [HttpGet]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> GetCustomersAsync(
         int size,
         int number,
@@ -255,8 +255,8 @@ public class CustomersController : ControllerBase
     /// <returns>
     /// Покупатели.
     /// </returns>
-    [HttpGet]
-    //авторизация
+    [HttpGet("last_name")]
+    [Authorize]
     public async Task<IActionResult> GetCustomersByLastNameAsync(
         string lname, 
         int size,
@@ -328,8 +328,8 @@ public class CustomersController : ControllerBase
     /// <returns>
     /// Покупатели.
     /// </returns>
-    [HttpGet]
-    //авторизация
+    [HttpGet("shop_and_time")]
+    [Authorize]
     public async Task<IActionResult> GetCustomersByShopIdAndTimeIntervalAsync(
         int shopId,
         DateTimeOffset startDate,
@@ -433,7 +433,7 @@ public class CustomersController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpPut]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> UpdateCustomerAsync(
         Transport.Models.FullModels.Customer customer,
         CancellationToken token)

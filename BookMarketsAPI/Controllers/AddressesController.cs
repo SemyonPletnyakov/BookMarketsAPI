@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 using BookMarketsAPI.Helpers;
 
@@ -50,7 +51,7 @@ public class AddressesController : ControllerBase
     /// Идентификатор адреса.
     /// </returns>
     [HttpPost]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> GetIdOrAddAddressAsync(Transport.Models.ForCreate.Address address, CancellationToken cancellationToken)
     {
         try

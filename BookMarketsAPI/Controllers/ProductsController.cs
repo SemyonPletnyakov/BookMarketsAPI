@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 using BookMarketsAPI.Helpers;
 
@@ -92,7 +92,7 @@ public class ProductsController : ControllerBase
     /// <returns>
     /// Товар.
     /// </returns>
-    [HttpGet]
+    [HttpGet("id")]
     public async Task<IActionResult> GetProductByIdAsync(
         int productId,
         CancellationToken token)
@@ -179,7 +179,7 @@ public class ProductsController : ControllerBase
     /// <returns>
     /// Товары.
     /// </returns>
-    [HttpGet]
+    [HttpGet("name")]
     public async Task<IActionResult> GetProductsByNameAsync(
         string name,
         int size,
@@ -226,7 +226,7 @@ public class ProductsController : ControllerBase
     /// <returns>
     /// Товары.
     /// </returns>
-    [HttpGet]
+    [HttpGet("key_words")]
     public async Task<IActionResult> GetProductsByKeyWordsAsync(
         string[] keyWords,
         int size,
@@ -265,7 +265,7 @@ public class ProductsController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpPost]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> AddProductAsync(
         Transport.Models.ForCreate.Product product,
         CancellationToken token)
@@ -313,7 +313,7 @@ public class ProductsController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpPut]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> UpdateProductAsync(
         Transport.Models.FullModels.Product product,
         CancellationToken token)
@@ -366,7 +366,7 @@ public class ProductsController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpPut("product_to_book")]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> ProductToBookAsync(
         Transport.Models.Ids.Product productId,
         CancellationToken token)
@@ -413,7 +413,7 @@ public class ProductsController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpDelete]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> DeleteProductAsync(
         Transport.Models.Ids.Product productId,
         CancellationToken token)

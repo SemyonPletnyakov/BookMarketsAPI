@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 using BookMarketsAPI.Helpers;
 
@@ -97,7 +97,7 @@ public class OrdersController : ControllerBase
     /// Заказы.
     /// </returns>
     [HttpGet]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> GetOrdersAsync(
         int size,
         int number,
@@ -199,8 +199,8 @@ public class OrdersController : ControllerBase
     /// <returns>
     /// Покупатели.
     /// </returns>
-    [HttpGet]
-    //авторизация
+    [HttpGet("time")]
+    [Authorize]
     public async Task<IActionResult> GetOrdersByTimeIntervalAsync(
         DateTimeOffset startDate,
         DateTimeOffset endDate,
@@ -301,8 +301,8 @@ public class OrdersController : ControllerBase
     /// <returns>
     /// Покупатели.
     /// </returns>
-    [HttpGet]
-    //авторизация
+    [HttpGet("shop")]
+    [Authorize]
     public async Task<IActionResult> GetOrdersByShopIdAsync(
         int shopId,
         int size,
@@ -412,8 +412,8 @@ public class OrdersController : ControllerBase
     /// <returns>
     /// Покупатели.
     /// </returns>
-    [HttpGet]
-    //авторизация
+    [HttpGet("shop_and_time")]
+    [Authorize]
     public async Task<IActionResult> GetOrdersByShopIdAndTimeIntervalAsync(
         int shopId,
         DateTimeOffset startDate,
@@ -519,8 +519,8 @@ public class OrdersController : ControllerBase
     /// <returns>
     /// Покупатели.
     /// </returns>
-    [HttpGet]
-    //авторизация
+    [HttpGet("customer")]
+    [Authorize]
     public async Task<IActionResult> GetOrdersByCustomerIdAsync(
         int customerId,
         int size,
@@ -626,8 +626,8 @@ public class OrdersController : ControllerBase
     /// <returns>
     /// Покупатели.
     /// </returns>
-    [HttpGet]
-    //авторизация
+    [HttpGet("customer_and_time")]
+    [Authorize]
     public async Task<IActionResult> GetOrdersByCustomerIdAndTimeIntervalAsync(
         int customerId,
         DateTimeOffset startDate,
@@ -725,7 +725,7 @@ public class OrdersController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpPost]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> AddOrderAsync(
         Transport.Models.ForCreate.Order order,
         CancellationToken token)
@@ -777,7 +777,7 @@ public class OrdersController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpPut]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> UpdateOrderStatusAsync(
         Transport.Models.ForUpdate.OrderIdAndStatus orderAndStatus,
         CancellationToken token)

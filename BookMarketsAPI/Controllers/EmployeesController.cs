@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 using BookMarketsAPI.Helpers;
 
@@ -142,8 +142,8 @@ public class EmployeesController : ControllerBase
     /// <returns>
     /// Сотрудник.
     /// </returns>
-    [HttpGet]
-    //авторизация
+    [HttpGet("id")]
+    [Authorize]
     public async Task<IActionResult> GetEmployeeByIdAsync(
         int employeeId,
         CancellationToken token)
@@ -209,7 +209,7 @@ public class EmployeesController : ControllerBase
     /// Сотрудники.
     /// </returns>
     [HttpGet]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> GetEmployeesAsync(
         int size,
         int number,
@@ -276,8 +276,8 @@ public class EmployeesController : ControllerBase
     /// <returns>
     /// Сотрудники.
     /// </returns>
-    [HttpGet]
-    //авторизация
+    [HttpGet("last_name")]
+    [Authorize]
     public async Task<IActionResult> GetEmployeesByLastNameAsync(
         string lname,
         int size,
@@ -345,8 +345,8 @@ public class EmployeesController : ControllerBase
     /// <returns>
     /// Сотрудники.
     /// </returns>
-    [HttpGet]
-    //авторизация
+    [HttpGet("shop")]
+    [Authorize]
     public async Task<IActionResult> GetEmployeesByShopIdAsync(
         int shopId,
         int size,
@@ -418,8 +418,8 @@ public class EmployeesController : ControllerBase
     /// <returns>
     /// Сотрудники.
     /// </returns>
-    [HttpGet]
-    //авторизация
+    [HttpGet("warehouse")]
+    [Authorize]
     public async Task<IActionResult> GetEmployeesByWarehouseIdAsync(
         int warehouseId,
         int size,
@@ -483,7 +483,7 @@ public class EmployeesController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpPost]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> AddEmployeeAsync(
         Transport.Models.ForCreate.Employee employee,
         CancellationToken token)
@@ -536,7 +536,7 @@ public class EmployeesController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpPut]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> UpdateEmployeeAsync(
         Transport.Models.ForUpdate.Employee employee,
         CancellationToken token)
@@ -592,8 +592,8 @@ public class EmployeesController : ControllerBase
     /// <returns>
     /// Статус выполнения операции.
     /// </returns>
-    [HttpPut]
-    //авторизация
+    [HttpPut("password")]
+    [Authorize]
     public async Task<IActionResult> UpdateEmployeePasswordAsync(
         Transport.Models.EmployeeLoginAndPassword employeeLoginAndPassword,
         CancellationToken token)
@@ -641,7 +641,7 @@ public class EmployeesController : ControllerBase
     /// Статус выполнения операции.
     /// </returns>
     [HttpDelete]
-    //авторизация
+    [Authorize]
     public async Task<IActionResult> DeleteEmployeeAsync(
         Transport.Models.Ids.Employee employeeId,
         CancellationToken token)
