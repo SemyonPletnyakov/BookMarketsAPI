@@ -31,7 +31,7 @@ public sealed class RuleChecker : IRuleChecker
     /// <exception cref="ArgumentNullException">
     /// Если один из параметров равен <see langword="null"/>.
     /// </exception>
-    public RuleChecker(JwtTokenDeconstructor tokenDeconstructor, IUnitOfWork unitOfWork)
+    public RuleChecker(IJwtTokenDeconstructor tokenDeconstructor, IUnitOfWork unitOfWork)
     {
         _tokenDeconstructor = tokenDeconstructor 
             ?? throw new ArgumentNullException(nameof(tokenDeconstructor));
