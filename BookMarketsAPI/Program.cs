@@ -1,3 +1,4 @@
+using BookMarketsAPI.RegisterExtensions;
 
 namespace BookMarketsAPI
 {
@@ -7,16 +8,22 @@ namespace BookMarketsAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            var configuration = builder.Configuration;
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            _ = configuration.AddJsonFile("appsettings.json");
+
+            builder.Services
+                .AddSwaggerGen()
+                .AddSecuritySwaggerGen()
+                .AddConfiguredAutorization(configuration)
+                .AddHandlers()
+                .AddProcessors()
+                .AddStorage(configuration)
+                .AddEndpointsApiExplorer()
+                .AddControllers(); ;
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
