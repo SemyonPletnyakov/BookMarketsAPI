@@ -5,7 +5,7 @@ namespace Storage.Abstractions;
 /// <summary>
 /// Интерфейс единицы работы с репозиториями.
 /// </summary>
-public interface IUnitOfWork : IDisposable
+public interface IUnitOfWork
 {
     /// <summary>
     /// Репозиторий авторов.
