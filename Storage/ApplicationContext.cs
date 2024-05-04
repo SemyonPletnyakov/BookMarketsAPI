@@ -80,6 +80,20 @@ public sealed class ApplicationContext : DbContext
     /// </summary>
     public DbSet<ProductsInOrder> ProductsInOrders { get; set; }
 
+    /// <summary>
+    /// Создает новый экземпляр <see cref="ApplicationContext"/>.
+    /// </summary>
+    /// <param name="options">
+    /// Опции контекста БД.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    /// Если <paramref name="options"/> равен <see langword="null"/>.
+    /// </exception>
+    public ApplicationContext(DbContextOptions<ApplicationContext> options)
+        : base(options ?? throw new ArgumentNullException(nameof(options))) 
+    { 
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Shop>()
@@ -161,10 +175,5 @@ public sealed class ApplicationContext : DbContext
             .HasOne(p => p.Product)
             .WithMany()
             .HasForeignKey(p => p.ProductId);
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=books_shops_test;Username=postgres;Password=12345");
     }
 }
