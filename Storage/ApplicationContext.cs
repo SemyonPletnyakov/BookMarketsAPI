@@ -175,5 +175,7 @@ public sealed class ApplicationContext : DbContext
             .HasOne(p => p.Product)
             .WithMany()
             .HasForeignKey(p => p.ProductId);
+
+        modelBuilder.Entity<ProductsInOrder>().HasKey(u => new { u.OrderId, u.ProductId});
     }
 }
