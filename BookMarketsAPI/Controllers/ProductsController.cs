@@ -228,16 +228,18 @@ public class ProductsController : ControllerBase
     /// </returns>
     [HttpGet("key_words")]
     public async Task<IActionResult> GetProductsByKeyWordsAsync(
-        string[] keyWords,
+        string keyWords,
         int size,
         int number,
         ProductSorting order,
         CancellationToken token)
     {
+        var keyWordsArr = keyWords.Split(' ');
+
         var products =
             (await _getProductsByKeywordsProcessor
                 .ProcessAsync(
-                    new(keyWords,
+                    new(keyWordsArr,
                     new(size, number, order)),
                     token))
                 .Select(a =>
