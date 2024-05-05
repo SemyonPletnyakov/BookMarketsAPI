@@ -16,7 +16,9 @@ public static class StorageExtension
         ArgumentNullException.ThrowIfNull(configuration);
 
         return services.AddDbContext<ApplicationContext>(
-                optionsBuilder => optionsBuilder.UseNpgsql(configuration.GetConnectionString(nameof(ApplicationContext))))
+                optionsBuilder => 
+                    optionsBuilder.UseNpgsql(configuration.GetConnectionString(nameof(ApplicationContext)))
+                        .UseSnakeCaseNamingConvention())
             .AddScoped<IAddressesRepository, AddressesRepository>()
             .AddScoped<IAuthorsRepository, AuthorsRepository>()
             .AddScoped<IBooksRepository, BooksRepository>()
