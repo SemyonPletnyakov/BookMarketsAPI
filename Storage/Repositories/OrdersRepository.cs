@@ -501,7 +501,7 @@ public sealed class OrdersRepository : IOrdersRepository
         ArgumentNullException.ThrowIfNull(orderId);
         token.ThrowIfCancellationRequested();
 
-        if (Enum.IsDefined<OrderStatus>(orderStatus))
+        if (!Enum.IsDefined<OrderStatus>(orderStatus))
         {
             throw new InvalidEnumArgumentException(
                 nameof(orderStatus),

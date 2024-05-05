@@ -33,7 +33,7 @@ public record OperationDescriprion
     /// </exception>
     public OperationDescriprion(OperationType operationType, EntityType entityType)
     {
-        if (Enum.IsDefined<OperationType>(operationType))
+        if (!Enum.IsDefined<OperationType>(operationType))
         {
             throw new InvalidEnumArgumentException(
                 nameof(operationType),
@@ -43,13 +43,14 @@ public record OperationDescriprion
 
         OperationType = operationType;
 
-        if (Enum.IsDefined<EntityType>(entityType))
+        if (!Enum.IsDefined<EntityType>(entityType))
         {
             throw new InvalidEnumArgumentException(
                 nameof(entityType),
                 (int)entityType,
                 typeof(EntityType));
         }
+
         EntityType = entityType;
     }
 
