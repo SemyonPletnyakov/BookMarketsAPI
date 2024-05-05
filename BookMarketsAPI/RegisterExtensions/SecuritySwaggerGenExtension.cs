@@ -35,5 +35,7 @@ public static class SecuritySwaggerGenExtension
                         new List<string>()
                     }
                 });
+
+                c.CustomSchemaIds(x => x.FullName);
             });
 }
