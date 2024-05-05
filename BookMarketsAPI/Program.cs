@@ -1,4 +1,5 @@
 using BookMarketsAPI.RegisterExtensions;
+using System.Text.Json.Serialization;
 
 namespace BookMarketsAPI
 {
@@ -20,7 +21,11 @@ namespace BookMarketsAPI
                 .AddProcessors()
                 .AddStorage(configuration)
                 .AddEndpointsApiExplorer()
-                .AddControllers(); ;
+                .AddControllers().AddJsonOptions(opts =>
+                {
+                    var enumConverter = new JsonStringEnumConverter();
+                    opts.JsonSerializerOptions.Converters.Add(enumConverter);
+                });
 
             var app = builder.Build();
 
