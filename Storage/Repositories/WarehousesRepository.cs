@@ -92,7 +92,7 @@ public sealed class WarehousesRepository : IWarehousesRepository
         Id<Employee> employeeId,
         CancellationToken token)
     {
-        var link = await _context.LinksEmployeeAndWarehouses
+        var link = await _context.LinksEmployeesAndWarehouses
             .FirstOrDefaultAsync(link => link.EmployeeId == employeeId.Value, token);
 
         return link is null

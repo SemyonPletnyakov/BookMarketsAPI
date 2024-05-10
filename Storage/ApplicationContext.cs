@@ -58,12 +58,12 @@ public sealed class ApplicationContext : DbContext
     /// <summary>
     /// Сущности, показывающие магазины и работающих в них сотрудников.
     /// </summary>
-    public DbSet<LinksEmployeeAndShop> LinksEmployeeAndShops { get; set; }
+    public DbSet<LinksEmployeeAndShop> LinksEmployeesAndShops { get; set; }
 
     /// <summary>
     /// Сущности, показывающие склады и работающих в них сотрудников.
     /// </summary>
-    public DbSet<LinksEmployeeAndWarehouse> LinksEmployeeAndWarehouses { get; set; }
+    public DbSet<LinksEmployeeAndWarehouse> LinksEmployeesAndWarehouses { get; set; }
 
     /// <summary>
     /// Покупатели.

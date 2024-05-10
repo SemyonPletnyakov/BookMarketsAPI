@@ -99,7 +99,7 @@ public sealed class EmployeesRepository : IEmployeesRepository
         ArgumentNullException.ThrowIfNull(paginationInfo);
         token.ThrowIfCancellationRequested();
 
-        return (await _context.LinksEmployeeAndShops
+        return (await _context.LinksEmployeesAndShops
             .Where(e => e.ShopId == shopId.Value)
             .Include(e => e.Employee)
             .Select(e => e.Employee)
@@ -131,7 +131,7 @@ public sealed class EmployeesRepository : IEmployeesRepository
         ArgumentNullException.ThrowIfNull(paginationInfo);
         token.ThrowIfCancellationRequested();
 
-        return (await _context.LinksEmployeeAndWarehouses
+        return (await _context.LinksEmployeesAndWarehouses
             .Where(e => e.WarehouseId == warehouseId.Value)
             .Include(e => e.Employee)
             .Select(e => e.Employee)
