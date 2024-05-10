@@ -27,22 +27,22 @@ internal static class ProductsWithPaginationGetter
         {
             ProductSorting.NameAsc =>
                 queryable.OrderBy(q => q.Name)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             ProductSorting.NameDesc =>
                 queryable.OrderByDescending(q => q.Name)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             ProductSorting.PriceAsc =>
                 queryable.OrderBy(q => q.Price)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             ProductSorting.PriceDesc =>
                 queryable.OrderByDescending(q => q.Price)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             _ => throw new NotSupportedException()

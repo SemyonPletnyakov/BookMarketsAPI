@@ -27,36 +27,36 @@ internal static class BooksWithPaginationGetter
         {
             BookSorting.NameAsc =>
                 queryable.OrderBy(q => q.Product.Name)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             BookSorting.NameDesc =>
                 queryable.OrderByDescending(q => q.Product.Name)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             BookSorting.PriceAsc =>
                 queryable.OrderBy(q => q.Product.Price)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             BookSorting.PriceDesc =>
                 queryable.OrderByDescending(q => q.Product.Price)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             BookSorting.AuthorFullNameAsc =>
                 queryable.OrderBy(q => q.Author.LastName)
                     .ThenBy(q => q.Author.FirstName)
                     .ThenBy(q => q.Author.Patronymic)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             BookSorting.AuthorFullNameDesc =>
                 queryable.OrderByDescending(q => q.Author.LastName)
                     .ThenBy(q => q.Author.FirstName)
                     .ThenBy(q => q.Author.Patronymic)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             _ => throw new NotSupportedException()

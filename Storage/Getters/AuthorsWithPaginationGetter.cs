@@ -27,26 +27,26 @@ internal static class AuthorsWithPaginationGetter
         {
             AuthorSorting.BirthDateAsc =>
                 queryable.OrderBy(q => q.BirthDate)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             AuthorSorting.BirthDateDesc =>
                 queryable.OrderByDescending(q => q.BirthDate)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             AuthorSorting.FullNameAsc =>
                 queryable.OrderBy(q => q.LastName)
                     .ThenBy(q => q.FirstName)
                     .ThenBy(q => q.Patronymic)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             AuthorSorting.FullNameDesc =>
                 queryable.OrderByDescending(q => q.LastName)
                     .ThenBy(q => q.FirstName)
                     .ThenBy(q => q.Patronymic)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             _ => throw new NotSupportedException()

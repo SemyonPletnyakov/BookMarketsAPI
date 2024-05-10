@@ -27,32 +27,32 @@ internal static class ProductCountWithPaginationGetter
         {
             ProductCountSorting.NameAsc =>
                 queryable.OrderBy(q => q.Product.Name)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             ProductCountSorting.NameDesc =>
                 queryable.OrderByDescending(q => q.Product.Name)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             ProductCountSorting.PriceAsc =>
                 queryable.OrderBy(q => q.Product.Price)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             ProductCountSorting.PriceDesc =>
                 queryable.OrderByDescending(q => q.Product.Price)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             ProductCountSorting.CountAsc =>
                 queryable.OrderBy(q => q.Count)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             ProductCountSorting.CountDesc =>
                 queryable.OrderByDescending(q => q.Count)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             _ => throw new NotSupportedException()
@@ -80,32 +80,32 @@ internal static class ProductCountWithPaginationGetter
         {
             ProductCountSorting.NameAsc =>
                 queryable.OrderBy(q => q.Product.Name)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             ProductCountSorting.NameDesc =>
                 queryable.OrderByDescending(q => q.Product.Name)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             ProductCountSorting.PriceAsc =>
                 queryable.OrderBy(q => q.Product.Price)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             ProductCountSorting.PriceDesc =>
                 queryable.OrderByDescending(q => q.Product.Price)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             ProductCountSorting.CountAsc =>
                 queryable.OrderBy(q => q.Count)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             ProductCountSorting.CountDesc =>
                 queryable.OrderByDescending(q => q.Count)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             _ => throw new NotSupportedException()

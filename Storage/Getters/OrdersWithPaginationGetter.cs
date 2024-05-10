@@ -29,34 +29,34 @@ internal static class OrdersWithPaginationGetter
                 queryable.OrderBy(q => q.Customer.LastName)
                     .ThenBy(q => q.Customer.FirstName)
                     .ThenBy(q => q.Customer.Patronymic)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             OrderSorting.CustomerFullNameDesc =>
                 queryable.OrderByDescending(q => q.Customer.LastName)
                     .ThenBy(q => q.Customer.FirstName)
                     .ThenBy(q => q.Customer.Patronymic)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             OrderSorting.ShopNameAsc =>
                 queryable.OrderBy(q => q.Shop.Name)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             OrderSorting.ShopNameDesc =>
                 queryable.OrderByDescending(q => q.Shop.Name)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             OrderSorting.DateAsc =>
                 queryable.OrderBy(q => q.DateTime)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             OrderSorting.DateDesc =>
                 queryable.OrderByDescending(q => q.DateTime)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             _ => throw new NotSupportedException()

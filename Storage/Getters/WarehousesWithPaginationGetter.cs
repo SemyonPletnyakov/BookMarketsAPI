@@ -27,12 +27,12 @@ internal static class WarehousesWithPaginationGetter
         {
             WarehouseSorting.NameAsc =>
                 queryable.OrderBy(q => q.Name)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             WarehouseSorting.NameDesc =>
                 queryable.OrderByDescending(q => q.Name)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             WarehouseSorting.AddressAsc =>
@@ -43,7 +43,7 @@ internal static class WarehousesWithPaginationGetter
                     .ThenBy(q => q.Address.Street)
                     .ThenBy(q => q.Address.House)
                     .ThenBy(q => q.Address.Room)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             WarehouseSorting.AddressDesc =>
@@ -54,7 +54,7 @@ internal static class WarehousesWithPaginationGetter
                     .ThenBy(q => q.Address.Street)
                     .ThenBy(q => q.Address.House)
                     .ThenBy(q => q.Address.Room)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             _ => throw new NotSupportedException()

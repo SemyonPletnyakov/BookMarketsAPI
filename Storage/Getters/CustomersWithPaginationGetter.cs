@@ -27,46 +27,46 @@ public static class CustomersWithPaginationGetter
         {
             CustomerSorting.EmailAsc =>
                 queryable.OrderBy(q => q.Email)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             CustomerSorting.EmailDesc =>
                 queryable.OrderByDescending(q => q.Email)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             CustomerSorting.PhoneAsc =>
                 queryable.OrderBy(q => q.Phone)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             CustomerSorting.PhoneDesc =>
                 queryable.OrderByDescending(q => q.Phone)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             CustomerSorting.BirthDateAsc =>
                 queryable.OrderBy(q => q.BirthDate)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             CustomerSorting.BirthDateDesc =>
                 queryable.OrderByDescending(q => q.BirthDate)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             CustomerSorting.FullNameAsc =>
                 queryable.OrderBy(q => q.LastName)
                     .ThenBy(q => q.FirstName)
                     .ThenBy(q => q.Patronymic)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             CustomerSorting.FullNameDesc =>
                 queryable.OrderByDescending(q => q.LastName)
                     .ThenBy(q => q.FirstName)
                     .ThenBy(q => q.Patronymic)
-                    .Skip(paginationInfo.PageSize * paginationInfo.PageNumber)
+                    .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             _ => throw new NotSupportedException()
