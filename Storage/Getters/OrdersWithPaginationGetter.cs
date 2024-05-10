@@ -50,12 +50,12 @@ internal static class OrdersWithPaginationGetter
                     .Take(paginationInfo.PageSize),
 
             OrderSorting.DateAsc =>
-                queryable.OrderBy(q => q.DateTime)
+                queryable.OrderBy(q => q.Date)
                     .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 
             OrderSorting.DateDesc =>
-                queryable.OrderByDescending(q => q.DateTime)
+                queryable.OrderByDescending(q => q.Date)
                     .Skip(paginationInfo.PageSize * (paginationInfo.PageNumber - 1))
                     .Take(paginationInfo.PageSize),
 

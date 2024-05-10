@@ -96,8 +96,8 @@ public sealed class CustomersRepository : ICustomersRepository
 
         return (await _context.Orders
             .Where(o => o.ShopId == shopId.Value
-                    && o.DateTime >= startDate
-                    && o.DateTime <= endDate)
+                    && o.Date >= startDate
+                    && o.Date <= endDate)
             .Include(o => o.Customer)
             .Select(o => o.Customer)
             .WithPaginationInfo(paginationInfo)
@@ -186,7 +186,7 @@ public sealed class CustomersRepository : ICustomersRepository
         var contextCustomer = await _context.Customers
             .SingleOrDefaultAsync(p => p.Email == customer.Email.Value, token);
 
-        if (contextCustomer is null)
+        if (contextCustomer is not null)
         {
             throw new EntityNotFoundException(
                 $"Пользователь с таким email уже существует.");

@@ -80,8 +80,8 @@ public sealed class OrdersRepository : IOrdersRepository
                             o.Shop.Address.Street,
                             o.Shop.Address.House,
                             o.Shop.Address.Room)),
-                    o.DateTime,
-                    o.OrderStatus,
+                    o.Date,
+                    o.Status,
                     o.ProductsInOrder.Select(piw =>
                         new ProductInfoInOrder(
                             new(piw.ProductId),
@@ -101,7 +101,7 @@ public sealed class OrdersRepository : IOrdersRepository
         token.ThrowIfCancellationRequested();
 
         return (await _context.Orders
-            .Where(o => o.DateTime >= startDate && o.DateTime <= endDate)
+            .Where(o => o.Date >= startDate && o.Date <= endDate)
             .Include(o => o.Customer)
             .Include(o => o.Shop)
             .ThenInclude(o => o.Address)
@@ -139,8 +139,8 @@ public sealed class OrdersRepository : IOrdersRepository
                             o.Shop.Address.Street,
                             o.Shop.Address.House,
                             o.Shop.Address.Room)),
-                    o.DateTime,
-                    o.OrderStatus,
+                    o.Date,
+                    o.Status,
                     o.ProductsInOrder.Select(piw =>
                         new ProductInfoInOrder(
                             new(piw.ProductId),
@@ -198,8 +198,8 @@ public sealed class OrdersRepository : IOrdersRepository
                             o.Shop.Address.Street,
                             o.Shop.Address.House,
                             o.Shop.Address.Room)),
-                    o.DateTime,
-                    o.OrderStatus,
+                    o.Date,
+                    o.Status,
                     o.ProductsInOrder.Select(piw =>
                         new ProductInfoInOrder(
                             new(piw.ProductId),
@@ -223,8 +223,8 @@ public sealed class OrdersRepository : IOrdersRepository
         return (await _context.Orders
             .Where(o => 
                 o.ShopId == shopId.Value
-                && o.DateTime >= startDate 
-                && o.DateTime <= endDate)
+                && o.Date >= startDate 
+                && o.Date <= endDate)
             .Include(o => o.Customer)
             .Include(o => o.Shop)
             .ThenInclude(o => o.Address)
@@ -262,8 +262,8 @@ public sealed class OrdersRepository : IOrdersRepository
                             o.Shop.Address.Street,
                             o.Shop.Address.House,
                             o.Shop.Address.Room)),
-                    o.DateTime,
-                    o.OrderStatus,
+                    o.Date,
+                    o.Status,
                     o.ProductsInOrder.Select(piw =>
                         new ProductInfoInOrder(
                             new(piw.ProductId),
@@ -321,8 +321,8 @@ public sealed class OrdersRepository : IOrdersRepository
                             o.Shop.Address.Street,
                             o.Shop.Address.House,
                             o.Shop.Address.Room)),
-                    o.DateTime,
-                    o.OrderStatus,
+                    o.Date,
+                    o.Status,
                     o.ProductsInOrder.Select(piw =>
                         new ProductInfoInOrder(
                             new(piw.ProductId),
@@ -346,8 +346,8 @@ public sealed class OrdersRepository : IOrdersRepository
         return (await _context.Orders
             .Where(o =>
                 o.CustomerId == customerId.Value
-                && o.DateTime >= startDate
-                && o.DateTime <= endDate)
+                && o.Date >= startDate
+                && o.Date <= endDate)
             .Include(o => o.Customer)
             .Include(o => o.Shop)
             .ThenInclude(o => o.Address)
@@ -385,8 +385,8 @@ public sealed class OrdersRepository : IOrdersRepository
                             o.Shop.Address.Street,
                             o.Shop.Address.House,
                             o.Shop.Address.Room)),
-                    o.DateTime,
-                    o.OrderStatus,
+                    o.Date,
+                    o.Status,
                     o.ProductsInOrder.Select(piw =>
                         new ProductInfoInOrder(
                             new(piw.ProductId),
@@ -404,6 +404,10 @@ public sealed class OrdersRepository : IOrdersRepository
         token.ThrowIfCancellationRequested();
 
         var order = await _context.Orders
+            .Include(o => o.ProductsInOrder)
+            .Include(o => o.Customer)
+            .Include(o => o.Shop)
+            .ThenInclude(s => s.Address)
             .SingleOrDefaultAsync(p => p.OrderId == orderId.Value, token);
 
         if (order is null)
@@ -444,8 +448,8 @@ public sealed class OrdersRepository : IOrdersRepository
                     order.Shop.Address.Street,
                     order.Shop.Address.House,
                     order.Shop.Address.Room)),
-            order.DateTime,
-            order.OrderStatus,
+            order.Date,
+            order.Status,
             order.ProductsInOrder.Select(piw =>
                         new ProductInfoInOrder(
                             new(piw.ProductId),
@@ -458,15 +462,6 @@ public sealed class OrdersRepository : IOrdersRepository
     {
         ArgumentNullException.ThrowIfNull(order);
         token.ThrowIfCancellationRequested();
-
-        var contextOrder = await _context.Orders.AddAsync(
-            new Models.Order
-            {
-                CustomerId = order.CustomerId.Value,
-                DateTime = order.DateTime,
-                OrderStatus = order.OrderStatus,
-                ShopId = order.ShopId.Value
-            });
 
         var allProductIds = order.ProductsInOrder
             .Select(p => p.ProductId.Value)
@@ -481,15 +476,21 @@ public sealed class OrdersRepository : IOrdersRepository
             throw new EntityNotFoundException("Не все продукты найдены");
         }
 
-        var productsInOrder = order.ProductsInOrder
-            .Select(p => new Models.ProductsInOrder
+        var contextOrder = await _context.Orders.AddAsync(
+            new Models.Order
             {
-                ProductId = p.ProductId.Value,
-                Count = p.Count.Value,
-                ActualPrice = productsInfo.Single(pi => pi.ProductId == p.ProductId.Value).Price,
-            }).ToArray();
-
-        _context.ProductsInOrders.AddRange(productsInOrder);
+                CustomerId = order.CustomerId.Value,
+                Date = order.DateTime,
+                Status = order.OrderStatus,
+                ShopId = order.ShopId.Value,
+                ProductsInOrder = order.ProductsInOrder
+                    .Select(p => new Models.ProductsInOrder
+                    {
+                        ProductId = p.ProductId.Value,
+                        Count = p.Count.Value,
+                        ActualPrice = productsInfo.Single(pi => pi.ProductId == p.ProductId.Value).Price,
+                    }).ToList()
+            });
     }
 
     /// <inheritdoc/>
@@ -517,7 +518,7 @@ public sealed class OrdersRepository : IOrdersRepository
             throw new EntityNotFoundException($"Заказ с id = {orderId.Value} не найден.");
         }
 
-        order.OrderStatus = orderStatus;
+        order.Status = orderStatus;
     }
 
     private readonly ApplicationContext _context;

@@ -35,12 +35,12 @@ public sealed class Order
     /// <summary>
     /// Дата и время оформления заказа.
     /// </summary>
-    public DateTimeOffset DateTime { get; set; }
+    public DateTimeOffset Date { get; set; }
 
     /// <summary>
     /// Статус заказа.
     /// </summary>
-    public OrderStatus OrderStatus { get; set; }
+    public OrderStatus Status { get; set; }
 
     /// <summary>
     /// Перечень товаров в заказе.
