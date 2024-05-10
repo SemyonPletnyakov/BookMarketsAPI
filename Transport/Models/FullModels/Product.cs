@@ -18,7 +18,7 @@ public sealed class Product
     /// <summary>
     /// Описание.
     /// </summary>
-    public required string? Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Цена.
@@ -28,5 +28,5 @@ public sealed class Product
     /// <summary>
     /// Ключевые слова, применимые к товару.
     /// </summary>
-    public required ISet<string>? KeyWords { get; set; }
+    public ISet<string>? KeyWords { get; set; }
 }
