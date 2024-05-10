@@ -234,7 +234,7 @@ public class ProductsController : ControllerBase
         ProductSorting order,
         CancellationToken token)
     {
-        var keyWordsArr = keyWords.Split(' ');
+        var keyWordsArr = keyWords.Split(',');
 
         var products =
             (await _getProductsByKeywordsProcessor

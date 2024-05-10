@@ -331,7 +331,7 @@ public class BooksController : ControllerBase
         BookSorting order,
         CancellationToken token)
     {
-        var keyWordsArr = keyWords.Split(' ');
+        var keyWordsArr = keyWords.Split(',');
 
         var books =
             (await _getBooksByKeywordsProcessor
