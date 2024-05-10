@@ -15,7 +15,7 @@ namespace BookMarketsAPI
 
             builder.Services
                 .AddSwaggerGen()
-                .AddSecuritySwaggerGen()
+                .AddSwaggerConf()
                 .AddConfiguredAutorization(configuration)
                 .AddHandlers()
                 .AddProcessors()

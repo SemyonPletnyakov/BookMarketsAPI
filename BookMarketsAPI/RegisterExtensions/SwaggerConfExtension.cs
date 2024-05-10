@@ -2,9 +2,9 @@
 
 namespace BookMarketsAPI.RegisterExtensions;
 
-public static class SecuritySwaggerGenExtension
+public static class SwaggerConfExtension
 {
-    public static IServiceCollection AddSecuritySwaggerGen(this IServiceCollection services)
+    public static IServiceCollection AddSwaggerConf(this IServiceCollection services)
         => services
             .AddSwaggerGen(c =>
             {
@@ -37,5 +37,9 @@ public static class SecuritySwaggerGenExtension
                 });
 
                 c.CustomSchemaIds(x => x.FullName);
+
+                c.MapType<DateOnly>(() => new OpenApiSchema { Type = "string", Format = "full-date" });
+                c.MapType<TimeOnly>(() => new OpenApiSchema { Type = "string", Format = "time" });
+
             });
 }
