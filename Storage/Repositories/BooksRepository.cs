@@ -278,6 +278,8 @@ public sealed class BooksRepository : IBooksRepository
             throw new EntityNotFoundException(
                 $"Товар с Id = {productId.Value} не является книгой.");
         }
+
+        _context.Books.Remove(book);
     }
 
     private readonly ApplicationContext _context;

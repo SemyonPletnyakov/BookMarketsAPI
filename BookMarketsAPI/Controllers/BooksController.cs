@@ -64,7 +64,7 @@ public class BooksController : ControllerBase
         IRequestProcessorWithoutAuthorize<RequestGetManyByKeyWordsWithPagination<BookSorting>, IList<SimpleBook>> getBooksByKeywordsProcessor,
         IRequestProcessorWithAuthorize<RequestAddEntity<BookWithoutId>> addBookProcessor,
         IRequestProcessorWithAuthorize<RequestUpdateEntity<BookForUpdate>> updateBookProcessor,
-        IRequestProcessorWithAuthorize<RequestDeleteEntityById<Product, Book>> bookToProdoctProcessor,
+        IRequestProcessorWithAuthorize<RequestRemoveProductFromBooks> bookToProdoctProcessor,
         IRequestProcessorWithAuthorize<RequestDeleteEntityById<Product, Book>> deleteBookProcessor)
     {
         _getBookByIdProcessor = getBookByIdProcessor
@@ -570,6 +570,6 @@ public class BooksController : ControllerBase
     private readonly IRequestProcessorWithoutAuthorize<RequestGetManyByKeyWordsWithPagination<BookSorting>, IList<SimpleBook>> _getBooksByKeywordsProcessor;
     private readonly IRequestProcessorWithAuthorize<RequestAddEntity<BookWithoutId>> _addBookProcessor;
     private readonly IRequestProcessorWithAuthorize<RequestUpdateEntity<BookForUpdate>> _updateBookProcessor;
-    private readonly IRequestProcessorWithAuthorize<RequestDeleteEntityById<Product, Book>> _bookToProdoctProcessor;
+    private readonly IRequestProcessorWithAuthorize<RequestRemoveProductFromBooks> _bookToProdoctProcessor;
     private readonly IRequestProcessorWithAuthorize<RequestDeleteEntityById<Product, Book>> _deleteBookProcessor;
 }
