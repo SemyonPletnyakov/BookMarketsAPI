@@ -91,17 +91,20 @@ public sealed class RuleChecker : IRuleChecker
             or (OperationType.Add, EntityType.Warehouse)
             or (OperationType.Update, EntityType.Warehouse)
             or (OperationType.Delete, EntityType.Warehouse)
+            or (OperationType.Get, EntityType.Employee)
             or (OperationType.Add, EntityType.Employee)
             or (OperationType.Update, EntityType.Employee)
             or (OperationType.Delete, EntityType.Employee)
             or (OperationType.Get, EntityType.Order)
-                when employee.JobTitle.Value is JOB_TITLE_DIRECTOR => true,
-
-            (OperationType.Get, EntityType.ProductCount)
+            or (OperationType.Get, EntityType.ProductCount)
             or (OperationType.Add, EntityType.ProductCount)
             or (OperationType.Update, EntityType.ProductCount)
             or (OperationType.Delete, EntityType.ProductCount)
                 when employee.JobTitle.Value is JOB_TITLE_DIRECTOR => true,
+
+            (OperationType.Get, EntityType.Employee)
+                when operationDescriprion is OperationDescriptionWithTargetEntity<Id<Employee>> desc 
+                    && employee.EmployeeId == desc.Entity => true,
 
             (OperationType.Get, EntityType.ProductCount)
             or (OperationType.Update, EntityType.ProductCount)
