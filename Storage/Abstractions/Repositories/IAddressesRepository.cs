@@ -11,7 +11,7 @@ namespace Storage.Abstractions.Repositories;
 public interface IAddressesRepository
 {
     /// <summary>
-    /// Получить идентификатор адреса и добавить адрес при его отуствуии.
+    /// Получить идентификатор адреса.
     /// </summary>
     /// <param name="address">
     /// Адрес.
@@ -20,9 +20,25 @@ public interface IAddressesRepository
     /// Токен отмены.
     /// </param>
     /// <returns>
-    /// Идентификатор адреса.
+    /// Идентификатор адреса, если адрес существует.
     /// </returns>
-    public Task<Id<Address>> GetIdOrAddAddressAsync(
+    public Task<Id<Address>?> TryGetIdAddressAsync(
         AddressWithoutId address, 
+        CancellationToken token);
+
+    /// <summary>
+    /// Добавить адрес.
+    /// </summary>
+    /// <param name="address">
+    /// Адрес.
+    /// </param>
+    /// <param name="token">
+    /// Токен отмены.
+    /// </param>
+    /// <returns>
+    /// Задача для асинхронного выполнения.
+    /// </returns>
+    public Task AddAddressAsync(
+        AddressWithoutId address,
         CancellationToken token);
 }

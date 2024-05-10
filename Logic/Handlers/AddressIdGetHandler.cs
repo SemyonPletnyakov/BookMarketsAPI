@@ -35,13 +35,26 @@ public sealed class AddressIdGetHandler :
         token.ThrowIfCancellationRequested();
         ArgumentNullException.ThrowIfNull(request);
 
-        var id = await _unitOfWork.Addresses.GetIdOrAddAddressAsync(
+        var id = await _unitOfWork.Addresses.TryGetIdAddressAsync(
             request.Address, 
+            token);
+
+        if (id is not null)
+        {
+            return id;
+        }
+
+        await _unitOfWork.Addresses.AddAddressAsync(
+            request.Address,
             token);
 
         await _unitOfWork.SaveChangesAsync(token);
 
-        return id;
+        id = await _unitOfWork.Addresses.TryGetIdAddressAsync(
+            request.Address,
+            token);
+
+        return id!;
     }
 
     private readonly IUnitOfWork _unitOfWork;

@@ -81,8 +81,9 @@ public abstract record RequestBase
     private static readonly IReadOnlyDictionary<Type, EntityType> _entityTypesMapping = 
         new Dictionary<Type, EntityType>()
         {
-            { typeof(ForCreate.Address), EntityType.Author },
-            { typeof(FullEntities.Address), EntityType.Author },
+            { typeof(Id<FullEntities.Address>), EntityType.Address },
+            { typeof(ForCreate.Author), EntityType.Author },
+            { typeof(FullEntities.Author), EntityType.Author },
             { typeof(ForCreate.Book), EntityType.Book },
             { typeof(ForUpdate.Book), EntityType.Book },
             { typeof(FullEntities.Book), EntityType.Book },

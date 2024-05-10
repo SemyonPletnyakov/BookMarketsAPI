@@ -30,7 +30,7 @@ public record RequestGetOneByAddress<T> : RequestBase
     public RequestGetOneByAddress(Address address)
         : base(
             new OperationDescriprion(
-                typeof(T) == typeof(Address)
+                typeof(T) == typeof(Id<FullEntities.Address>)
                     ? OperationType.GetOrAdd
                     : OperationType.Get,
                 GetEntityTypeByEntity<T>()))

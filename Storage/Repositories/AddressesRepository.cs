@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using Models;
 using Models.FullEntities;
 
@@ -28,7 +29,7 @@ public sealed class AddressesRepository : IAddressesRepository
     }
 
     /// <inheritdoc/>
-    public async Task<Id<Address>> GetIdOrAddAddressAsync(
+    public async Task<Id<Address>?> TryGetIdAddressAsync(
         AddressWithoutId address,
         CancellationToken token)
     {
@@ -48,12 +49,38 @@ public sealed class AddressesRepository : IAddressesRepository
                     a.Room == address.Room, 
                 token))?.AddressId;
 
+        return addressId is not null
+            ? new(addressId.Value)
+            : null;
+    }
+
+    /// <inheritdoc/>
+    public async Task AddAddressAsync(
+        AddressWithoutId address,
+        CancellationToken token)
+    {
+        ArgumentNullException.ThrowIfNull(address);
+        token.ThrowIfCancellationRequested();
+
+        var addressId = (await _context.Addresses
+            .SingleOrDefaultAsync(
+                a =>
+                    a.Country == address.Country &&
+                    a.RegionNumber == address.RegionNumber &&
+                    a.RegionName == address.RegionName &&
+                    a.City == address.City &&
+                    a.District == address.District &&
+                    a.Street == address.Street &&
+                    a.House == address.House &&
+                    a.Room == address.Room,
+                token))?.AddressId;
+
         if (addressId is not null)
         {
-            return new(addressId.Value);
+            throw new InvalidOperationException("Адрес уже существует");
         }
 
-        var addedAddress = await _context.Addresses.AddAsync(
+        await _context.Addresses.AddAsync(
             new Models.Address
             {
                 Country = address.Country,
@@ -64,10 +91,8 @@ public sealed class AddressesRepository : IAddressesRepository
                 Street = address.Street,
                 House = address.House,
                 Room = address.Room,
-            }, 
+            },
             token);
-
-        return new(addedAddress.Entity.AddressId);
     }
 
     private readonly ApplicationContext _context;
