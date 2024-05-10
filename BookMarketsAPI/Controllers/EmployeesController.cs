@@ -122,7 +122,7 @@ public class EmployeesController : ControllerBase
                 UserId = data.Id.Value
             };
 
-            return Ok();
+            return Ok(transportData);
         }
         catch (AuthorizationException)
         {

@@ -105,7 +105,7 @@ public class CustomersController : ControllerBase
                 UserId = data.Id.Value
             };
 
-            return Ok();
+            return Ok(transportData);
         }
         catch (AuthorizationException)
         {
