@@ -3,6 +3,7 @@ using Models.FullEntities;
 using Models.Pagination;
 using Models.Pagination.Sorting;
 
+using BookWithoutId = Models.ForCreate.Book;
 using SimpleBook = Models.SimpleEntities.Book;
 
 namespace Storage.Abstractions.Repositories;
@@ -103,6 +104,14 @@ public interface IBooksRepository
     public Task<Book> GetBooksByProductIdAsync(
         Id<Product> productId,
         CancellationToken token);
+
+    /// <summary>
+    /// Добавление книги.
+    /// </summary>
+    /// <param name="book">
+    /// Книга.
+    /// </param>
+    public void AddBook(BookWithoutId book);
 
     /// <summary>
     /// Перевод товара в категорию книги.

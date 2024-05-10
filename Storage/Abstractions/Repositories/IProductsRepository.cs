@@ -91,15 +91,7 @@ public interface IProductsRepository
     /// <param name="product">
     /// Товар.
     /// </param>
-    /// <param name="token">
-    /// Токен отмены.
-    /// </param>
-    /// <returns>
-    /// Идентификатор товара.
-    /// </returns>
-    public Task<Id<Product>> AddProductAsync(
-        ProductWithoutId product, 
-        CancellationToken token);
+    public void AddProduct(ProductWithoutId product);
 
     /// <summary>
     /// Изменение товара.

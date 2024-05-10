@@ -26,16 +26,16 @@ public sealed class ProductAddHandler :
     }
 
     /// <inheritdoc/>
-    public async Task HandleAsync(
+    public Task HandleAsync(
         RequestAddEntity<ProductWithoutId> request,
         CancellationToken token)
     {
         token.ThrowIfCancellationRequested();
         ArgumentNullException.ThrowIfNull(request);
 
-        await _unitOfWork.Products.AddProductAsync(request.Entity, token);
+        _unitOfWork.Products.AddProduct(request.Entity);
 
-        await _unitOfWork.SaveChangesAsync(token);
+        return _unitOfWork.SaveChangesAsync(token);
     }
 
     private readonly IUnitOfWork _unitOfWork;

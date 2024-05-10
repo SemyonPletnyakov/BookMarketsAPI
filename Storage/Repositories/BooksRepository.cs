@@ -1,16 +1,18 @@
-﻿using Models;
+﻿using System.Xml.Linq;
+
+using Microsoft.EntityFrameworkCore;
+
+using Models;
+using Models.Exceptions;
 using Models.FullEntities;
 using Models.Pagination;
 using Models.Pagination.Sorting;
 
 using Storage.Abstractions.Repositories;
 using Storage.Getters;
-using Models.Exceptions;
 
-using BookForUpdate = Models.ForUpdate.Book;
+using BookWithoutId = Models.ForCreate.Book;
 using SimpleBook = Models.SimpleEntities.Book;
-using Microsoft.EntityFrameworkCore;
-using System.Xml.Linq;
 
 namespace Storage.Repositories;
 
@@ -51,11 +53,13 @@ public sealed class BooksRepository : IBooksRepository
                     new(b.Product.Name),
                     new(b.Product.Price),
                     b.Product.KeyWords?.ToHashSet(),
-                    new(
-                        new(b.Author.AuthorId),
-                        new(b.Author.LastName, b.Author.FirstName, b.Author.Patronymic),
-                        b.Author.BirthDate,
-                        b.Author.Countries)))
+                    b.Author is null
+                        ? null
+                        : new(
+                            new(b.Author.AuthorId),
+                            new(b.Author.LastName, b.Author.FirstName, b.Author.Patronymic),
+                            b.Author.BirthDate,
+                            b.Author.Countries)))
             .ToList();
     }
 
@@ -80,11 +84,13 @@ public sealed class BooksRepository : IBooksRepository
                     new(b.Product.Name),
                     new(b.Product.Price),
                     b.Product.KeyWords?.ToHashSet(),
-                    new(
-                        new(b.Author.AuthorId),
-                        new(b.Author.LastName, b.Author.FirstName, b.Author.Patronymic),
-                        b.Author.BirthDate,
-                        b.Author.Countries)))
+                    b.Author is null
+                        ? null
+                        : new(
+                            new(b.Author.AuthorId),
+                            new(b.Author.LastName, b.Author.FirstName, b.Author.Patronymic),
+                            b.Author.BirthDate,
+                            b.Author.Countries)))
             .ToList();
     }
 
@@ -109,11 +115,13 @@ public sealed class BooksRepository : IBooksRepository
                     new(b.Product.Name),
                     new(b.Product.Price),
                     b.Product.KeyWords?.ToHashSet(),
-                    new(
-                        new(b.Author.AuthorId),
-                        new(b.Author.LastName, b.Author.FirstName, b.Author.Patronymic),
-                        b.Author.BirthDate,
-                        b.Author.Countries)))
+                    b.Author is null
+                        ? null
+                        : new(
+                            new(b.Author.AuthorId),
+                            new(b.Author.LastName, b.Author.FirstName, b.Author.Patronymic),
+                            b.Author.BirthDate,
+                            b.Author.Countries)))
             .ToList();
     }
 
@@ -139,11 +147,13 @@ public sealed class BooksRepository : IBooksRepository
                     new(b.Product.Name),
                     new(b.Product.Price),
                     b.Product.KeyWords?.ToHashSet(),
-                    new(
-                        new(b.Author.AuthorId),
-                        new(b.Author.LastName, b.Author.FirstName, b.Author.Patronymic),
-                        b.Author.BirthDate,
-                        b.Author.Countries)))
+                    b.Author is null
+                        ? null
+                        : new(
+                            new(b.Author.AuthorId),
+                            new(b.Author.LastName, b.Author.FirstName, b.Author.Patronymic),
+                            b.Author.BirthDate,
+                            b.Author.Countries)))
             .ToList();
     }
 
@@ -176,11 +186,32 @@ public sealed class BooksRepository : IBooksRepository
                 : new(book.Product.Description),
             new(book.Product.Price),
             book.Product.KeyWords?.ToHashSet(),
-            new(
-                new(book.Author.AuthorId),
-                new(book.Author.LastName, book.Author.FirstName, book.Author.Patronymic),
-                book.Author.BirthDate,
-                book.Author.Countries));
+            book.Author is null
+                ? null
+                : new(
+                    new(book.Author.AuthorId),
+                    new(book.Author.LastName, book.Author.FirstName, book.Author.Patronymic),
+                    book.Author.BirthDate,
+                    book.Author.Countries));
+    }
+
+    /// <inheritdoc/>
+    public void AddBook(BookWithoutId book)
+    {
+        ArgumentNullException.ThrowIfNull(book);
+
+        _context.Books.Add(
+            new Models.Book
+            {
+                Product = new Models.Product
+                {
+                    Name = book.Name.Value,
+                    Description = book.Description?.Value,
+                    Price = book.Price.Value,
+                    KeyWords = book.KeyWords?.ToList()
+                },
+                AuthorId = book.AuthorId?.Value
+            });
     }
 
     /// <inheritdoc/>

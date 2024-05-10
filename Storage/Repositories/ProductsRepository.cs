@@ -129,23 +129,18 @@ public sealed class ProductsRepository : IProductsRepository
     }
 
     /// <inheritdoc/>
-    public async Task<Id<Product>> AddProductAsync(
-        ProductWithoutId product,
-        CancellationToken token)
+    public void AddProduct(ProductWithoutId product)
     {
         ArgumentNullException.ThrowIfNull(product);
 
-        var contextProduct = await _context.Products.AddAsync(
+        _context.Products.Add(
             new Models.Product
             {
                 Name = product.Name.Value,
                 Description = product.Description?.Value,
                 Price = product.Price.Value,
                 KeyWords = product.KeyWords?.ToList()
-            },
-            token);
-
-        return new(contextProduct.Entity.ProductId);
+            });
     }
 
     /// <inheritdoc/>

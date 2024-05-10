@@ -26,22 +26,16 @@ public sealed class BookAddHandler :
     }
 
     /// <inheritdoc/>
-    public async Task HandleAsync(
+    public Task HandleAsync(
         RequestAddEntity<BookWithoutId> request,
         CancellationToken token)
     {
         token.ThrowIfCancellationRequested();
         ArgumentNullException.ThrowIfNull(request);
 
-        var productId = 
-            await _unitOfWork.Products.AddProductAsync(request.Entity, token);
+        _unitOfWork.Books.AddBook(request.Entity);
 
-        await _unitOfWork.Books.AddProductInBooksAsync(
-            productId, 
-            request.Entity.AuthorId, 
-            token);
-
-        await _unitOfWork.SaveChangesAsync(token);
+        return _unitOfWork.SaveChangesAsync(token);
     }
 
     private readonly IUnitOfWork _unitOfWork;
