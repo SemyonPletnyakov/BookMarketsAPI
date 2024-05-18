@@ -150,8 +150,8 @@ public sealed class RuleChecker : IRuleChecker
                     && userData.Id == desc.Entity.CustomerId => true,
 
             (OperationType.Get, EntityType.Order)
-                when operationDescriprion is OperationDescriptionWithTargetEntity<Id<Order>> desc 
-                    && await CheckCustomerIdInOrderAsync(userData.Id, desc.Entity, token) => true,
+                when operationDescriprion is OperationDescriptionWithTargetEntity<Id<Customer>> desc 
+                    && userData.Id == desc.Entity => true,
 
             (OperationType.Get, EntityType.Customer)
                 when operationDescriprion is OperationDescriptionWithTargetEntity<Id<Customer>> desc 
