@@ -46,7 +46,7 @@ public class WarehousesController : ControllerBase
     /// </param>
     /// <exception cref="ArgumentNullException"></exception>
     public WarehousesController(
-        IRequestProcessorWithoutAuthorize<RequestGetManyWithPagination<WarehouseSorting>, IList<Warehouse>> getWarehousesProcessor,
+        IRequestProcessorWithAuthorize<RequestGetManyWithPagination<WarehouseSorting>, IList<Warehouse>> getWarehousesProcessor,
         IRequestProcessorWithAuthorize<RequestGetManyByIdWithPagination<Warehouse, ProductCountSorting>, IList<ProductCount>> getProductCountsInWarehouseProcessor,
         IRequestProcessorWithAuthorize<RequestAddEntity<WarehouseWithoutId>> addWarehouseProcessor,
         IRequestProcessorWithAuthorize<RequestUpdateEntity<WarehouseForUpdate>> updateWarehouseProcessor,
@@ -92,30 +92,51 @@ public class WarehousesController : ControllerBase
         WarehouseSorting order,
         CancellationToken token)
     {
-        var warehouses =
-            (await _getWarehousesProcessor.ProcessAsync(new(new(size, number, order)), token))
-                .Select(warehouse =>
-                    new Transport.Models.FullModels.Warehouse
-                    {
-                        WarehouseId = warehouse.WarehouseId.Value,
-                        Name = warehouse.Name?.Value,
-                        OpeningTime = warehouse.OpeningTime,
-                        ClosingTime = warehouse.ClosingTime,
-                        Address = new()
-                        {
-                            AddressId = warehouse.Address.AddressId.Value,
-                            Country = warehouse.Address.Country,
-                            RegionNumber = warehouse.Address.RegionNumber,
-                            RegionName = warehouse.Address.RegionName,
-                            City = warehouse.Address.City,
-                            District = warehouse.Address.District,
-                            Street = warehouse.Address.Street,
-                            House = warehouse.Address.House,
-                            Room = warehouse.Address.Room
-                        }
-                    }).ToArray();
+        try
+        {
+            var jwtToken = AuthorizationHelper.GetJwtTokenFromHandlers(Request.Headers);
 
-        return Ok(warehouses);
+            var warehouses =
+                (await _getWarehousesProcessor.ProcessAsync(new(new(size, number, order)), jwtToken, token))
+                    .Select(warehouse =>
+                        new Transport.Models.FullModels.Warehouse
+                        {
+                            WarehouseId = warehouse.WarehouseId.Value,
+                            Name = warehouse.Name?.Value,
+                            OpeningTime = warehouse.OpeningTime,
+                            ClosingTime = warehouse.ClosingTime,
+                            Address = new()
+                            {
+                                AddressId = warehouse.Address.AddressId.Value,
+                                Country = warehouse.Address.Country,
+                                RegionNumber = warehouse.Address.RegionNumber,
+                                RegionName = warehouse.Address.RegionName,
+                                City = warehouse.Address.City,
+                                District = warehouse.Address.District,
+                                Street = warehouse.Address.Street,
+                                House = warehouse.Address.House,
+                                Room = warehouse.Address.Room
+                            }
+                        }).ToArray();
+
+            return Ok(warehouses);
+        }
+        catch (AuthorizationException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
+        catch (NotEnoughRightsException ex)
+        {
+            return Forbid(ex.Message);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
     }
 
     /// <summary>
@@ -382,7 +403,7 @@ public class WarehousesController : ControllerBase
         }
     }
 
-    private readonly IRequestProcessorWithoutAuthorize<RequestGetManyWithPagination<WarehouseSorting>, IList<Warehouse>> _getWarehousesProcessor;
+    private readonly IRequestProcessorWithAuthorize<RequestGetManyWithPagination<WarehouseSorting>, IList<Warehouse>> _getWarehousesProcessor;
     private readonly IRequestProcessorWithAuthorize<RequestGetManyByIdWithPagination<Warehouse, ProductCountSorting>, IList<ProductCount>> _getProductCountsInWarehouseProcessor;
     private readonly IRequestProcessorWithAuthorize<RequestAddEntity<WarehouseWithoutId>> _addWarehouseProcessor;
     private readonly IRequestProcessorWithAuthorize<RequestUpdateEntity<WarehouseForUpdate>> _updateWarehouseProcessor;
