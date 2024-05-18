@@ -161,6 +161,7 @@ public sealed class WarehousesRepository : IWarehousesRepository
         if (productsInWarehouses is not null) 
         {
             productsInWarehouses.Count = count.Value;
+            return;
         }
         
         var warehouse = await _context.Warehouses

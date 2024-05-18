@@ -159,6 +159,7 @@ public sealed class ShopsRepository : IShopsRepository
         if (productsInShops is not null)
         {
             productsInShops.Count = count.Value;
+            return;
         }
 
         var shop = await _context.Shops
