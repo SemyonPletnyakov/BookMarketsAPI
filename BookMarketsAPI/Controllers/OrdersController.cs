@@ -58,7 +58,8 @@ public class OrdersController : ControllerBase
         IRequestProcessorWithAuthorize<RequestGetManyByIdByTimeIntervalWithPagination<Shop, OrderSorting>, IList<SimleOrder>> getOrdersByShopIdAndTimeIntervalProcessor, 
         IRequestProcessorWithAuthorize<RequestGetManyByIdWithPagination<Customer, OrderSorting>, IList<SimleOrder>> getOrdersByCustomerIdProcessor,
         IRequestProcessorWithAuthorize<RequestGetManyByIdByTimeIntervalWithPagination<Customer, OrderSorting>, IList<SimleOrder>> getOrdersByCustomerIdAndTimeIntervalProcessor, 
-        IRequestProcessorWithAuthorize<RequestAddEntity<OrderWithoutId>> addOrderProcessor, IRequestProcessorWithAuthorize<RequestUpdateOrderStatus> updateOrderStatusProcessor)
+        IRequestProcessorWithAuthorize<RequestAddEntity<OrderWithoutId>> addOrderProcessor, 
+        IRequestProcessorWithAuthorize<RequestUpdateOrderStatus> updateOrderStatusProcessor)
     {
         _getOrdersProcessor = getOrdersProcessor 
             ?? throw new ArgumentNullException(nameof(getOrdersProcessor));
